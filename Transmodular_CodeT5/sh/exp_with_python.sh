@@ -1,4 +1,4 @@
-WORKDIR="/home/LAB/longwr/new_SeaM/TransModular_CodeT5"
+WORKDIR="TransModular_CodeT5"
 export PYTHONPATH=$WORKDIR
 
 TASK=${1}
@@ -59,12 +59,12 @@ elif [[ $MODEL_TAG == bart_base ]]; then
   MODEL_PATH=facebook/bart-base
 elif [[ $MODEL_TAG == codet5_small ]]; then
   MODEL_TYPE=codet5
-  TOKENIZER=/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/
-  MODEL_PATH=/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/
+  TOKENIZER=TransModular_CodeT5/data/pretrain_model/codet5_small/
+  MODEL_PATH=TransModular_CodeT5/data/pretrain_model/codet5_small/
 elif [[ $MODEL_TAG == codet5_base ]]; then
   MODEL_TYPE=codet5
-  TOKENIZER=/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codet5_base/
-  MODEL_PATH=/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codet5_base/
+  TOKENIZER=data/pretrain_model/codet5_base/
+  MODEL_PATH=data/pretrain_model/codet5_base/
 elif [[ $MODEL_TAG == codet5_large ]]; then
   MODEL_TYPE=codet5
   TOKENIZER=Salesforce/codet5-large

@@ -452,7 +452,7 @@ def main():
                         help="The input training data file (a text file).")
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
-    parser.add_argument("--module_path", default='/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.22/result/', type=str)
+    parser.add_argument("--module_path", default='data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.22/result/', type=str)
 
 
 

@@ -133,7 +133,7 @@ def load_init_module_sparse(model, module_path, prefix='roberta.'):
     #     raise ValueError(f'{module_path} does not exist.')
     # # 这行就行
     module_state = torch.load(module_path)
-    # module_path ='/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.24/result/'
+    # module_path ='data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.24/result/'
     # config_path = os.path.join(module_path, 'config.json')
     # model_path = os.path.join(module_path, 'model.safetensors')
     # training_args_path = os.path.join(module_path, 'training_args.bin')

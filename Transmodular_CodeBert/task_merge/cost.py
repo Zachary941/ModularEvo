@@ -124,7 +124,7 @@ def calculate_sparsity(model_state_dict):
 
 def load_sparse_model(base_model, sparse_model_path, config, task_type="code_clone"):
     """Load sparse model"""
-    codebert_base_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/'
+    codebert_base_path = 'data/pretrain_model/codebert-base/'
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
     if task_type == "code_clone":
         model = Model_clone(base_model, config , tokenizer)
@@ -156,14 +156,14 @@ def compare_models(dense_model, sparse_model):
     print(f"\n all: {100.0 * different_params / total_compared:.2f}% ({different_params}/{total_compared})")
 def new_load_init_module(model,task_type="code_clone"):
     if task_type == "code_clone":
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_java/lr_0.001_alpha_10.0_ne_4_wrr_22.94/result/pytorch_model_try.bin"
+        module_path = "data/module_java/lr_0.001_alpha_10.0_ne_4_wrr_22.94/result/pytorch_model_try.bin"
     else:
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.15/result/pytorch_model_try.bin"
+        module_path = "data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.15/result/pytorch_model_try.bin"
     
     # if task_type == "code_clone":
-    #     module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.22/result/pytorch_model_try.bin"
+    #     module_path = "data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.22/result/pytorch_model_try.bin"
     # else:
-    #     module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_python/lr_0.01_alpha_10.0_ne_2_wrr_7.68/result/pytorch_model_try.bin"
+    #     module_path = "data/module_python/lr_0.01_alpha_10.0_ne_2_wrr_7.68/result/pytorch_model_try.bin"
     
     total_params = 0
     masked_params = 0
@@ -230,14 +230,14 @@ def new_load_init_module(model,task_type="code_clone"):
 
 def load_dense_model(base_model, config, task_type="code_clone"):
     """Load dense model"""
-    codebert_base_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/'
+    codebert_base_path = 'data/pretrain_model/codebert-base/'
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
     if task_type == "code_clone":
         model = Model_clone(base_model, config, tokenizer)
-        model.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/code/saved_models/model_fintune_20241101/checkpoint-best-f1/model.bin", map_location=torch.device(device)))
+        model.load_state_dict(torch.load("Clone_detection_BigCloneBench_2/code/saved_models/model_fintune_20241101/checkpoint-best-f1/model.bin", map_location=torch.device(device)))
     else:  # nl_code_search
         model = Model_search(base_model, config, tokenizer)
-        model.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/code/model_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin", map_location=torch.device(device)))
+        model.load_state_dict(torch.load("NL_code_search_WebQuery/code/model_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin", map_location=torch.device(device)))
     return model
 
 
@@ -388,7 +388,7 @@ def get_task_dataset_and_loader(task_type, tokenizer, batch_size=16):
     if task_type == "code_clone":
         # For code clone task
         pool = multiprocessing.Pool(processes=4)
-        test_data_file = '/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/test.txt'
+        test_data_file = 'Clone_detection_BigCloneBench_2/dataset/test.txt'
         eval_dataset = load_and_cache_examples( tokenizer,test_data_file, pool=pool)
         pool.close()
         pool.join()
@@ -399,7 +399,7 @@ def get_task_dataset_and_loader(task_type, tokenizer, batch_size=16):
 
     else:  # nl_code_search
         # For nl code search task
-        eval_data_path = os.path.join('/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/CoSQA/cosqa_dev.json')
+        eval_data_path = os.path.join('NL_code_search_WebQuery/CoSQA/cosqa_dev.json')
         max_seq_length = tokenizer.max_len_single_sentence
         eval_dataset = TextDataset(tokenizer,max_seq_length,eval_data_path, type='eval')
     
@@ -413,7 +413,7 @@ def get_task_dataset_and_loader(task_type, tokenizer, batch_size=16):
 def main():
     # Base configuration
     batch_size = 16
-    codebert_base_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/'
+    codebert_base_path = 'data/pretrain_model/codebert-base/'
     
     # Load tokenizer and config
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
@@ -453,19 +453,19 @@ def main():
         
         # Path to sparse model weights - replace with actual path
         # if task_type == "code_clone":
-        #     sparse_model_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_20241101/checkpoint-best-f1/model.bin"
+        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_20241101/checkpoint-best-f1/model.bin"
         # else:  # nl_code_search
-        #     sparse_model_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/code/module_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin"
+        #     sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin"
         
         # if task_type == "code_clone":
-        #     sparse_model_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_wrr_7.22_20250228/checkpoint-best-f1/model.bin"
+        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_wrr_7.22_20250228/checkpoint-best-f1/model.bin"
         # else:  # nl_code_search
-        #     sparse_model_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/code/module_cosqa_20250228/checkpoint-best-aver/pytorch_model.bin"
+        #     sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20250228/checkpoint-best-aver/pytorch_model.bin"
         
         if task_type == "code_clone":
-            sparse_model_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_wrr_22.94_20250228/checkpoint-best-f1/model.bin"
+            sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_wrr_22.94_20250228/checkpoint-best-f1/model.bin"
         else:  # nl_code_search
-            sparse_model_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/code/module_cosqa_20250302/checkpoint-best-aver/pytorch_model.bin"
+            sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20250302/checkpoint-best-aver/pytorch_model.bin"
 
         sparse_model = load_sparse_model(base_model_for_sparse, sparse_model_path, config, task_type)
         # print("\ncompare:")
@@ -518,11 +518,11 @@ def main():
         # 6. Evaluate model accuracy
         # print("\nEvaluating model accuracy:")
         # if task_type == "code_clone":
-        #     dense_metrics = evaluate_clone(dense_model,tokenizer,"/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
-        #     sparse_metrics = evaluate_clone(sparse_model,tokenizer,"/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
+        #     dense_metrics = evaluate_clone(dense_model,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
+        #     sparse_metrics = evaluate_clone(sparse_model,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
         # else:  # nl_code_search
-        #     dense_metrics = evaluate_search(dense_model,tokenizer,'/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
-        #     sparse_metrics = evaluate_search(sparse_model,tokenizer,'/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
+        #     dense_metrics = evaluate_search(dense_model,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
+        #     sparse_metrics = evaluate_search(sparse_model,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
         
         # print(f"Dense model metrics: {dense_metrics}")
         # print(f"Sparse model metrics: {sparse_metrics}")

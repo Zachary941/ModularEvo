@@ -153,7 +153,7 @@ def main():
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
     tokenizer.do_lower_case = True
 
-    dataset_path = f'/home/LAB/longwr/new_SeaM/Tran_SeaM/data/dataset/code_search_net/dataset/{arguments.lang}'
+    dataset_path = f'data/dataset/code_search_net/dataset/{arguments.lang}'
     processed_dataset_path = f'{dataset_path}_processed'
     if os.path.exists(processed_dataset_path):
         preprocessed_dataset = load_from_disk(processed_dataset_path)

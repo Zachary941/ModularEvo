@@ -111,7 +111,7 @@ def get_merge_performance(args: argparse.Namespace, models_to_merge: list,  logg
     logger.info(f"configuration is {args}")
     bleus =[]
 
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     tokenizer.pad_token = tokenizer.eos_token
     merged_model = GPTNeoWithClassificationHead(model_name_or_path, num_classes=1)
@@ -162,19 +162,19 @@ if __name__ == "__main__":
 
     args.dataset_names = ['mathqa','scotus' ]
     load_model_paths = [
-        # "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
-        # "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
+        # "TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
+        # "TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
         
         
-        #"/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
-        #"/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
+        #"TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
+        #"TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
 
         args.model_path1,args.model_path2
     ]
     models_to_merge = []
     args.language_model_name = 'codet5'
     # put the target dataset name at end
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     tokenizer.pad_token = tokenizer.eos_token
         

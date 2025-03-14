@@ -3,10 +3,10 @@ import os
 
 class GlobalConfigs:
     def __init__(self, lang):
-        # self.root_dir = f'/home/qibh/Documents/DNNModularityResearch/TransModular'  # server4
-        self.root_dir = f'/home/qibh/Documents/TransModular'  # a100-40路径
+        # self.root_dir = f'Documents/DNNModularityResearch/TransModular'  
+        self.root_dir = f'Documents/TransModular'
         if not os.path.exists(self.root_dir):
-            self.root_dir = f'/home/binhang/Documents/DNNModularityResearch/TransModular'  # a100-80
+            self.root_dir = f'/home/binhang/Documents/DNNModularityResearch/TransModular' 
             if not os.path.exists(self.root_dir):
                 raise ValueError(f'root_dir does not exist!')
 

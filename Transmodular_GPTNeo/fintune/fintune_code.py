@@ -201,7 +201,7 @@ def compute_metrics(pred):
 
 def main(args):
     # Load Code dataset
-    LOCAL_DATASET_PATH = '/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/code/' 
+    LOCAL_DATASET_PATH = 'TransModular_GPT/fintune/data/code/' 
     full_dataset = load_dataset(
         'parquet',  
         data_files={
@@ -256,7 +256,7 @@ def main(args):
     logger.info(f"Sampled dataset saved to {sampled_dataset_dir}")
     
     # Load model and tokenizer
-    LOCAL_MODEL_PATH = '/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/'
+    LOCAL_MODEL_PATH = 'TransModular_GPT/data/gpt-neo-125m/'
     tokenizer = GPT2Tokenizer.from_pretrained(LOCAL_MODEL_PATH)
     tokenizer.pad_token = tokenizer.eos_token
 
@@ -283,11 +283,11 @@ def main(args):
     
     if args.use_mask:
         if args.mask_rate == 0.25:
-            module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.25/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.25/pytorch_model.bin")
         elif args.mask_rate == 0.5:
-            module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.50/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.50/pytorch_model.bin")
         elif args.mask_rate == 0.75:
-            module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.75/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.75/pytorch_model.bin")
         
         masked_params_count = 0
         total_params_count = 0
@@ -452,9 +452,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     if args.use_mask:
-        base_output_dir = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/'
+        base_output_dir = f'TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/'
     else:
-        base_output_dir = '/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/'
+        base_output_dir = 'TransModular_GPT/fintune/save_model/'
 
     output_dir = os.path.join(base_output_dir, "code", f"lr{args.lr}_bs{args.batch_size}_e{args.epochs}_p{args.patience}")
     os.makedirs(output_dir, exist_ok=True)

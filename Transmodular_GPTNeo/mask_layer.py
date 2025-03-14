@@ -84,7 +84,6 @@ def init_mask_model(model, no_mask: list = [], is_binary=True):
                                     weight=layer.weight, bias=layer.bias, is_modular=True, is_binary=is_binary)
             setattr(parent_obj, obj_names[-1], mask_layer)
         elif isinstance(layer, torch.nn.LayerNorm):
-            # TODO
             pass
     return mask_model
 

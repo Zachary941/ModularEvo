@@ -71,13 +71,13 @@ def parse_args():
     
     # Path settings
     parser.add_argument("--pretrained_model_path", type=str, 
-                        default="/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/",
+                        default="data/pretrain_model/codebert-base/",
                         help="Pre-trained model path")
     parser.add_argument("--code_clone_data_path", type=str, 
-                        default="/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/",
+                        default="Clone_detection_BigCloneBench_2/dataset/",
                         help="Code Clone dataset path")
     parser.add_argument("--nl_code_search_data_path", type=str, 
-                        default="/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/CoSQA/",
+                        default="NL_code_search_WebQuery/CoSQA/",
                         help="NL Code Search dataset path")
     
     args = parser.parse_args()
@@ -221,7 +221,7 @@ def train_model(args, model, train_dataloader,  task_type, stage):
     
     best_metric = 0
     best_model_state = None
-    codebert_base_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/'
+    codebert_base_path = 'data/pretrain_model/codebert-base/'
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
     for epoch in range(args.num_train_epochs):
         print(f"Epoch {epoch+1}/{args.num_train_epochs}")
@@ -230,9 +230,9 @@ def train_model(args, model, train_dataloader,  task_type, stage):
             avg_loss = full_finetune(args, model, optimizer, train_dataloader, args.device, task_type)
         else:
             if task_type == "code_clone":
-                module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_java/lr_0.001_alpha_10.0_ne_4_wrr_22.94/result/pytorch_model_try.bin"
+                module_path = "data/module_java/lr_0.001_alpha_10.0_ne_4_wrr_22.94/result/pytorch_model_try.bin"
             else:
-                module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.15/result/pytorch_model_try.bin"
+                module_path = "data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.15/result/pytorch_model_try.bin"
             
             avg_loss = mask_finetune(args, model, optimizer, train_dataloader, args.device, task_type, module_path)
             
@@ -241,10 +241,10 @@ def train_model(args, model, train_dataloader,  task_type, stage):
         # Evaluation
         logger.info(f"Evaluating on validation set...")
         if task_type == "code_clone":
-            eval_result = evaluate_clone(model, tokenizer, "/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/valid.txt", "./task_eval/") 
+            eval_result = evaluate_clone(model, tokenizer, "Clone_detection_BigCloneBench_2/dataset/valid.txt", "./task_eval/") 
             current_metric = eval_result["eval_precision"]
         else:  # nl_code_search
-            eval_result = evaluate_search(model, tokenizer, '/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/CoSQA/cosqa_dev.json', "./task_eval/")
+            eval_result = evaluate_search(model, tokenizer, 'NL_code_search_WebQuery/CoSQA/cosqa_dev.json', "./task_eval/")
             current_metric = eval_result["acc"]
             
         logger.info(f"Validation Results: {eval_result}")

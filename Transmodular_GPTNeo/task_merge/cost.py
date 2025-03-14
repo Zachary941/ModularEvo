@@ -79,7 +79,7 @@ def apply_mask_to_model(model, mask_path):
 def get_task_dataset(task_type, tokenizer, batch_size=8):
     """Load dataset for specified task"""
     if task_type == "math":
-        dataset_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/mathqa/"
+        dataset_path = "TransModular_GPT/fintune/data/mathqa/"
         dataset = load_dataset(
             'parquet',
             data_files={'test': os.path.join(dataset_path, "test-00000-of-00001.parquet")}
@@ -104,7 +104,7 @@ def get_task_dataset(task_type, tokenizer, batch_size=8):
         tokenized_dataset = dataset.map(preprocess, batched=True, remove_columns=dataset["test"].column_names)
     
     elif task_type == "law":
-        dataset_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/lex_glue/scotus/"
+        dataset_path = "TransModular_GPT/fintune/data/lex_glue/scotus/"
         dataset = load_dataset(
             'parquet',
             data_files={'test': os.path.join(dataset_path, "test-00000-of-00001.parquet")}
@@ -331,7 +331,7 @@ def main():
     args = parser.parse_args()
     
     # Base paths
-    base_model_path = '/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/'
+    base_model_path = 'TransModular_GPT/data/gpt-neo-125m/'
     
     # Load tokenizer
     tokenizer = GPT2Tokenizer.from_pretrained(base_model_path)
@@ -340,18 +340,18 @@ def main():
     # Define model paths
     model_paths = {
         "math": {
-            "dense": "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",
-            "sparse": "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin"
+            "dense": "TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",
+            "sparse": "TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin"
         },
         "law": {
-            "dense": "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin", 
-            "sparse": "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin"
+            "dense": "TransModular_GPT/fintune/save_model/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin", 
+            "sparse": "TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin"
         }
     }
     
     mask_paths = {
-        "math": "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_math/lr_0.005_alpha_10.0_bs_4_time_20250228_022217/model_wrr_0.25/pytorch_model.bin",
-        "law": "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin"
+        "math": "TransModular_GPT/data/module_math/lr_0.005_alpha_10.0_bs_4_time_20250228_022217/model_wrr_0.25/pytorch_model.bin",
+        "law": "TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin"
     }
     
     num_classes = {

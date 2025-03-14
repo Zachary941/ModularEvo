@@ -6,7 +6,7 @@
 import argparse
 import os
 import sys
-sys.path.append("/home/LAB/longwr/new_SeaM/TransModular_CodeT5/evaluator/CodeBLEU/")
+sys.path.append("TransModular_CodeT5/evaluator/CodeBLEU/")
 
 import weighted_ngram_match, bleu, dataflow_match, syntax_match
 

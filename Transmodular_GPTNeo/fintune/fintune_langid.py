@@ -344,7 +344,7 @@ def main(args):
     module_state = None
     if args.use_mask:
         if args.mask_rate == 0.25:
-            mask_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_europarl/lr_0.005_alpha_10.0_bs_4_time_20250306_205212/model_wrr_0.25/pytorch_model.bin"
+            mask_path = "TransModular_GPT/data/module_europarl/lr_0.005_alpha_10.0_bs_4_time_20250306_205212/model_wrr_0.25/pytorch_model.bin"
 
         logger.info(f"Loading mask: {mask_path}")
         module_state = torch.load(mask_path)
@@ -493,7 +493,7 @@ if __name__ == "__main__":
     parser.add_argument('--data_path', type=str, default="./data/langid",
                       help="Dataset path (default: ./data/langid)")
     parser.add_argument('--pretrained_model_path', type=str, 
-                      default="/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/",
+                      default="TransModular_GPT/data/gpt-neo-125m/",
                       help="Pre-trained model path")
     parser.add_argument('--seed', type=int, default=42,
                       help="Random seed (default: 42)")
@@ -506,9 +506,9 @@ if __name__ == "__main__":
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     if args.output_dir is None:
         if args.use_mask:
-            base_output_dir = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/'
+            base_output_dir = f'TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/'
         else:
-            base_output_dir = '/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/'
+            base_output_dir = 'TransModular_GPT/fintune/save_model/'
         
         args.output_dir = os.path.join(
             base_output_dir, 

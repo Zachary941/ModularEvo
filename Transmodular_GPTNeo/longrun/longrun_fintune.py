@@ -123,11 +123,11 @@ def train_model(args, model, train_dataset, eval_dataset, task_type, stage, num_
     
     if args.tuning_strategy == "mask":
         if task_type == "mathqa":
-            mask_path_math = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_math/lr_0.005_alpha_10.0_bs_4_time_20250228_022217/model_wrr_0.25/pytorch_model.bin"
+            mask_path_math = ""
             logger.info(f"Loading math module mask from: {mask_path_math}")
             module_state = torch.load(mask_path_math)
         else:  # scotus
-            mask_path_law = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin"
+            mask_path_law = ""
             logger.info(f"Loading law module mask from: {mask_path_law}")
             module_state = torch.load(mask_path_law)
         masked_params_count = 0
@@ -342,7 +342,7 @@ def parse_args():
     parser.add_argument("--epochs", type=int, default=2)
     
     parser.add_argument("--task_type", type=str, required=True, choices=["mathqa", "scotus"])
-    parser.add_argument("--pretrained_model_path", type=str, default="/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/")
+    parser.add_argument("--pretrained_model_path", type=str, default="TransModular_GPT/data/gpt-neo-125m/")
     
     parser.add_argument("--tuning_strategy", type=str, default="full", choices=["full", "mask"])
     

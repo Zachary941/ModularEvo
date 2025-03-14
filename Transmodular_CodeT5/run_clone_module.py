@@ -148,7 +148,7 @@ def main():
 
     model = CloneModel(model, config, tokenizer, args)
     ##############################
-    module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_java/lr_0.001_alpha_10.0_ne_2/model_wrr_0.25"
+    module_path = "data/module_t5_small_java/lr_0.001_alpha_10.0_ne_2/model_wrr_0.25"
     module_state = torch.load(f'{module_path}/pytorch_model.bin')
     print(f'module_state.keys(): {module_state.keys()}')
     print(f'model_state.keys() {model.state_dict().keys()}')

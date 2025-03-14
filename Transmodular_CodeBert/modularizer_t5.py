@@ -267,7 +267,7 @@ class MyEarlyStoppingCallback(EarlyStoppingCallback):
 def main():
     # model_path = f'./data/pretrain_model/codebert-base-mlm'
     # model_path = f'./data/pretrain_model/codet5_base'
-    model_path = '/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/'
+    model_path = 'TransModular_CodeT5/data/pretrain_model/codet5_small/'
     # if not os.path.exists(model_path):
     #     model_path = 'microsoft/codebert-base-mlm'
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
@@ -286,7 +286,7 @@ def main():
     # tokenizer = RobertaTokenizer.from_pretrained(model_path)
     tokenizer.do_lower_case = True
 
-    dataset_path = f'/home/LAB/longwr/new_SeaM/Tran_SeaM/data/dataset/code_search_net/dataset/{arguments.lang}'
+    dataset_path = f'data/dataset/code_search_net/dataset/{arguments.lang}'
     processed_dataset_path = f'{dataset_path}_processed_for_t5'
     if os.path.exists(processed_dataset_path):
         preprocessed_dataset = load_from_disk(processed_dataset_path)

@@ -90,14 +90,13 @@ def count_zero_weights(model_dict):
     return total_zeros, zero_weight_proportion
 
 if __name__ == "__main__":
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
-    # model_math_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",map_location=torch.device('cuda'))
-    # model_law_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/law/scotus/lr5e-05_bs4_e4/result/pytorch_model.bin",map_location=torch.device('cuda'))
-    model_math_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",map_location=torch.device('cuda'))
-    model_law_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin",map_location=torch.device('cuda'))
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
+
+    model_math_state_dict = torch.load("pytorch_model.bin",map_location=torch.device('cuda'))
+    model_law_state_dict = torch.load("pytorch_model.bin",map_location=torch.device('cuda'))
     
     
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     merged_model = GPTNeoWithClassificationHead(model_name_or_path, num_classes=1).to('cuda')
     base_state_dict = merged_model.state_dict()
     new_state_dict = OrderedDict()
@@ -120,36 +119,3 @@ if __name__ == "__main__":
     print(f"Law model zero weights: {law_zero_weights}")
     print(f"Law model zero weight proportion: {law_zero_proportion:.4f}")
     # print(f"diff:{compute_sparsity(model_law_state_dict, base_state_dict)}")
-
-# if __name__ == "__main__":
-#     mask_rate=0.25
-#     if mask_rate == 0.25:
-#         module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin")
-#     elif mask_rate == 0.5:
-#         module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.50/pytorch_model.bin")
-#     elif mask_rate == 0.75:
-#         module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.75/pytorch_model.bin")
-    
-#     model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
-#     # model_math_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",map_location=torch.device('cuda'))
-#     model_math_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin")
-#     model_law_state_dict = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/law/scotus/lr5e-05_bs4_e4/result/pytorch_model.bin")
-#     total_params_count = 0
-#     masked_params_count = 0
-#     new_state_dict={}
-#     for name, param in model_math_state_dict:
-#         # total_params_count += param.numel()
-#         modify_name = name.replace("base_model.", "")
-#         if f"{modify_name}_mask" in module_state:
-#             total_params_count += param.numel()
-#             mask = module_state[f'{modify_name}_mask']
-#             bin_mask = (mask > 0).float()
-#             masked_params_count += bin_mask.sum().item()
-#             new_state_dict[name]= param.data *bin_mask
-    
-#     merged_model = GPTNeoWithClassificationHead(new_state_dict, num_classes=1)
-#     merged_model = merged_model.to('cuda')
-#     print(count_zero_weights(merged_model.state_dict()))
-    # A,B=compute_sparsity(model_law_state_dict, merged_model.state_dict(), plot=False, save_dir="sparsity_plots")
-    # print(A)
-    # print(B)

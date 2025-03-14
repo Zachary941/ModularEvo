@@ -103,7 +103,7 @@ def get_merge_performance(args: argparse.Namespace, models_to_merge: list,  logg
     logger.info(f"configuration is {args}")
     bleus =[]
 
-    codebert_base_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/'
+    codebert_base_path = 'data/pretrain_model/codebert-base/'
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
     config=RobertaConfig.from_pretrained(codebert_base_path)
     config.num_labels=2
@@ -142,13 +142,13 @@ def get_merge_performance(args: argparse.Namespace, models_to_merge: list,  logg
     model_ft1  = copy.deepcopy(model_code_clone)
     model_ft1.load_state_dict(torch.load(args.model_path1))
     model_ft1.load_state_dict(merged_params,strict=False)
-    result=evaluate_clone(model_ft1,tokenizer,"/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
+    result=evaluate_clone(model_ft1,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
     print(result)
     print('======================nl_code_search====================')
     model_ft2 = copy.deepcopy(model_nl_code_search)
     model_ft2.load_state_dict(torch.load(args.model_path2))
     model_ft2.load_state_dict(merged_params,strict=False)
-    result=evaluate_search(model_ft2,tokenizer,'/home/LAB/longwr/new_SeaM/Tran_SeaM/NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
+    result=evaluate_search(model_ft2,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
     print(result)
 
     # avg_bleu = write_summary(alphas=[args.scaling_coefficient,args.scaling_coefficient] ,bleus=bleus,output_file=args.log)
@@ -160,12 +160,12 @@ if __name__ == "__main__":
 
     args.dataset_names = ['code_clone','nl_code_research' ]
     load_model_paths = [
-        # "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
-        # "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
+        # "TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
+        # "TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
         
         
-        #"/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
-        #"/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
+        #"TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
+        #"TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
 
         args.model_path1,args.model_path2
     ]
@@ -177,7 +177,7 @@ if __name__ == "__main__":
     else:
         args.save_merged_model_path = f"./save_merge_models/{args.dataset_names[0]}_{args.dataset_names[-1]}/{args.merging_method_name}/{args.language_model_name}"
 
-    codebert_base_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/pretrain_model/codebert-base/'
+    codebert_base_path = 'data/pretrain_model/codebert-base/'
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
     config=RobertaConfig.from_pretrained(codebert_base_path)
     config.num_labels=2

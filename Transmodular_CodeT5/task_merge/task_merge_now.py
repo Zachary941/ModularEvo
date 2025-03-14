@@ -223,7 +223,7 @@ def model_merge(args):
     bleus = []
     # load all model
     config_class, model_class, tokenizer_class = MODEL_CLASSES['codet5']
-    model_name_or_path = '/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/'
+    model_name_or_path = 'TransModular_CodeT5/data/pretrain_model/codet5_small/'
     config = config_class.from_pretrained(model_name_or_path)
     tokenizer = tokenizer_class.from_pretrained(model_name_or_path)
     model = model_class.from_pretrained(model_name_or_path)
@@ -233,14 +233,14 @@ def model_merge(args):
     # load model1
     model_ft1 = copy.deepcopy(model)
     model_ft1.to('cuda')
-    # model_state1 = torch.load("/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin")
-    model_state1 = torch.load("/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models_lota/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat2_e10_wrr0.25/checkpoint-best-bleu/pytorch_model.bin")
+    # model_state1 = torch.load("TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin")
+    model_state1 = torch.load("TransModular_CodeT5/sh/saved_models_lota/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat2_e10_wrr0.25/checkpoint-best-bleu/pytorch_model.bin")
     model_ft1.load_state_dict(model_state1)
 
     # load model2
     model_ft2 = copy.deepcopy(model)
-    # model_state2 = torch.load("/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin")
-    model_state2 = torch.load("/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models_lota/concode/java/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10_wrr0.25/checkpoint-best-bleu/pytorch_model.bin")
+    # model_state2 = torch.load("TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin")
+    model_state2 = torch.load("TransModular_CodeT5/sh/saved_models_lota/concode/java/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10_wrr0.25/checkpoint-best-bleu/pytorch_model.bin")
     model_ft2.load_state_dict(model_state2)
     model_ft2.to('cuda')
 
@@ -285,7 +285,7 @@ def module_merge(args):
     bleus = []
     # load all model
     config_class, model_class, tokenizer_class = MODEL_CLASSES['codet5']
-    model_name_or_path = '/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/'
+    model_name_or_path = 'TransModular_CodeT5/data/pretrain_model/codet5_small/'
     config = config_class.from_pretrained(model_name_or_path)
     tokenizer = tokenizer_class.from_pretrained(model_name_or_path)
     model = model_class.from_pretrained(model_name_or_path)
@@ -293,19 +293,19 @@ def module_merge(args):
     base_state_dict = model.state_dict()
  
     # load module1
-    # module_path1="/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models_module/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10_wrr0.25/checkpoint-best-bleu/pytorch_model.bin"
-    module_path1 = "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models_module/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat2_e5_wrr0.25/checkpoint-best-bleu/pytorch_model.bin"
+    # module_path1="TransModular_CodeT5/sh/saved_models_module/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10_wrr0.25/checkpoint-best-bleu/pytorch_model.bin"
+    module_path1 = "TransModular_CodeT5/sh/saved_models_module/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat2_e5_wrr0.25/checkpoint-best-bleu/pytorch_model.bin"
     module_1 = copy.deepcopy(model)
     module_1.load_state_dict(torch.load(module_path1))
     module_1.to('cuda')
     print(f'module1:{calculate_non_zero_percentage(module_1.state_dict())}')
     # print('======================code_clone====================')
-    # result=evaluate_clone(module_1,tokenizer,"/home/LAB/longwr/new_SeaM/Tran_SeaM/Clone_detection_BigCloneBench_2/dataset/test.txt",args.output_dir)
+    # result=evaluate_clone(module_1,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt",args.output_dir)
     # print(result)
 
     # load module2
 
-    module_path2="/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models_module/concode/java/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30_wrr0.25/checkpoint-best-bleu/pytorch_model.bin"
+    module_path2="TransModular_CodeT5/sh/saved_models_module/concode/java/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30_wrr0.25/checkpoint-best-bleu/pytorch_model.bin"
     module_2 = copy.deepcopy(model)
     module_2.load_state_dict(torch.load(module_path2))
     module_2.to('cuda')
@@ -373,8 +373,8 @@ if __name__ == '__main__':
     #     # sys.stdout = output_file2
     #     module_merge(args)
 
-    # output_file1 = open('/home/LAB/longwr/new_SeaM/Tran_SeaM/code-text/code/output1.txt', 'w')
-    # output_file2 = open('/home/LAB/longwr/new_SeaM/Tran_SeaM/code-text/code/output2.txt', 'w')
+    # output_file1 = open('code-text/code/output1.txt', 'w')
+    # output_file2 = open('code-text/code/output2.txt', 'w')
 
     for alpha1 in [round(x * 0.1, 1) for x in range(3, 12)]:
         for alpha2 in [round(x * 0.1, 1) for x in range(3 , 11)]:

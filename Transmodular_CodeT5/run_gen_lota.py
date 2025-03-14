@@ -277,7 +277,7 @@ def main():
     base_state_dict = model_copy.state_dict()
     if args.task in ['summarize']:
         if args.sub_task == 'python':
-            model_ft_path = "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
+            model_ft_path = "TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
         elif args.sub_task == 'java':
             model_ft_path = ""
         elif args.sub_task == 'ruby':
@@ -289,7 +289,7 @@ def main():
         elif args.sub_task == 'javascript':
             model_ft_path = ""
     elif args.task in ['concode']:
-        model_ft_path = "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
+        model_ft_path = "TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
     
 
     ft_state_dict = torch.load(model_ft_path)

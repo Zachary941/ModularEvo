@@ -95,7 +95,7 @@ def get_merge_performance(args: argparse.Namespace, models_to_merge: list,  logg
     logger.info(f"configuration is {args}")
     bleus =[]
     config_class, model_class, tokenizer_class = MODEL_CLASSES['codet5']
-    model_name_or_path = '/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/'
+    model_name_or_path = 'TransModular_CodeT5/data/pretrain_model/codet5_small/'
     config = config_class.from_pretrained(model_name_or_path)
     tokenizer = tokenizer_class.from_pretrained(model_name_or_path)
     merged_model = model_class.from_pretrained(model_name_or_path)
@@ -140,12 +140,12 @@ if __name__ == "__main__":
 
     args.dataset_names = ['concode','refine' ]
     load_model_paths = [
-        # "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
-        # "/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
+        # "TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
+        # "TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
         
         
-        #"/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
-        #"/home/LAB/longwr/new_SeaM/TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
+        #"TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
+        #"TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
 
         args.model_path1,args.model_path2
     ] 
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     else:
         args.save_merged_model_path = f"./save_merge_models/{args.dataset_names[0]}_{args.dataset_names[-1]}/{args.merging_method_name}/{args.language_model_name}"
     config_class, model_class, tokenizer_class = MODEL_CLASSES['codet5']
-    model_name_or_path = '/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/'
+    model_name_or_path = 'TransModular_CodeT5/data/pretrain_model/codet5_small/'
     config = config_class.from_pretrained(model_name_or_path)
     tokenizer = tokenizer_class.from_pretrained(model_name_or_path)
     model = model_class.from_pretrained(model_name_or_path)

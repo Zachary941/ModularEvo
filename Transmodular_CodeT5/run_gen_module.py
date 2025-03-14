@@ -225,22 +225,22 @@ def main():
     fa = open(os.path.join(args.output_dir, 'summary.log'), 'a+')
     ##############################
     # if args.sub_task == 'python':
-    #     module_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_python/lr_0.001_alpha_10.0_ne_2/result_0.046/'
+    #     module_path = 'data/module_t5_small_python/lr_0.001_alpha_10.0_ne_2/result_0.046/'
     # elif args.sub_task == 'java':
-    #     module_path = '/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_java/lr_0.001_alpha_10.0_ne_2/result_0.048/'
+    #     module_path = 'data/module_t5_small_java/lr_0.001_alpha_10.0_ne_2/result_0.048/'
     # module_state = torch.load(f'{module_path}/pytorch_model_try.bin')
     if args.sub_task == 'python':
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_python/lr_0.001_alpha_10.0_ne_2/model_wrr_0.25/"
+        module_path = "data/module_t5_small_python/lr_0.001_alpha_10.0_ne_2/model_wrr_0.25/"
     elif args.sub_task == 'java' or args.sub_task == 'small' or args.sub_task == 'medium':
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_java/lr_0.001_alpha_10.0_ne_2/model_wrr_0.25/"
+        module_path = "data/module_t5_small_java/lr_0.001_alpha_10.0_ne_2/model_wrr_0.25/"
     elif args.sub_task == 'ruby':
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_ruby/lr_0.001_alpha_10.0_ne_15/model_wrr_0.10/"
+        module_path = "data/module_t5_small_ruby/lr_0.001_alpha_10.0_ne_15/model_wrr_0.10/"
     elif args.sub_task == 'php':
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_php/lr_0.001_alpha_10.0_ne_2/model_wrr_0.10/"
+        module_path = "data/module_t5_small_php/lr_0.001_alpha_10.0_ne_2/model_wrr_0.10/"
     elif args.sub_task == 'go':
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_go/lr_0.001_alpha_10.0_ne_4/model_wrr_0.10/"
+        module_path = "data/module_t5_small_go/lr_0.001_alpha_10.0_ne_4/model_wrr_0.10/"
     elif args.sub_task == 'javascript':
-        module_path = "/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_t5_small_javascript/lr_0.001_alpha_10.0_ne_5/result_0.1/"
+        module_path = "data/module_t5_small_javascript/lr_0.001_alpha_10.0_ne_5/result_0.1/"
     
     
     module_state = torch.load(f'{module_path}/pytorch_model.bin')

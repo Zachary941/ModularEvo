@@ -18,19 +18,10 @@ from torch.utils.tensorboard import SummaryWriter
 from mask_layer import MaskLinear, Binarization, init_mask_model
 
 class StopOnWRRCallback(TrainerCallback):
-    # def __init__(self, threshold):
-    #     super().__init__()
-    #     self.threshold = 0.25
 
-    # def on_log(self, args, state, control, logs=None, **kwargs):
-    #     current_wrr = logs.get('wrr')
-    #     if current_wrr is not None and current_wrr <= self.threshold:
-    #         logging.info(f"WRR 达到阈值 {current_wrr:.2%}，停止训练并保存模型。")
-    #         control.should_save = True
-    #         control.should_training_stop = True
     def __init__(self, thresholds, save_dir):
         super().__init__()
-        self.thresholds = sorted(thresholds, reverse=True)  # 确保阈值按降序排列
+        self.thresholds = sorted(thresholds, reverse=True) 
         self.save_dir = save_dir
         self.saved_thresholds = set()
 
@@ -41,16 +32,16 @@ class StopOnWRRCallback(TrainerCallback):
                 if current_wrr <= threshold and threshold not in self.saved_thresholds:
                     logging.info(f"WRR arrive : {current_wrr:.2%} ,save model ")
                     control.should_save = True
-                    control.should_training_stop = False  # 不停止训练
+                    control.should_training_stop = False  
                     self.saved_thresholds.add(threshold)
-                    # 创建保存目录
+
                     save_path = os.path.join(self.save_dir, f"model_wrr_{threshold:.2f}")
                     os.makedirs(save_path, exist_ok=True)
-                    # 保存模型为 pytorch_model.bin
+
                     model_save_path = os.path.join(save_path, "pytorch_model.bin")
                     torch.save(kwargs['model'].state_dict(), model_save_path)
                     logging.info(f"model save {model_save_path}")
-                    # 进行评估
+
                     # eval_results = kwargs['model']  
                     # logging.info(f"==========[{current_wrr} WRR TEST]=============")
                     # logging.info(f"+ Module CE Loss: {eval_results['eval_loss']:.4f}")
@@ -65,7 +56,7 @@ def preprocess_pile(raw_dataset, tokenizer, max_train_samples=-1, max_test_sampl
     if max_test_samples != -1:
         raw_dataset['test'] = raw_dataset['test'].select(range(max_test_samples))
     
-    # 然后进行标记化处理
+
     pile_data = raw_dataset.map(tokenize_function, batched=True, remove_columns=raw_dataset['train'].column_names,
                                 desc='preprocess', num_proc=8)
 
@@ -90,9 +81,9 @@ def clip_processed_data(processed_data, n_train, n_test):
     return part_processed_data
 
 
-# Trainer的子类，用于模块化训练
+
 class Modularizer(Trainer):
-    # 初始化，设置超参数和跟踪变量
+
     def __init__(self, alpha, non_bin, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.alpha = alpha
@@ -102,7 +93,6 @@ class Modularizer(Trainer):
         self.wrr = 1.0
         self.non_bin = non_bin
 
-    # 计算权重保留率（WRR）和WRR的损失
     def compute_wrr(self, detailed=False):
         masks = []
         for n, layer in self.model.named_modules():
@@ -134,7 +124,7 @@ class Modularizer(Trainer):
         else:
             return loss_wrr, wrr
 
-    # 计算总损失，包括CLM损失和WRR损失，并记录到TensorBoard
+
     def compute_loss(self, model, inputs, return_outputs=False):
         """
         Copy from Trainer.compute_loss()
@@ -192,14 +182,13 @@ class Modularizer(Trainer):
 
 
 def load_data(dataset_path_train, dataset_path_test):
-    # 需要分开加载train和test，load_dataset会打train和test标签
+
     data_files = {
         "train": os.path.join(dataset_path_train, "*.arrow"),
         "test": os.path.join(dataset_path_test,  "*.arrow")
     }
     pile_data = load_dataset('arrow', data_files=data_files)
 
-    # 把数据加载到列表，后面要分割train和test数据集
     logging.info("+++++++++++++++ Raw +++++++++++++++")
     logging.info(f"pile_data type:{type(pile_data)}")
     logging.info(pile_data["test"][0])
@@ -214,17 +203,17 @@ def get_data_path(lang, is_raw):
             dataset_path_train = f'data/dataset/pile/train/Github_train/python_train.jsonl'
             dataset_path_test = f'data/dataset/pile/test/Github_test/python_test.jsonl'
         elif lang == 'law':
-            dataset_path_train = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/FreeLaw/train/'
-            dataset_path_test = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/FreeLaw/test/'
+            dataset_path_train = f'data/dataset/data/FreeLaw/train/'
+            dataset_path_test = f'data/dataset/data/FreeLaw/test/'
         elif lang == 'github':
-            dataset_path_train = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/Github/train/'
-            dataset_path_test = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/Github/test/'
+            dataset_path_train = f'data/dataset/data/Github/train/'
+            dataset_path_test = f'data/dataset/data/Github/test/'
         elif lang == 'math':
-            dataset_path_train = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/DM Mathematics/train/'
-            dataset_path_test = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/DM Mathematics/test/'
+            dataset_path_train = f'data/dataset/data/DM Mathematics/train/'
+            dataset_path_test = f'data/dataset/data/DM Mathematics/test/'
         elif lang == 'europarl':
-            dataset_path_train = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/EuroParl/train/'
-            dataset_path_test = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/data/dataset/data/EuroParl/test/'
+            dataset_path_train = f'data/dataset/data/EuroParl/train/'
+            dataset_path_test = f'data/dataset/data/EuroParl/test/'
         else:
             raise ValueError
         return dataset_path_train, dataset_path_test
@@ -270,7 +259,6 @@ def main(module_save_dir):
     tokenizer_gpt.pad_token = tokenizer_gpt.eos_token
     processed_lang_data = get_preprocessed_data(arguments.lang, tokenizer_gpt)
 
-    # 把数据加载到列表，后面要分割train和test数据集
     logging.info("+++++++++++++++ Processed +++++++++++++++")
     logging.info(processed_lang_data["test"]['input_ids'][0])
     logging.info(processed_lang_data["test"]['labels'][0])
@@ -280,16 +268,13 @@ def main(module_save_dir):
     clipped_lang_data = clip_processed_data(processed_lang_data, n_train=arguments.num_train_samples, n_test= arguments.num_test_samples)
     logging.info(f'Clipped data:\n{clipped_lang_data}\n')
 
-    # 数据整理器，两个作用
-    # 1.填充数据，使得序列长度相同
-    # 2.创建与输入数据对应的标签，用于训练
-    # Notice！CLM任务模型是自回归预测下一个token，所以输入和标签序列只是偏移了一位
+
     data_collator = DataCollatorForLanguageModeling(
         tokenizer=tokenizer_gpt,
-        mlm=False,  # 设置为False以适用于CLM
+        mlm=False,  
     )
 
-    # 设置AdamW优化器
+
     mask_names = ['weight_mask', 'bias_mask']
     mask_params = [p for n, p in module.named_parameters() if any(mn in n for mn in mask_names)]
     optimizer = AdamW(mask_params, lr=arguments.lr, weight_decay=arguments.weight_decay)
@@ -297,7 +282,6 @@ def main(module_save_dir):
     # module_save_dir = f'data/module_{arguments.lang}/lr_{arguments.lr}_alpha_{arguments.alpha}_bs_{arguments.batch_size}'
     # if arguments.non_bin:
     #     module_save_dir = f'{module_save_dir}_nonbin'
-    # 定义训练参数，包括输出目录、训练批次大小、学习率等
     training_args = TrainingArguments(
         output_dir=module_save_dir,
         do_train=True,
@@ -318,7 +302,7 @@ def main(module_save_dir):
         fp16=arguments.fp16,
         load_best_model_at_end=True # load the best model when training ends
     )
-    # 使用模块化器类初始化模块化器
+
     modularizer = Modularizer(
         model=module,
         args=training_args,
@@ -331,7 +315,6 @@ def main(module_save_dir):
         # callbacks=[StopOnWRRCallback(threshold=0.25)],
         callbacks=[StopOnWRRCallback(thresholds=[0.75, 0.5, 0.25], save_dir=module_save_dir)]
     )
-    # 对原始模型进行评估，然后训练模块化器，并保存结果
     if arguments.do_train:
         # evaluate original model on test dataset.
         trainer = Trainer(
@@ -370,7 +353,6 @@ def main(module_save_dir):
         if arguments.other_lang is not None:
             processed_other_lang_data = get_preprocessed_data(arguments.other_lang, tokenizer_gpt)
 
-            # 把数据加载到列表，后面要分割train和test数据集
             logging.info("+++++++++++++++ Processed +++++++++++++++")
             logging.info(processed_other_lang_data["test"]['input_ids'][0])
             logging.info(processed_other_lang_data["test"]['labels'][0])
@@ -399,7 +381,6 @@ def main(module_save_dir):
             logging.info(f"- Model CE Loss: {model_eval_results_on_other_lang['eval_loss']:.4f}")
             logging.info(f"- Model Perplexity: {math.exp(model_eval_results_on_other_lang['eval_loss']):.2f}")
 
-    # 对模块进行评估
     elif arguments.do_eval:  # TODO: fix. TO load the checkpoint, i.e., the resulting module.
         module_eval_results = modularizer.evaluate()
         logging.info(f'Module: {module_eval_results}\n')

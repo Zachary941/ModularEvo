@@ -6,7 +6,7 @@ from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 from mask_layer import init_mask_model
 
 
-# 预处理pile的github数据集
+
 def preprocess_pile(raw_dataset, tokenizer):
     def tokenize_function(examples):
         return tokenizer(examples['text'], truncation=True, padding=True)
@@ -20,8 +20,7 @@ def preprocess_pile(raw_dataset, tokenizer):
 
 
 def load_data(lang):
-    # 数据集路径，是单个语言的jsonl路径
-    # 需要分开加载train和test，load_dataset会打train和test标签
+
     if lang == 'python':
         dataset_path_gpt_train = f'data/dataset/pile/train/Github_train/python_train.jsonl'
         dataset_path_gpt_test = f'data/dataset/pile/test/Github_test/python_test.jsonl'
@@ -34,7 +33,7 @@ def load_data(lang):
 
     pile_data = load_dataset('json', data_files=data_file_gpt)
 
-    # 把数据加载到列表，后面要分割train和test数据集
+
     print("+++++++++++++++ Raw +++++++++++++++")
     print(f"pile_data type:{type(pile_data)}")
     print(pile_data["test"][0])
@@ -57,7 +56,6 @@ pile_data = load_data(lang='python')
 processed_lang_data = preprocess_pile(pile_data, tokenizer_gpt)
 print(processed_lang_data)
 
-#%%
 import copy
 
 def clip_processed_data(processed_data, n_train, n_test):
@@ -72,16 +70,5 @@ def clip_processed_data(processed_data, n_train, n_test):
     print(part_processed_data)
     return part_processed_data
 
-# part_train_data = processed_lang_data['train'].select([0, 1, 2, 3, 4])
-# print(part_train_data)
-#
-# part_test_data = processed_lang_data['test'].select([0, 1, 2, 3, 4])
-# print(part_test_data)
-#
-# part_processed_lang_data = copy.deepcopy(processed_lang_data)
-# print(part_processed_lang_data)
-#
-# part_processed_lang_data['train'] = part_train_data
-# part_processed_lang_data['test'] = part_test_data
 part_processed_lang_data = clip_processed_data(processed_lang_data, n_train=100, n_test=100)
 print(part_processed_lang_data)

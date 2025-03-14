@@ -111,11 +111,11 @@ def create_label_mapping(dataset) -> Dict[str, int]:
 
 def prepare_langid_dataset():
     """Prepare LangID dataset, split training set into train and validation sets"""
-    tokenizer = GPT2Tokenizer.from_pretrained('/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/')
+    tokenizer = GPT2Tokenizer.from_pretrained('TransModular_GPT/data/gpt-neo-125m/')
     tokenizer.pad_token = tokenizer.eos_token
     
-    train_path = os.path.join('/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/langid/', f"nordic_dsl_10000train.csv")
-    test_path = os.path.join('/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/langid/', f"nordic_dsl_10000test.csv")
+    train_path = os.path.join('TransModular_GPT/fintune/data/langid/', f"nordic_dsl_10000train.csv")
+    test_path = os.path.join('TransModular_GPT/fintune/data/langid/', f"nordic_dsl_10000test.csv")
     
     processed_dataset = load_langid_dataset(train_path, test_path)
     
@@ -342,8 +342,8 @@ if __name__ == "__main__":
     logger.info("Starting EuroLangID evaluation")
     
     # Load model
-    model = GPTNeoWithClassificationHead('/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/', num_classes=6)
-    model_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/langid/20250309_145842_lr5e-05_bs8_e4_p4/best_model/pytorch_model.bin")
+    model = GPTNeoWithClassificationHead('TransModular_GPT/data/gpt-neo-125m/', num_classes=6)
+    model_state = torch.load("TransModular_GPT/fintune/save_model/langid/best_model/pytorch_model.bin")
     model.load_state_dict(model_state)
     # Evaluate model
     metrics = evaluate_euro_model(model)

@@ -28,7 +28,7 @@ def setup_logging():
             logging.StreamHandler(sys.stdout)
         ]
     )
-    log_dir = "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/logs"
+    log_dir = "TransModular_GPT/task_merge/longrun/logs"
     os.makedirs(log_dir, exist_ok=True)
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     file_handler = logging.FileHandler(os.path.join(log_dir, f"model_merge_{timestamp}.log"))
@@ -86,7 +86,7 @@ def merge_models(model1, model2, stage, model_base_path,
     )
     
     # # Save merged model
-    # output_path = f"/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_{stage}/"
+    # output_path = f"TransModular_GPT/task_merge/longrun/mask_fintune_{stage}/"
     # os.makedirs(os.path.dirname(output_path), exist_ok=True)
     # svae_params_path = output_path + f"merged_model_{stage}.bin"
     # torch.save(merged_params, svae_params_path)
@@ -101,26 +101,26 @@ def parse_args():
     return parser.parse_args()
 
 def merge1(args):
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     tokenizer.pad_token = tokenizer.eos_token
     if args.type == 1:
         logger.info('======================math====================')
         model_math = GPTNeoWithClassificationHead(model_name_or_path, num_classes=25)
-        model_math.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage0_full/lr5e-05_bs8_e2_p4/best_model/pytorch_model.bin"))
+        model_math.load_state_dict(torch.load(""))
 
         logger.info('======================law====================')
         model_law = GPTNeoWithClassificationHead(model_name_or_path, num_classes=13)
-        model_law.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage0_full/lr5e-05_bs8_e6_p6/best_model/pytorch_model.bin"))
+        model_law.load_state_dict(torch.load(""))
         merged_params =merge_models(model_math, model_law, 0, model_name_or_path, num_classes1=25, num_classes2=13, method="task_arithmetic", coef1=args.alpha1, coef2=args.alpha2, exclude_patterns=None)
     else :
         logger.info('======================math====================')
         model_math = GPTNeoWithClassificationHead(model_name_or_path, num_classes=25)
-        model_math.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage0_mask/lr5e-05_bs8_e2_p4/best_model/pytorch_model.bin"))
+        model_math.load_state_dict(torch.load(""))
 
         logger.info('======================law====================')
         model_law = GPTNeoWithClassificationHead(model_name_or_path, num_classes=13)
-        model_law.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage0_mask/lr5e-05_bs8_e6_p6/best_model/pytorch_model.bin"))
+        model_law.load_state_dict(torch.load(""))
         merged_params =merge_models(model_math, model_law, 0, model_name_or_path, num_classes1=25, num_classes2=13, method="task_arithmetic", coef1=args.alpha1, coef2=args.alpha2, exclude_patterns=None)
     model_math.load_state_dict(merged_params,strict=False)
     model_law.load_state_dict(merged_params,strict=False)
@@ -130,14 +130,14 @@ def merge1(args):
 
     if args.type == 1:
         
-        torch.save(model_math.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math0_full.bin")
-        torch.save(model_law.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law0_full.bin")
+        torch.save(model_math.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math0_full.bin")
+        torch.save(model_law.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law0_full.bin")
     else:
-        torch.save(model_math.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math0_mask.bin")
-        torch.save(model_law.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law0_mask.bin")
+        torch.save(model_math.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math0_mask.bin")
+        torch.save(model_law.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law0_mask.bin")
 
 def merge2(args):
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     tokenizer.pad_token = tokenizer.eos_token
     print(args.type)
@@ -145,21 +145,21 @@ def merge2(args):
     if args.type == 1:
         logger.info('======================math====================')
         model_math = GPTNeoWithClassificationHead(model_name_or_path, num_classes=25)
-        # model_math.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage1_full/lr5e-05_bs8_e2_p3/best_model/pytorch_model.bin"))
-        model_math.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage1_full/lr5e-05_bs8_e4_p20/checkpoint-5836/pytorch_model.bin"))
+        # model_math.load_state_dict(torch.load("TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage1_full/lr5e-05_bs8_e2_p3/best_model/pytorch_model.bin"))
+        model_math.load_state_dict(torch.load("TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage1_full/lr5e-05_bs8_e4_p20/checkpoint-5836/pytorch_model.bin"))
         logger.info('======================law====================')
         model_law = GPTNeoWithClassificationHead(model_name_or_path, num_classes=13)
-        # model_law.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage1_full/lr5e-05_bs8_e4_p4/best_model/pytorch_model.bin"))
-        model_law.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage1_full/lr5e-05_bs8_e4_p20/checkpoint-836/pytorch_model.bin"))
+        # model_law.load_state_dict(torch.load("TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage1_full/lr5e-05_bs8_e4_p4/best_model/pytorch_model.bin"))
+        model_law.load_state_dict(torch.load("TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage1_full/lr5e-05_bs8_e4_p20/checkpoint-836/pytorch_model.bin"))
         merged_params =merge_models(model_math, model_law, 0, model_name_or_path, num_classes1=25, num_classes2=13, method="task_arithmetic", coef1=args.alpha1, coef2=args.alpha2, exclude_patterns=None)
     else :
         logger.info('======================math====================')
         model_math = GPTNeoWithClassificationHead(model_name_or_path, num_classes=25)
-        model_math.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage1_mask/lr5e-05_bs8_e2_p8/best_model/pytorch_model.bin"))
+        model_math.load_state_dict(torch.load("TransModular_GPT/task_merge/longrun/mask_fintune_0/mathqa_stage1_mask/lr5e-05_bs8_e2_p8/best_model/pytorch_model.bin"))
 
         logger.info('======================law====================')
         model_law = GPTNeoWithClassificationHead(model_name_or_path, num_classes=13)
-        model_law.load_state_dict(torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage1_mask/lr5e-05_bs8_e6_p6/best_model/pytorch_model.bin"))
+        model_law.load_state_dict(torch.load("TransModular_GPT/task_merge/longrun/mask_fintune_0/scotus_stage1_mask/lr5e-05_bs8_e6_p6/best_model/pytorch_model.bin"))
         merged_params =merge_models(model_math, model_law, 0, model_name_or_path, num_classes1=25, num_classes2=13, method="task_arithmetic", coef1=args.alpha1, coef2=args.alpha2, exclude_patterns=None)
     
     model_math.load_state_dict(merged_params,strict=False)
@@ -173,11 +173,11 @@ def merge2(args):
     print('======================')
     print(result_law)
     if args.type == 1:
-        torch.save(model_math.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math1_full.bin")
-        torch.save(model_law.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law1_full.bin")
+        torch.save(model_math.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math1_full.bin")
+        torch.save(model_law.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law1_full.bin")
     else:
-        torch.save(model_math.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math1_mask.bin")
-        torch.save(model_law.state_dict(), "/home/LAB/longwr/new_SeaM/TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law1_mask.bin")
+        torch.save(model_math.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_math1_mask.bin")
+        torch.save(model_law.state_dict(), "TransModular_GPT/task_merge/longrun/mask_fintune_0/model_merge_law1_mask.bin")
 
 if __name__ == "__main__":
     set_random_seed(42)

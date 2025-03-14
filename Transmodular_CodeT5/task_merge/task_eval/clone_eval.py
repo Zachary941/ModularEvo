@@ -118,8 +118,8 @@ def evaluate(args, model, eval_examples, eval_data, write_to_pred=False):
 
 def do_clone_test(model,tokenizer,task,sub_task,type):
     new_args_dict = {
-        'model_name_or_path':'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/',
-        'cache_path': f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/cache_data',
+        'model_name_or_path':'TransModular_CodeT5/data/pretrain_model/codet5_small/',
+        'cache_path': f'TransModular_CodeT5/data/{task}/cache_data',
         'data_num': -1,
         'task': f'{task}',
         'model_type': 'codet5',	
@@ -128,8 +128,8 @@ def do_clone_test(model,tokenizer,task,sub_task,type):
         'max_target_length': 400,
         'add_lang_ids': False,
         'beam_size':10,
-        'res_dir':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/task_merge/merge/{type}/{task}',
-        'test_filename':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/test.txt',
+        'res_dir':f'TransModular_CodeT5/task_merge/merge/{type}/{task}',
+        'test_filename':f'TransModular_CodeT5/data/{task}/test.txt',
         'eval_batch_size':25
     }
     new_args = argparse.Namespace(**new_args_dict)

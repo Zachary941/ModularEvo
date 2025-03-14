@@ -3,7 +3,7 @@ import os
 
 class GlobalConfigs:
     def __init__(self, lang):
-        self.root_dir = f'/home/LAB/longwr/new_SeaM/Tran_SeaM/'  # server4
+        self.root_dir = f''  # server4
         if not os.path.exists(self.root_dir):
             self.root_dir = f'/home/binhang/Documents/DNNModularityResearch/TransModular'  # a100-80
             if not os.path.exists(self.root_dir):
@@ -23,7 +23,7 @@ class GlobalConfigs:
         self.module_dir = f'{self.data_dir}/module_{lang}'
         # self.module_path = f"{self.module_dir}/" \
         #                    f"lr_{self.modularizing_config['lr']}_alpha_{self.modularizing_config['alpha']}/result"
-        self.module_path = f"/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.18/result/"
+        self.module_path = f"data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.18/result/"
     def get_modularizing_config(self):
         # "go", "java", "javascript", "php", "python", "ruby"
         modularizing_config = {

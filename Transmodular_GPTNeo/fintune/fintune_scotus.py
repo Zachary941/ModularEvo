@@ -215,7 +215,7 @@ def compute_metrics(pred):
 
 def main(args):
     # Load Math-QA dataset
-    LOCAL_DATASET_PATH = "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/lex_glue/scotus/"
+    LOCAL_DATASET_PATH = "TransModular_GPT/fintune/data/lex_glue/scotus/"
     dataset = load_dataset(
         'parquet',  
         data_files={
@@ -226,7 +226,7 @@ def main(args):
     )
 
     # Load model and tokenizer
-    LOCAL_MODEL_PATH = '/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/'
+    LOCAL_MODEL_PATH = 'TransModular_GPT/data/gpt-neo-125m/'
     tokenizer = GPT2Tokenizer.from_pretrained(LOCAL_MODEL_PATH)
     tokenizer.pad_token = tokenizer.eos_token
 
@@ -252,11 +252,11 @@ def main(args):
     # Create a mask (optional)
     if args.use_mask:
         if args.mask_rate == 0.25:
-            module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin")
         elif args.mask_rate == 0.5:
-            module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.50/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.50/pytorch_model.bin")
         elif args.mask_rate == 0.75:
-            module_state = torch.load("/home/LAB/longwr/new_SeaM/TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.75/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.75/pytorch_model.bin")
         
         hooks = []
         masked_params_count = 0
@@ -399,9 +399,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     if args.use_mask:
-        base_output_dir = f'/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/law'
+        base_output_dir = f'TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/law'
     else:
-        base_output_dir = '/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/save_model/law'
+        base_output_dir = 'TransModular_GPT/fintune/save_model/law'
 
     output_dir = os.path.join(base_output_dir, "scotus", f"lr{args.lr}_bs{args.batch_size}_e{args.epochs}_p{args.patience}")
     os.makedirs(output_dir, exist_ok=True)

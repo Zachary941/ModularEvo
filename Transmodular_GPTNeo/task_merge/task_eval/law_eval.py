@@ -163,7 +163,7 @@ def evaluate_law_model(model:GPTNeoWithClassificationHead) -> dict:
     """
     try:
         # Load dataset
-        LOCAL_DATASET_PATH = "/home/LAB/longwr/new_SeaM/TransModular_GPT/fintune/data/lex_glue/scotus/"
+        LOCAL_DATASET_PATH = "TransModular_GPT/fintune/data/lex_glue/scotus/"
         dataset = load_dataset(
             'parquet',  
             data_files={
@@ -174,7 +174,7 @@ def evaluate_law_model(model:GPTNeoWithClassificationHead) -> dict:
         )
 
         # Load model and tokenizer
-        LOCAL_MODEL_PATH = '/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/'
+        LOCAL_MODEL_PATH = 'TransModular_GPT/data/gpt-neo-125m/'
         tokenizer = GPT2Tokenizer.from_pretrained(LOCAL_MODEL_PATH)
         tokenizer.pad_token = tokenizer.eos_token
 

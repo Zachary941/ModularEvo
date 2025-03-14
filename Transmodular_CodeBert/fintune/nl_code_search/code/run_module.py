@@ -337,7 +337,7 @@ def main():
                         help="The input training data file (a text file).")
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
-    parser.add_argument("--module_path", default='/home/LAB/longwr/new_SeaM/Tran_SeaM/data/module_python/lr_0.01_alpha_10.0_ne_2_wrr_7.68/result/', type=str)
+    parser.add_argument("--module_path", default='data/module_python/lr_0.01_alpha_10.0_ne_2_wrr_7.68/result/', type=str)
     ## Other parameters
     parser.add_argument("--dev_file", default=None, type=str,
                         help="An optional input evaluation data file to evaluate the perplexity on (a text file).")

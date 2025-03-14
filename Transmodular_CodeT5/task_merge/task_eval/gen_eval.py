@@ -174,8 +174,8 @@ def do_gen_test(model,tokenizer,task,sub_task,type):
     logger.info("  Batch size = %d", 64)
     if task == 'summarize':
         new_args_dict = {
-            'model_name_or_path':'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/',
-            'cache_path': f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/{sub_task}/cache_data',
+            'model_name_or_path':'TransModular_CodeT5/data/pretrain_model/codet5_small/',
+            'cache_path': f'TransModular_CodeT5/data/{task}/{sub_task}/cache_data',
             'data_num': -1,
             'task': f'{task}',
             'model_type': 'codet5',	
@@ -185,13 +185,13 @@ def do_gen_test(model,tokenizer,task,sub_task,type):
             'max_target_length': 128,
             'add_lang_ids': False,
             'beam_size':10,
-            'res_dir':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/task_merge/merge/{type}/{task}/{sub_task}/',
-            'test_filename':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/{sub_task}/test.jsonl',
+            'res_dir':f'TransModular_CodeT5/task_merge/merge/{type}/{task}/{sub_task}/',
+            'test_filename':f'TransModular_CodeT5/data/{task}/{sub_task}/test.jsonl',
         }
     elif task == 'concode':
         new_args_dict = {
-            'model_name_or_path':'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/',
-            'cache_path': f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/cache_data',
+            'model_name_or_path':'TransModular_CodeT5/data/pretrain_model/codet5_small/',
+            'cache_path': f'TransModular_CodeT5/data/{task}/cache_data',
             'data_num': -1,
             'task': f'{task}',
             'model_type': 'codet5',	
@@ -201,14 +201,14 @@ def do_gen_test(model,tokenizer,task,sub_task,type):
             'max_target_length': 150,
             'add_lang_ids': False,
             'beam_size':10,
-            'res_dir':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/task_merge/merge/{type}/{task}/',
-            'test_filename':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/test.json',
+            'res_dir':f'TransModular_CodeT5/task_merge/merge/{type}/{task}/',
+            'test_filename':f'TransModular_CodeT5/data/{task}/test.json',
             'lang': 'java',
         }
     elif task == 'refine':
         new_args_dict = {
-            'model_name_or_path':'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/pretrain_model/codet5_small/',
-            'cache_path': f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/{task}/small/cache_data',
+            'model_name_or_path':'TransModular_CodeT5/data/pretrain_model/codet5_small/',
+            'cache_path': f'TransModular_CodeT5/data/{task}/small/cache_data',
             'data_num': -1,
             'task': f'{task}',
             'model_type': 'codet5',	
@@ -218,8 +218,8 @@ def do_gen_test(model,tokenizer,task,sub_task,type):
             'max_target_length': 120,
             'add_lang_ids': False,
             'beam_size':10,
-            'res_dir':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/task_merge/merge/{type}/{task}/',
-            'test_filename':f'/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/refine/small/test.buggy-fixed.buggy,/home/LAB/longwr/new_SeaM/TransModular_CodeT5/data/refine/small/test.buggy-fixed.fixed',
+            'res_dir':f'TransModular_CodeT5/task_merge/merge/{type}/{task}/',
+            'test_filename':f'TransModular_CodeT5/data/refine/small/test.buggy-fixed.buggy,TransModular_CodeT5/data/refine/small/test.buggy-fixed.fixed',
             'lang': 'java',
         }
     new_args = argparse.Namespace(**new_args_dict)

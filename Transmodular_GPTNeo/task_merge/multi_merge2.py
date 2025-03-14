@@ -131,7 +131,7 @@ def get_merge_performance(args: argparse.Namespace, models_to_merge: list, logge
     """
     logger.info(f"configuration is {args}")
 
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     tokenizer.pad_token = tokenizer.eos_token
     merged_model = GPTNeoWithClassificationHead(model_name_or_path, num_classes=1)
@@ -262,7 +262,7 @@ if __name__ == "__main__":
 
     # Load models
     models_to_merge = []
-    model_name_or_path = "/home/LAB/longwr/new_SeaM/TransModular_GPT/data/gpt-neo-125m/"
+    model_name_or_path = "TransModular_GPT/data/gpt-neo-125m/"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name_or_path)
     tokenizer.pad_token = tokenizer.eos_token
     
