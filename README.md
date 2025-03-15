@@ -23,9 +23,26 @@ We conducted extensive experiments on various Transformer models covering both c
 
 ```powershell
   |--- README.md                        :  user guidance
-  |--- Transmodular_CodeBert/           :  experimental data
-  |--- Transmodular_CodeT5/           :  experimental data
-  |--- Transmodular_GPT-Neo/           :  experimental data
+  |--- Transmodular_CodeBert/           :  experimental for CodeBert
+  |----- fintune/					
+  |------- fintune_{task}.py			:  fintune on specific tasks
+  |----- task_merge/					
+  |------- merge_lm.py					:  Knowledge update
+  |----- modularizer.py					:  modularizer CodeBert
+  
+  |--- Transmodular_CodeT5/             :  experimental for Codet5
+  |----- fintune/					
+  |------- fintune_{task}.py			:  fintune on specific tasks
+  |----- task_merge/					
+  |------- merge_lm.py					:  Knowledge update
+  |----- modularizer.py					:  modularizer Codet5
+  
+  |--- Transmodular_GPT-Neo/            :  experimental for GPT-Neo
+  |----- fintune/					
+  |------- fintune_{task}.py			:  fintune on specific tasks
+  |----- task_merge/					
+  |------- merge_lm.py					:  Knowledge update
+  |----- modularizer.py					:  modularizer GPT-Neo
 
 ```
 
@@ -70,9 +87,9 @@ python merge_lm.py --merging_method_name task_arithmetic --language_model_name c
 
 ```bash
 # full fine-tuning
-python longrun.py --tuning_strategy full --merge_method task_arithmetic --alpha1 0.5 --alpha2 0.5
+python longrun.py --tuning_strategy full --merge_method task_arithmetic --alpha1 alpha1 --alpha2 alpha2
 # modular fine-tuning
-python longrun.py --tuning_strategy mask --merge_method task_arithmetic --alpha1 0.5 --alpha2 0.5
+python longrun.py --tuning_strategy mask --merge_method task_arithmetic --alpha1 alpha1 --alpha2 alpha2
 ```
 
 
