@@ -36,14 +36,16 @@ We conducted extensive experiments on various Transformer models covering both c
       |--- task_merge/					
           |--- merge_lm.py				:  Knowledge update
   |--- Transmodular_GPT-Neo/            :  experimental for GPT-Neo
-      |----- modularizer.py				:  modularizer GPT-Neo
-      |----- finetune/					
-          |------- finetune_{task}.py	:  finetune on specific tasks
-      |----- task_merge/					
-          |------- merge_lm.py			:  Knowledge update
-      |----- longrun/
-          |------- longrun_finetune.py	:  Knowledge update
-          |------- model_merge.py		:  Knowledge update
+      |--- modularizer.py				:  modularizer GPT-Neo
+      |--- finetune/					
+          |--- finetune_{task}.py	    :  finetune on specific tasks
+      |--- task_merge/					
+          |--- merge_lm.py			    :  Knowledge update
+      |--- longrun/
+          |--- longrun_finetune.py	    :  finetune on specific tasks
+          |--- model_merge.py		    :  Knowledge update
+          |--- cost.py		            :  Compute cost
+
 ```
 
 The following sections describe how to reproduce the experimental results in our paper. 
