@@ -32,7 +32,7 @@ logger = logging.getLogger()
 parser = argparse.ArgumentParser("Interface for merging multiple PLMs")
 parser.add_argument("--language_model_name", type=str, default="gpt-neo", help="name of the language model")
 parser.add_argument("--merging_method_name", type=str, default="average_merging", help="name of the method to merge models",
-                    choices=["average_merging", "task_arithmetic", "fisher_merging", "regmean_merging", "ties_merging", "mask_merging"])
+                    choices=["average_merging", "task_arithmetic",  "ties_merging", "mask_merging"])
 parser.add_argument("--scaling_coefficient", type=float, default=1.0, help="scaling coefficient to merge the task vector")
 parser.add_argument("--scaling_coefficients", type=float, nargs="+", help="scaling coefficients for each model being merged")
 parser.add_argument("--param_value_mask_rate", type=float, default=0.8, help="mask rate of the smallest-magnitude parameter values")
@@ -41,7 +41,7 @@ parser.add_argument("--weight_mask_rate", type=float, default=0.1, help="weight 
 parser.add_argument("--use_weight_rescale", action="store_true", default=False, help="whether to rescale the weight by 1 / (1 - weight_mask_rate)")
 parser.add_argument("--mask_strategy", type=str, help="mask strategy", default="random", choices=["random", "magnitude"])
 parser.add_argument("--mask_apply_method", type=str, default="average_merging", help="merging method that the mask strategy applies",
-                    choices=["average_merging", "task_arithmetic", "fisher_merging", "regmean_merging", "ties_merging"])
+                    choices=["average_merging", "task_arithmetic",  "ties_merging"])
 parser.add_argument("--batch_size", type=int, default=8, help="batch size")
 parser.add_argument("--gpu", type=int, default=1, help="number of gpu to use")
 

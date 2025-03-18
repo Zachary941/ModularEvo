@@ -183,7 +183,7 @@ def evaluate_math_model(model: GPTNeoWithClassificationHead) -> dict:
     """
     try:
         # Load dataset
-        LOCAL_DATASET_PATH = 'TransModular_GPT/fintune/data/mathqa/' 
+        LOCAL_DATASET_PATH = 'TransModular_GPT/finetune/data/mathqa/' 
         dataset = load_dataset(
             'parquet',  
             data_files={

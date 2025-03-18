@@ -79,7 +79,7 @@ def apply_mask_to_model(model, mask_path):
 def get_task_dataset(task_type, tokenizer, batch_size=8):
     """Load dataset for specified task"""
     if task_type == "math":
-        dataset_path = "TransModular_GPT/fintune/data/mathqa/"
+        dataset_path = "TransModular_GPT/finetune/data/mathqa/"
         dataset = load_dataset(
             'parquet',
             data_files={'test': os.path.join(dataset_path, "test-00000-of-00001.parquet")}
@@ -104,7 +104,7 @@ def get_task_dataset(task_type, tokenizer, batch_size=8):
         tokenized_dataset = dataset.map(preprocess, batched=True, remove_columns=dataset["test"].column_names)
     
     elif task_type == "law":
-        dataset_path = "TransModular_GPT/fintune/data/lex_glue/scotus/"
+        dataset_path = "TransModular_GPT/finetune/data/lex_glue/scotus/"
         dataset = load_dataset(
             'parquet',
             data_files={'test': os.path.join(dataset_path, "test-00000-of-00001.parquet")}
@@ -340,12 +340,12 @@ def main():
     # Define model paths
     model_paths = {
         "math": {
-            "dense": "TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",
-            "sparse": "TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin"
+            "dense": "TransModular_GPT/finetune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",
+            "sparse": "TransModular_GPT/finetune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin"
         },
         "law": {
-            "dense": "TransModular_GPT/fintune/save_model/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin", 
-            "sparse": "TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin"
+            "dense": "TransModular_GPT/finetune/save_model/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin", 
+            "sparse": "TransModular_GPT/finetune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin"
         }
     }
     

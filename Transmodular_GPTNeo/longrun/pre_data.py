@@ -15,7 +15,7 @@ import multiprocessing
 # Add project path
 sys.path.append('../../')
 sys.path.append('../')
-from fintune.new_optimizer import AdamWS
+from finetune.new_optimizer import AdamWS
 
 # Import model-related modules
 from transformers import (GPTNeoForCausalLM, GPT2Tokenizer, 
@@ -262,8 +262,8 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--output_dir", type=str, default="./data/processed")
-    parser.add_argument("--mathqa_data_path", type=str, default="TransModular_GPT/fintune/data/mathqa/")
-    parser.add_argument("--scotus_data_path", type=str, default="TransModular_GPT/fintune/data/lex_glue/scotus/")
+    parser.add_argument("--mathqa_data_path", type=str, default="TransModular_GPT/finetune/data/mathqa/")
+    parser.add_argument("--scotus_data_path", type=str, default="TransModular_GPT/finetune/data/lex_glue/scotus/")
     parser.add_argument("--pretrained_model_path", type=str, default="TransModular_GPT/data/gpt-neo-125m/")
     parser.add_argument("--num_splits", type=int, default=3)
     parser.add_argument("--seed", type=int, default=42)

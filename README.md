@@ -24,66 +24,93 @@ We conducted extensive experiments on various Transformer models covering both c
 ```powershell
   |--- README.md                        :  user guidance
   |--- Transmodular_CodeBert/           :  experimental for CodeBert
-  |----- fintune/					
-  |------- fintune_{task}.py			:  fintune on specific tasks
-  |----- task_merge/					
-  |------- merge_lm.py					:  Knowledge update
-  |----- modularizer.py					:  modularizer CodeBert
-  
+      |--- modularizer.py				:  modularizer CodeBert
+      |--- finetune/					
+          |--- finetune_{task}.py		:  finetune on specific tasks
+      |--- task_merge/					
+          |--- merge_lm.py				:  Knowledge update
   |--- Transmodular_CodeT5/             :  experimental for Codet5
-  |----- fintune/					
-  |------- fintune_{task}.py			:  fintune on specific tasks
-  |----- task_merge/					
-  |------- merge_lm.py					:  Knowledge update
-  |----- modularizer.py					:  modularizer Codet5
-  
+      |--- modularizer.py			    :  modularizer Codet5
+      |--- finetune/					
+          |--- finetune_{task}.py		:  finetune on specific tasks
+      |--- task_merge/					
+          |--- merge_lm.py				:  Knowledge update
   |--- Transmodular_GPT-Neo/            :  experimental for GPT-Neo
-  |----- fintune/					
-  |------- fintune_{task}.py			:  fintune on specific tasks
-  |----- task_merge/					
-  |------- merge_lm.py					:  Knowledge update
-  |----- modularizer.py					:  modularizer GPT-Neo
-
+      |----- modularizer.py				:  modularizer GPT-Neo
+      |----- finetune/					
+          |------- finetune_{task}.py	:  finetune on specific tasks
+      |----- task_merge/					
+          |------- merge_lm.py			:  Knowledge update
+      |----- longrun/
+          |------- longrun_finetune.py	:  Knowledge update
+          |------- model_merge.py		:  Knowledge update
 ```
 
 The following sections describe how to reproduce the experimental results in our paper. 
 
 ## Experimental Workflow
 
-Our framework consists of three core stages with additional reproducibility scripts:
+The following sections describe how to reproduce the experimental results in our paper.(Here we take the workflow of GPT-Neo as an example.)
 
 ### 1. Model Modularization
-**Objective**: Decompose base model into functional modules  
+ Decompose base model into functional modules .
 
 ```bash
-# Train independent modules
-python modularizer_t5.py  --lang task --do_train --n_epochs n_epochs --alpha 1 --lr lr
+# Train specialized modules for different domains by specifying task types:
+#   --task [math | law | europarl | github]  
+#   math - Mathematics reasoning tasks
+#   law - Legal document
+#   europarl - Multilingual text processing 
+#   github - Source code understanding
+
+# Train independent functional modules
+python modularizer.py \
+    --task math \  # Domain selection (required)
+    --do_train \   # Enable training mode
+    --lr 0.005 \   # Learning rate for module specialization
+    --n_epochs 4 \ # Epochs per domain adaptation
+    --alpha 1 \    # Sparsity regularization weight
+    --batch_size 4 # Batchsize for modularization
 ```
 
 ### 2. Downstream Task Fine-tuning
 
-**Objective**: Adapt modules to specific tasks
+ Finetune modules to specific tasks.
 
 ```bash
-# Fine-tuning
-# full fine-tuning
-python run_exp.py --model_tag codet5_small --task clone --sub_task none
-# modular fine-tuning
-python run_exp_module.py --model_tag codet5_small --task clone --sub_task none
+# Fine-tuning with selective parameter update
+# Task domain specifications:
+# --task [mathqa | scotus | code | langid]
+#   mathqa - Arithmetic problem classfication
+#   scotus - Legal classfication
+#   code   - Code classfication
+#   langid - Language identification 
+python finetune_mathqa.py \
+    --epoch 2 \         # Fine-tuning iterations
+    --lr 5e-5 \         # Learning rate
+    --batchsize 8 \     # Batchsize for modularization
+    --use_mask \        # Enable mask-guided fine-tuning (only updates masked parameters)
 ```
 ### 3.Knowledge update
 
-**Objective**: Knowledge update
+Knowledge update.
 
 ```bash
-python merge_lm.py --merging_method_name task_arithmetic --language_model_name codet5 
+#modular knowledge
+python merge_lm.py --merging_method_name task_arithmetic --language_model_name gptneo --model_path1 module_path1 --model_path2 module_path2 --mask_rate 0.25 --batch_size 8
+
+#baseline
+python merge_lm.py --merging_method_name average_merging --language_model_name gptneo --model_path1 model_path1 --model_path2 model_path2 --batch_size 8
+python merge_lm.py --merging_method_name task_arithmetic --language_model_name gptneo --model_path1 model_path1 --model_path2 model_path2 --batch_size 8 
+python merge_lm.py --merging_method_name ties_merging --language_model_name gptneo --model_path1 model_path1 --model_path2 model_path2 --batch_size 8 --param_value_mask_rate 0.75
+python merge_lm.py --merging_method_name mask_merging --language_model_name codet5 --mask_apply_method task_arithmetic --use_weight_rescale --weight_mask_rate 0.75 --model_path1 model_path1 --model_path2 model_path2 --batch_size 8
 ```
 
 
 
 ### 4.Multi-iteration Runs
 
-**Objective**: test method in Multi-iteration Runs
+Test method in Multi-iteration Runs
 
 ```bash
 # full fine-tuning
@@ -96,11 +123,31 @@ python longrun.py --tuning_strategy mask --merge_method task_arithmetic --alpha1
 
 ### 5.Cost Measurement
 
-**Objective**: 
+Assess the inference performance and acceleration capabilities of the modularized components in edge computing scenarios.
 
 ```bash
+cd ./finetune
 python cost.py
 ```
 
 
+
+## Supplementary experimental detail
+
+For reproducibility, we document the λ value(hyperparameter) determined through grid search.
+
+|                        | $\lambda_1$ | $\lambda_2$ |
+| ---------------------- | ----------- | ----------- |
+| CodeBert(TA)           | 0.5         | 1.1         |
+| CodeBert(DARE)         | 0.5         | 1.0         |
+| CodeBert(TIES-Merging) | 0.7         | 1.0         |
+| CodeBert(Ours)         | 1.0         | 0.7         |
+| CodeT5(TA)             | 0.6         | 0.5         |
+| CodeT5(DARE)           | 0.6         | 0.5         |
+| CodeT5(TIES-Merging)   | 1.1         | 0.9         |
+| CodeT5(Ours)           | 0.6         | 0.6         |
+| GPT-Neo(TA)            | 0.5         | 0.7         |
+| GPT-Neo(DARE)          | 0.6         | 1.0         |
+| GPT-Neo(TIES-Merging)  | 0.8         | 1.2         |
+| GPT-Neo(Ours)          | 0.7         | 0.9         |
 

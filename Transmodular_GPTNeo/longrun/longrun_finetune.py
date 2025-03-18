@@ -6,7 +6,7 @@ import torch
 from transformers import GPT2Tokenizer
 from datasets import load_dataset
 from utils_longrun import GPTNeoWithClassificationHead, CustomTrainer
-from fintune.new_optimizer import AdamWS
+from finetune.new_optimizer import AdamWS
 from sklearn.metrics import accuracy_score, f1_score
 from transformers import TrainingArguments
 import time
@@ -354,7 +354,7 @@ def parse_args():
     parser.add_argument('--min_delta', type=float, default=0.001,
                       help="Minimum change in accuracy to qualify as an improvement (default: 0.001)")
 
-    # parser.add_argument('--use', type=str, choices=["fintune", "eval"])
+    # parser.add_argument('--use', type=str, choices=["finetune", "eval"])
     # parser.add_argument('--eval_model_path', type=str)
     return parser.parse_args()
 

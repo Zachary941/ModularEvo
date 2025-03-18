@@ -25,7 +25,7 @@ MODEL_CLASSES = {'roberta': (RobertaConfig, RobertaModel, RobertaTokenizer),
 parser = argparse.ArgumentParser("Interface for merging PLMs on glue")
 parser.add_argument("--language_model_name", type=str, default="codet5", help="name of the language model", choices=["bert-base-uncased", "roberta-base","codet5"])
 parser.add_argument("--merging_method_name", type=str, default="average_merging", help="name of the method to merge models",
-                    choices=["average_merging", "task_arithmetic", "fisher_merging", "regmean_merging", "ties_merging", "mask_merging"])
+                    choices=["average_merging", "task_arithmetic",  "ties_merging", "mask_merging"])
 parser.add_argument("--scaling_coefficient", type=float, default=1.0, help="scaling coefficient to merge the task vector")
 parser.add_argument("--scaling_coefficients", type=list, default=[1.0, 1.0], help="scaling coefficients to merge the task vector")
 parser.add_argument("--param_value_mask_rate", type=float, default=0.8, help="mask rate of the smallest-magnitude parameter values")
@@ -34,7 +34,7 @@ parser.add_argument("--weight_mask_rate", type=float, default=0.1, help="weight 
 parser.add_argument("--use_weight_rescale", action="store_true", default=False, help="whether to rescale the weight by 1 / (1 - weight_mask_rate)")
 parser.add_argument("--mask_strategy", type=str, help="mask strategy", default="random", choices=["random", "magnitude"])
 parser.add_argument("--mask_apply_method", type=str, default="average_merging", help="merging method that the mask strategy applies",
-                    choices=["average_merging", "task_arithmetic", "fisher_merging", "regmean_merging", "ties_merging"])
+                    choices=["average_merging", "task_arithmetic",  "ties_merging"])
 parser.add_argument("--batch_size", type=int, default=16, help="batch size")
 parser.add_argument("--gpu", type=int, default=1, help="number of gpu to use")
 parser.add_argument("--model_path1", type=str, help="model to merge 1")

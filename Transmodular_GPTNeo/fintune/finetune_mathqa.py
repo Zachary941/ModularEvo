@@ -231,7 +231,7 @@ def validate_dataset_sizes(tokenized_datasets):
 
 def main(args):
     # Load Math-QA dataset
-    LOCAL_DATASET_PATH = 'TransModular_GPT/fintune/data/mathqa/' 
+    LOCAL_DATASET_PATH = 'TransModular_GPT/finetune/data/mathqa/' 
     dataset = load_dataset(
         'parquet',  
         data_files={
@@ -437,9 +437,9 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     if args.use_mask:
-        base_output_dir = f'TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/'
+        base_output_dir = f'TransModular_GPT/finetune/save_model_with_mask_{args.mask_rate}/'
     else:
-        base_output_dir = 'TransModular_GPT/fintune/save_model/'
+        base_output_dir = 'TransModular_GPT/finetune/save_model/'
 
     output_dir = os.path.join(base_output_dir, "mathqa", f"lr{args.lr}_bs{args.batch_size}_e{args.epochs}_p{args.patience}")
     os.makedirs(output_dir, exist_ok=True)

@@ -182,7 +182,7 @@ def evaluate_code_model(model: GPTNeoWithClassificationHead) -> dict:
     """
     try:
         # Load dataset
-        LOCAL_DATASET_PATH = 'TransModular_GPT/fintune/data/code/'
+        LOCAL_DATASET_PATH = 'TransModular_GPT/finetune/data/code/'
         sampled_dataset_path = os.path.join(LOCAL_DATASET_PATH, "sampled_dataset")
         
         # Try to load from saved sampled dataset first

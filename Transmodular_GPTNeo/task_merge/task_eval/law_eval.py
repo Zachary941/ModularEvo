@@ -163,7 +163,7 @@ def evaluate_law_model(model:GPTNeoWithClassificationHead) -> dict:
     """
     try:
         # Load dataset
-        LOCAL_DATASET_PATH = "TransModular_GPT/fintune/data/lex_glue/scotus/"
+        LOCAL_DATASET_PATH = "TransModular_GPT/finetune/data/lex_glue/scotus/"
         dataset = load_dataset(
             'parquet',  
             data_files={

@@ -14,7 +14,7 @@ class MergingMethod:
         """
         Methods for model merging.
         :param merging_method_name: str, name of the merging method, can be "average_merging", "task_arithmetic",
-        "fisher_merging", "regmean_merging", "ties_merging", "latent_merging"
+         "ties_merging", "latent_merging"
         :return:
         """
         self.merging_method_name = merging_method_name

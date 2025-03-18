@@ -30,7 +30,7 @@ logger = logging.getLogger()
 parser = argparse.ArgumentParser("Interface for merging PLMs on glue")
 parser.add_argument("--language_model_name", type=str, default="gpt-neo", help="name of the language model")
 parser.add_argument("--merging_method_name", type=str, default="average_merging", help="name of the method to merge models",
-                    choices=["average_merging", "task_arithmetic", "fisher_merging", "regmean_merging", "ties_merging", "mask_merging"])
+                    choices=["average_merging", "task_arithmetic",  "ties_merging", "mask_merging"])
 parser.add_argument("--scaling_coefficient", type=float, default=1.0, help="scaling coefficient to merge the task vector")
 parser.add_argument("--scaling_coefficients", type=list, default=[1.0, 1.0], help="scaling coefficients to merge the task vector")
 parser.add_argument("--param_value_mask_rate", type=float, default=0.8, help="mask rate of the smallest-magnitude parameter values")
@@ -39,8 +39,8 @@ parser.add_argument("--weight_mask_rate", type=float, default=0.1, help="weight 
 parser.add_argument("--use_weight_rescale", action="store_true", default=False, help="whether to rescale the weight by 1 / (1 - weight_mask_rate)")
 parser.add_argument("--mask_strategy", type=str, help="mask strategy", default="random", choices=["random", "magnitude"])
 parser.add_argument("--mask_apply_method", type=str, default="average_merging", help="merging method that the mask strategy applies",
-                    choices=["average_merging", "task_arithmetic", "fisher_merging", "regmean_merging", "ties_merging"])
-parser.add_argument("--batch_size", type=int, default=16, help="batch size")
+                    choices=["average_merging", "task_arithmetic",  "ties_merging"])
+parser.add_argument("--batch_size", type=int, default=8, help="batch size")
 parser.add_argument("--gpu", type=int, default=1, help="number of gpu to use")
 parser.add_argument("--model_path1", type=str, help="model to merge 1")
 parser.add_argument("--model_path2", type=str, help="model to merge 2")
@@ -153,22 +153,12 @@ def get_merge_performance(args: argparse.Namespace, models_to_merge: list,  logg
     model_law.load_state_dict(merged_params,strict=False)
     evaluate_law_model(model_law)
 
-    # avg_bleu = write_summary(alphas=[args.scaling_coefficient,args.scaling_coefficient] ,bleus=bleus,output_file=args.log)
-    # logger.info(f'Average BLEU: {avg_bleu:.4f}')
-    
 
 
 if __name__ == "__main__":
 
     args.dataset_names = ['mathqa','scotus' ]
     load_model_paths = [
-        # "TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e10/checkpoint-best-bleu/pytorch_model.bin",
-        # "TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e30/checkpoint-best-bleu/pytorch_model.bin"
-        
-        
-        #"TransModular_CodeT5/sh/saved_models/summarize/python/codet5_small_all_lr5_bs64_src256_trg128_pat3_e5/checkpoint-best-bleu/pytorch_model.bin",
-        #"TransModular_CodeT5/sh/saved_models/concode/codet5_small_all_lr10_bs32_src320_trg150_pat3_e10/checkpoint-best-bleu/pytorch_model.bin"
-
         args.model_path1,args.model_path2
     ]
     models_to_merge = []
@@ -230,8 +220,6 @@ if __name__ == "__main__":
         # scaling_coefficient_range = [0.1,0.2, 0.3, 0.5, 0.7, 0.9, 1.0,1.2]
         for alpha1 in [round(x * 0.1, 1) for x in range(4, 13)]:
             for alpha2 in [round(x * 0.1, 1) for x in range(4 , 13)]: 
-        # # for alpha1 in [0.0,1.0]:
-        # #     for alpha2 in [0.0,1.0]:    
                 args.scaling_coefficients = [alpha1,alpha2]
                 # dictionary
                 logger.info(f"setup: args.scaling_coefficients : {args.scaling_coefficients}")
@@ -242,8 +230,6 @@ if __name__ == "__main__":
         #val
         for alpha1 in [0.0,1.0]:
             for alpha2 in [0.0,1.0]: 
-        # for alpha1 in [0.0,1.0]:
-        #     for alpha2 in [0.0,1.0]:    
                 args.scaling_coefficients = [alpha1,alpha2]
                 # dictionary
                 logger.info(f"setup: args.scaling_coefficients : {args.scaling_coefficients}")
@@ -252,16 +238,12 @@ if __name__ == "__main__":
                 torch.cuda.empty_cache()
     # search for ties_merging
     elif args.merging_method_name == "ties_merging":
-        # scaling_coefficient_range = [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2]
         param_value_mask_rate_range =[0]
         # for scaling_coefficient in scaling_coefficient_range:
         for param_value_mask_rate in param_value_mask_rate_range:
-            for alpha1 in [round(x * 0.1, 1) for x in range(0, 15)]:
-                for alpha2 in [round(x * 0.1, 1) for x in range(0 ,15)]:
-        # for alpha1 in [0.0,1.0,2.0,3.0,4.0]:
-        #     for alpha2 in [0.0,1.0,2.0,3.0,4.0]:        
+            for alpha1 in [round(x * 0.1, 1) for x in range(0, 13)]:
+                for alpha2 in [round(x * 0.1, 1) for x in range(0 ,13)]:   
                     args.scaling_coefficients = [alpha1,alpha2]
-
                     args.param_value_mask_rate = param_value_mask_rate
                     logger.info(f'setup: args.scaling_coefficients :{args.scaling_coefficients},args.param_value_mask_rate:{args.param_value_mask_rate}')
                     # dictionary
@@ -270,21 +252,6 @@ if __name__ == "__main__":
                     torch.cuda.empty_cache()
     # search for mask_merging
     elif args.merging_method_name == "mask_merging":
-        # with open(f"./save_merge_results/{args.dataset_names[0]}_{args.dataset_names[-1]}/{args.mask_apply_method}/{args.language_model_name}.json", "r") as file:
-        #     # key is evaluate metric or model hyperparameters
-        #     results_dict = json.load(file)
-        # if args.mask_apply_method == "task_arithmetic":
-        #     args.scaling_coefficient = results_dict["scaling_coefficient"]
-        # elif args.mask_apply_method == "fisher_merging":
-        #     args.fisher_scaling_coefficients = results_dict["fisher_scaling_coefficients"]
-        #     args.nums_fisher_examples = results_dict["nums_fisher_examples"]
-        # elif args.mask_apply_method == "regmean_merging":
-        #     args.nums_regmean_examples = results_dict["nums_regmean_examples"]
-        #     args.reduce_non_diagonal_ratio = results_dict["reduce_non_diagonal_ratio"]
-        # elif args.mask_apply_method == "ties_merging":
-        #     args.scaling_coefficient = results_dict["scaling_coefficient"]
-        #     args.param_value_mask_rate = results_dict["param_value_mask_rate"]
-
         weight_mask_rate_range = [0.25,0.5,0.75]
         scaling_coefficient_range = []
         for weight_mask_rate in weight_mask_rate_range:

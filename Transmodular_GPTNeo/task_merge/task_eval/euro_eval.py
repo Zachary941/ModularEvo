@@ -114,8 +114,8 @@ def prepare_langid_dataset():
     tokenizer = GPT2Tokenizer.from_pretrained('TransModular_GPT/data/gpt-neo-125m/')
     tokenizer.pad_token = tokenizer.eos_token
     
-    train_path = os.path.join('TransModular_GPT/fintune/data/langid/', f"nordic_dsl_10000train.csv")
-    test_path = os.path.join('TransModular_GPT/fintune/data/langid/', f"nordic_dsl_10000test.csv")
+    train_path = os.path.join('TransModular_GPT/finetune/data/langid/', f"nordic_dsl_10000train.csv")
+    test_path = os.path.join('TransModular_GPT/finetune/data/langid/', f"nordic_dsl_10000test.csv")
     
     processed_dataset = load_langid_dataset(train_path, test_path)
     
@@ -343,7 +343,7 @@ if __name__ == "__main__":
     
     # Load model
     model = GPTNeoWithClassificationHead('TransModular_GPT/data/gpt-neo-125m/', num_classes=6)
-    model_state = torch.load("TransModular_GPT/fintune/save_model/langid/best_model/pytorch_model.bin")
+    model_state = torch.load("TransModular_GPT/finetune/save_model/langid/best_model/pytorch_model.bin")
     model.load_state_dict(model_state)
     # Evaluate model
     metrics = evaluate_euro_model(model)

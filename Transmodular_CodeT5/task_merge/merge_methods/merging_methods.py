@@ -14,7 +14,7 @@ class MergingMethod:
         """
         Methods for model merging.
         :param merging_method_name: str, name of the merging method, can be "average_merging", "task_arithmetic",
-        "fisher_merging", "regmean_merging", "ties_merging", "latent_merging"
+         "ties_merging", "latent_merging"
         :return:
         """
         self.merging_method_name = merging_method_name
@@ -535,7 +535,7 @@ class MergingMethod:
             # # Tensor, shape (num_total_params, ), the averaged flattened parameters
             # merged_flattened_param = torch.sum(param_to_preserve, dim=0) / torch.clamp(num_models_param_preserved, min=1.0)
             
-            # no need average £¬just add them up
+            # no need average ï¿½ï¿½just add them up
             merged_flattened_param = torch.sum(param_to_preserve, dim=0) / torch.clamp(num_models_param_preserved, min=1.0)
 
             return merged_flattened_param

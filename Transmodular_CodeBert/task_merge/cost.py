@@ -234,7 +234,7 @@ def load_dense_model(base_model, config, task_type="code_clone"):
     tokenizer = RobertaTokenizer.from_pretrained(codebert_base_path)
     if task_type == "code_clone":
         model = Model_clone(base_model, config, tokenizer)
-        model.load_state_dict(torch.load("Clone_detection_BigCloneBench_2/code/saved_models/model_fintune_20241101/checkpoint-best-f1/model.bin", map_location=torch.device(device)))
+        model.load_state_dict(torch.load("Clone_detection_BigCloneBench_2/code/saved_models/model_finetune_20241101/checkpoint-best-f1/model.bin", map_location=torch.device(device)))
     else:  # nl_code_search
         model = Model_search(base_model, config, tokenizer)
         model.load_state_dict(torch.load("NL_code_search_WebQuery/code/model_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin", map_location=torch.device(device)))
@@ -453,17 +453,17 @@ def main():
         
         # Path to sparse model weights - replace with actual path
         # if task_type == "code_clone":
-        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_20241101/checkpoint-best-f1/model.bin"
+        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_finetune_20241101/checkpoint-best-f1/model.bin"
         # else:  # nl_code_search
         #     sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin"
         
         # if task_type == "code_clone":
-        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_wrr_7.22_20250228/checkpoint-best-f1/model.bin"
+        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_finetune_wrr_7.22_20250228/checkpoint-best-f1/model.bin"
         # else:  # nl_code_search
         #     sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20250228/checkpoint-best-aver/pytorch_model.bin"
         
         if task_type == "code_clone":
-            sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_fintune_wrr_22.94_20250228/checkpoint-best-f1/model.bin"
+            sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_finetune_wrr_22.94_20250228/checkpoint-best-f1/model.bin"
         else:  # nl_code_search
             sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20250302/checkpoint-best-aver/pytorch_model.bin"
 

@@ -1,19 +1,18 @@
-from ast import arg
-import copy
+from ast import mod
 import os
 import torch
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer, Trainer, TrainingArguments
-from datasets import load_dataset,DatasetDict
+from datasets import load_dataset
 import argparse
 from torch.nn import CrossEntropyLoss
 import torch.nn as nn
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score,f1_score
 from typing import Dict, List
 from pathlib import Path
+import re
 import logging
 import sys
 from new_optimizer import AdamWS
-
 
 # Define a new model with a classification head
 class GPTNeoWithClassificationHead(nn.Module):
@@ -53,8 +52,7 @@ class GPTNeoWithClassificationHead(nn.Module):
             loss = loss_fn(logits, labels)
             
         return {'loss': loss, 'logits': logits} if loss is not None else {'logits': logits}
-
-# Custom Trainer class to apply mask during training
+    # Custom Trainer class to apply mask during training
 class CustomTrainer(Trainer):
     def __init__(self, *args, patience=3, min_delta=0.001, **kwargs):
         super().__init__(*args, **kwargs)
@@ -64,14 +62,12 @@ class CustomTrainer(Trainer):
         self.min_delta = min_delta 
         self.no_improve_count = 0
         self.should_stop = False
-
     def evaluate(self, eval_dataset=None, ignore_keys=None, metric_key_prefix="eval"):
         metrics = super().evaluate(
             eval_dataset=eval_dataset,
             ignore_keys=ignore_keys,
             metric_key_prefix=metric_key_prefix
         )
-        
         current_accuracy = metrics.get(f"{metric_key_prefix}_accuracy")
         if current_accuracy is not None:
             if current_accuracy > self.best_accuracy + self.min_delta:
@@ -86,39 +82,35 @@ class CustomTrainer(Trainer):
                 torch.save(model_to_save.state_dict(), save_path)
                 
                 self.best_model_path = save_path
-                logger.info(f"\nnew acc: {current_accuracy:.4f}")
+                logger.info(f"\n new acc: {current_accuracy:.4f}")
                 logger.info(f"save_path: {save_path}")
             else:
                 self.no_improve_count += 1
-                logger.info(f" {self.no_improve_count} step no improvement")
+                logger.info(f" {self.no_improve_count} step no imporvement")
                 
                 if self.no_improve_count >= self.patience:
                     self.should_stop = True
-                    logger.info(f"\nEarly stop, best acc: {self.best_accuracy:.4f}")
-        
-        return metrics
-        
+                    logger.info(f"\n Early stop, best acc: {self.best_accuracy:.4f}")
+    
+            return metrics
     def training_step(self, model, inputs):
         if self.should_stop:
-            logger.info(f"\nEarly stop, best_accuracy: {self.best_accuracy:.4f}")
+            logger.info(f"\n Early stop,best_accuracy: {self.best_accuracy:.4f}")
             logger.info(f"model save_path: {self.best_model_path}")
             raise RuntimeError("Early stopping triggered")
         
         return super().training_step(model, inputs)
-        
     def _save(self, output_dir: str):
         os.makedirs(output_dir, exist_ok=True)
         model_to_save = self.model.module if hasattr(self.model, 'module') else self.model
         save_path = os.path.join(output_dir, "pytorch_model.bin")
         torch.save(model_to_save.state_dict(), save_path)
-        logger.info(f"model saved: {save_path}")
-        
+        logger.info(f"model be saved:{save_path}")
     def _save_checkpoint(self, model, trial, metrics=None):
         checkpoint_folder = f"checkpoint-{self.state.global_step}"
         run_dir = os.path.join(self.args.output_dir, checkpoint_folder)
         os.makedirs(run_dir, exist_ok=True)
         return super()._save_checkpoint(model, trial, metrics)
-        
     def prediction_step(self, model, inputs, prediction_loss_only, ignore_keys=None):
         with torch.no_grad():
             inputs = self._prepare_inputs(inputs)
@@ -130,52 +122,73 @@ class CustomTrainer(Trainer):
             logits = outputs['logits']
             labels = inputs['labels']
             return (loss, logits, labels)
-            
     def compute_loss(self, model, inputs, return_outputs=False):
         input_ids = inputs['input_ids']
         attention_mask = inputs['attention_mask']
         labels = inputs['labels']
 
         # Forward pass
-        outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=labels)
+        outputs = model(input_ids=input_ids, attention_mask=attention_mask ,labels=labels)
         loss = outputs['loss']
         logits = outputs['logits']
+
         return (loss, logits) if return_outputs else loss
-
-def create_label_mapping(dataset) -> Dict[str, int]:
-    """Create mapping from language names to indices"""
-    unique_languages = set()
-    for split in dataset.keys():
-        unique_languages.update(set(dataset[split]['language_name']))
-    return {lang: idx for idx, lang in enumerate(sorted(unique_languages))}
-
-def preprocess_data(examples, tokenizer, label_mapping=None, max_length=512):
-    """Preprocess code data examples"""
+class MaskedAdamW(torch.optim.Adam):
+    def __init__(self, named_parameters_list, mask_dict=None, **kwargs):
+        # Extract parameter names and values
+        self.param_name_mapping = {}
+        params = []
+        
+        # Flattening the named_parameters list
+        for named_params in named_parameters_list:
+            for name, param in named_params:
+                if param.requires_grad:
+                    params.append(param)
+                    self.param_name_mapping[id(param)] = name
+        
+        # Initialize the optimizer with actual parameters
+        super().__init__(params, **kwargs)
+        self.mask_dict = mask_dict if mask_dict is not None else {}
+        
+    def step(self, closure=None):
+        # Apply mask to gradients before optimization step
+        for group in self.param_groups:
+            for p in group['params']:
+                if p.grad is None:
+                    continue
+                
+                # Get the parameter name
+                param_name = self.param_name_mapping.get(id(p))
+                if param_name is None:
+                    continue
+                
+                # Apply mask if available
+                modify_name = param_name.replace("base_model.", "")
+                mask_name = f"{modify_name}_mask"
+                if self.mask_dict is not None and mask_name in self.mask_dict:
+                    mask = self.mask_dict[mask_name]
+                    bin_mask = (mask > 0).float().to(p.device)
+                    p.grad.data.mul_(bin_mask)
+        
+        # Call parent class step method to update parameters
+        return super().step(closure)
+# Data preprocessing function
+def preprocess_data(examples, tokenizer, max_length=512):
     try:
+        texts = examples["text"]
         inputs = tokenizer(
-            examples['code'],
+            texts,
             max_length=max_length,
             truncation=True,
             padding="max_length",
-            return_tensors=None  
+            return_tensors=None
         )
         
-        if label_mapping is None:
-            raise ValueError("need label_mapping")
-            
-        labels = [label_mapping[lang] for lang in examples['language_name']]
-        inputs['labels'] = labels
-        expected_length = len(examples['code'])
-        for key, value in inputs.items():
-            if len(value) != expected_length:
-                raise ValueError(f"incorrect: {key} length {len(value)}, expected_length {expected_length}")
-        
+        inputs["labels"] = examples["label"]
         return inputs
         
     except Exception as e:
-        logger.info(f"error: {str(e)}")
-        logger.info(f"example code: {examples['code'][:1]}")
-        logger.info(f"label: {examples['language_name'][:1]}")
+        logger.info(f"error in preprocess: {str(e)}")
         raise
 
 # Compute evaluation metrics
@@ -185,6 +198,7 @@ def compute_metrics(pred):
         preds = pred.predictions.argmax(-1)
 
         acc = accuracy_score(labels, preds)
+
         micro_f1 = f1_score(labels, preds, average="micro", zero_division=0)
         macro_f1 = f1_score(labels, preds, average="macro", zero_division=0)
 
@@ -196,145 +210,91 @@ def compute_metrics(pred):
     except Exception as e:
         logger.info(f"error in compute_metrics: {str(e)}")
         logger.info(f"label type: {type(labels)}, shape: {labels.shape if hasattr(labels, 'shape') else len(labels)}")
-        logger.info(f"prediction type: {type(preds)}, shape: {preds.shape if hasattr(preds, 'shape') else len(preds)}")
+        logger.info(f"pre type: {type(preds)}, shape: {preds.shape if hasattr(preds, 'shape') else len(preds)}")
         raise
 
 def main(args):
-    # Load Code dataset
-    LOCAL_DATASET_PATH = 'TransModular_GPT/fintune/data/code/' 
-    full_dataset = load_dataset(
+    # Load Math-QA dataset
+    LOCAL_DATASET_PATH = "TransModular_GPT/finetune/data/lex_glue/scotus/"
+    dataset = load_dataset(
         'parquet',  
         data_files={
-            'train': os.path.join(LOCAL_DATASET_PATH, "train-00000-of-00001-8b4da49264116bbf.parquet")
+            'train': os.path.join(LOCAL_DATASET_PATH, "train-00000-of-00001.parquet"),
+            'validation': os.path.join(LOCAL_DATASET_PATH, "validation-00000-of-00001.parquet"),
+            'test': os.path.join(LOCAL_DATASET_PATH, "test-00000-of-00001.parquet")
         }
     )
 
-
-    logger.info(f"Loaded original dataset with {len(full_dataset['train'])} samples")
-    # Extract only 20,000 samples from the full dataset
-    total_samples = 20000
-    if len(full_dataset['train']) > total_samples:
-        # Shuffle dataset and select first 20,000 samples
-        shuffled_dataset = full_dataset['train'].shuffle(seed=42)
-        limited_dataset = shuffled_dataset.select(range(total_samples))
-        logger.info(f"Limited dataset to {len(limited_dataset)} samples")
-    else:
-        limited_dataset = full_dataset['train']
-        logger.info(f"Using all {len(limited_dataset)} samples (less than {total_samples} available)")
-    
-    # Split into train (60%), validation (10%), test (30%)
-    train_size = 12000  # 60% of 20,000
-    val_size = 2000     # 10% of 20,000
-    test_size = 6000    # 30% of 20,000
-    
-    # First split: 70% train+val, 30% test
-    split_dataset = limited_dataset.train_test_split(test_size=test_size, seed=42)
-    train_valid = split_dataset["train"]
-    test_dataset = split_dataset["test"]
-    
-    # Second split: divide train+val into train and validation
-    split_train_valid = train_valid.train_test_split(test_size=val_size, seed=42)
-    train_dataset = split_train_valid["train"]
-    valid_dataset = split_train_valid["test"]
-    
-    # Create a dataset dictionary with all splits
-
-    dataset = DatasetDict({
-        'train': train_dataset,
-        'validation': valid_dataset,
-        'test': test_dataset
-    })
-    
-    logger.info(f"Dataset splits created:")
-    logger.info(f"  - Train: {len(dataset['train'])} samples ({len(dataset['train'])/len(full_dataset['train']):.1%})")
-    logger.info(f"  - Validation: {len(dataset['validation'])} samples ({len(dataset['validation'])/len(full_dataset['train']):.1%})")
-    logger.info(f"  - Test: {len(dataset['test'])} samples ({len(dataset['test'])/len(full_dataset['train']):.1%})")
-
-    sampled_dataset_dir = os.path.join(LOCAL_DATASET_PATH, "sampled_dataset")
-    os.makedirs(sampled_dataset_dir, exist_ok=True)
-    dataset.save_to_disk(sampled_dataset_dir)
-    logger.info(f"Sampled dataset saved to {sampled_dataset_dir}")
-    
     # Load model and tokenizer
     LOCAL_MODEL_PATH = 'TransModular_GPT/data/gpt-neo-125m/'
     tokenizer = GPT2Tokenizer.from_pretrained(LOCAL_MODEL_PATH)
     tokenizer.pad_token = tokenizer.eos_token
 
     # Preprocess the dataset
-    label_mapping = create_label_mapping(dataset)
-    num_labels = len(label_mapping)
-    logger.info(f"label count: {num_labels}")
-    logger.info(f"label mapping: {label_mapping}")
+    num_labels = max(dataset["train"]["label"]) + 1
+    logger.info(f"num_labels: {num_labels}")
+
     tokenized_datasets = dataset.map(
-        lambda x: preprocess_data(x, tokenizer, label_mapping=label_mapping),
+        lambda x: preprocess_data(x, tokenizer),
         batched=True,
         remove_columns=dataset["train"].column_names
     )
-    logger.info("\ndataset info:")
-    for split in tokenized_datasets.keys():  
-        logger.info(f"\n{split} dataset:")
-        logger.info(f"sample count: {len(tokenized_datasets[split])}")
-        logger.info(f"label distribution: {torch.bincount(torch.tensor(tokenized_datasets[split]['labels']))}")
 
+    logger.info("\dataset:")
+    for split in tokenized_datasets.keys():  
+        logger.info(f"\n{split} :")
+        logger.info(f"sample num: {len(tokenized_datasets[split])}")
+        logger.info(f"label : {torch.bincount(torch.tensor(tokenized_datasets[split]['labels']))}")
+    
     # Initialize model
     model = GPTNeoWithClassificationHead(LOCAL_MODEL_PATH, num_classes=num_labels)
-    baes_model = copy.deepcopy(model)
-    base_state_dict = baes_model.state_dict()
-    
+
+    # Create a mask (optional)
     if args.use_mask:
         if args.mask_rate == 0.25:
-            module_state = torch.load("TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.25/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin")
         elif args.mask_rate == 0.5:
-            module_state = torch.load("TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.50/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.50/pytorch_model.bin")
         elif args.mask_rate == 0.75:
-            module_state = torch.load("TransModular_GPT/data/module_github/lr_0.005_alpha_10.0_bs_4_time_20250308_033752/model_wrr_0.75/pytorch_model.bin")
+            module_state = torch.load("TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.75/pytorch_model.bin")
         
+        hooks = []
         masked_params_count = 0
         total_params_count = 0
-        orig_params = {name: param.clone().detach() for name, param in model.named_parameters()}
-        masked_params = []
+        
         for name, param in model.named_parameters():
+            # total_params_count += param.numel()
             modify_name = name.replace("base_model.", "")
             if f"{modify_name}_mask" in module_state:
-                param.requires_grad = True
-                masked_params.append(param)
                 total_params_count += param.numel()
                 mask = module_state[f'{modify_name}_mask']
                 bin_mask = (mask > 0).float()
                 masked_params_count += bin_mask.sum().item()
+                def get_grad_hook(mask_tensor):
+                    def hook(grad):
+                        return grad * mask_tensor.to(grad.device)
+                    return hook
+                
+                hook = param.register_hook(get_grad_hook(bin_mask))
+                hooks.append(hook)
+                
         logger.info(f"Total parameters: {total_params_count}")
         logger.info(f"Parameters in mask: {masked_params_count} ({masked_params_count/total_params_count:.2%})")
-        
-        total_params_count = 0
-        change_params_count = 0
 
-        for name, param in model.named_parameters():
-            modify_name = name.replace("base_model.", "")
-            if f"{modify_name}_mask" in module_state:
-                total_params_count += param.numel()
-                orig_param = base_state_dict[name].to(param.device)
-                changes = (param - orig_param).abs() > 1e-6
-                change_params_count += changes.sum().item()
-                change_ratio = changes.sum().item() / changes.numel()
-        
-        logger.info(f"Total parameters: {total_params_count}")
-        logger.info(f"Changed parameters: {change_params_count} ({change_params_count/total_params_count:.2%})")
-
-    # Create optimizer
+    # Custom optimizer to update only masked weights
+    num_train_epochs = args.epochs
+    batch_size = args.batch_size
+    lr = args.lr
     optimizer_kwargs = {
         "lr": args.lr,
         "weight_decay": 0
     }
-    
-    if args.use_mask:
-        optimizer = AdamWS(
-            [model.named_parameters()],
-            mask_dict=module_state,
-            **optimizer_kwargs
-        )
-    else:
-        optimizer = torch.optim.AdamW(model.parameters(), **optimizer_kwargs)
-    
+    optimizer = AdamWS(
+        [model.named_parameters()],
+        mask_dict=module_state,
+        **optimizer_kwargs
+    )
+
     # Create output directory
     output_dir = args.output_dir
 
@@ -342,27 +302,31 @@ def main(args):
     training_args = TrainingArguments(
         output_dir=output_dir,
         overwrite_output_dir=True,
-        num_train_epochs=args.epochs,
-        per_device_train_batch_size=args.batch_size,
-        save_steps=10000,
-        save_total_limit=2,
+        num_train_epochs=num_train_epochs,
+        per_device_train_batch_size=batch_size,
+        save_steps=500,
+        save_total_limit=5,
         logging_dir=os.path.join(output_dir, 'logs'),
-        logging_steps=500,
+        logging_steps=100,
         evaluation_strategy="steps",
-        eval_steps=500,
-        learning_rate=args.lr,
+        eval_steps=100,
+        learning_rate=lr,
+        weight_decay=0.01,
         warmup_steps=500,
         save_strategy="steps",
         fp16=torch.cuda.is_available(),
         load_best_model_at_end=True,
-        per_device_eval_batch_size=args.batch_size,  
+        per_device_eval_batch_size=batch_size,  
         dataloader_drop_last=False,    
         remove_unused_columns=False,   
         prediction_loss_only=False,   
         eval_accumulation_steps=None,
         save_safetensors=False,  
         push_to_hub=False, 
+        
     )
+
+
 
     # Initialize Trainer
     trainer = CustomTrainer(
@@ -373,42 +337,27 @@ def main(args):
         tokenizer=tokenizer,
         optimizers=(optimizer, None),
         compute_metrics=compute_metrics,
-        patience=args.patience, 
-        min_delta=0.001, 
+        patience=args.patience,
+        min_delta=args.min_delta,
+
     )
 
     # Start training
     try:
+        # Start training
         trainer.train()
     except RuntimeError as e:
         if "Early stopping triggered" in str(e):
             logger.info("early stop...")
         else:
             raise
-            
-    if args.use_mask:
-        total_params_count = 0
-        change_params_count = 0
-
-        for name, param in model.named_parameters():
-            modify_name = name.replace("base_model.", "")
-            if f"{modify_name}_mask" in module_state:
-                total_params_count += param.numel()
-                orig_param = base_state_dict[name].to(param.device)
-                changes = (param - orig_param).abs() > 1e-6
-                change_params_count += changes.sum().item()
-                change_ratio = changes.sum().item() / changes.numel()
-                logger.info(f"layer {name} change ratio:{change_ratio:.2%}")
-        
-        logger.info(f"Total parameters: {total_params_count}")
-        logger.info(f"Changed parameters: {change_params_count} ({change_params_count/total_params_count:.2%})")
 
     if trainer.best_model_path is not None:
         logger.info(f"\nfinished training")
         logger.info(f"best_accuracy: {trainer.best_accuracy:.4f}")
         logger.info(f"best_model_path: {trainer.best_model_path}")
         
-        logger.info("\ntesting...")
+        logger.info("\n test...")
         best_model = GPTNeoWithClassificationHead(LOCAL_MODEL_PATH, num_classes=num_labels)
         checkpoint = torch.load(trainer.best_model_path)
         best_model.load_state_dict(checkpoint)
@@ -421,8 +370,7 @@ def main(args):
         )
         
         test_results = best_trainer.evaluate()
-        logger.info(f"test_results: {test_results}")
-        
+        logger.info(f"test_results : {test_results}")
     # Save the final model
     save_dir = Path(output_dir) / 'result'
     save_dir.mkdir(parents=True, exist_ok=True)
@@ -430,13 +378,13 @@ def main(args):
     torch.save(model.state_dict(), save_path)
 
 if __name__ == "__main__":
-    # Parse command-line arguments
 
-    parser = argparse.ArgumentParser(description="Fine-tune GPT-Neo 125M on code language identification dataset")
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Fine-tune GPT-Neo 125M on Math-QA dataset with optional mask.")
     parser.add_argument('--lr', type=float, default=5e-5,
                       help="Learning rate (default: 5e-5)")
-    parser.add_argument('--batch_size', type=int, default=8,
-                      help="Batch size for training")
+    parser.add_argument('--batch_size', type=int, default=4,
+                      help="Batch size for training (default: 4)")
     parser.add_argument('--epochs', type=int, default=2,
                       help="Number of training epochs (default: 2)")
     parser.add_argument('--patience', type=int, default=3,
@@ -444,24 +392,22 @@ if __name__ == "__main__":
     parser.add_argument('--min_delta', type=float, default=0.001,
                       help="Minimum change in accuracy to qualify as an improvement (default: 0.001)")
     parser.add_argument('--use_mask', action='store_true', 
-                      help="Use mask to fine-tune only part of the model weights")
-    parser.add_argument('--mask_rate', type=float, default=0.25,
-                      help="Mask rate for masked fine-tuning")
+                      help="Use mask to fine-tune only part of the model weights.")
+    parser.add_argument('--mask_rate', type=float, default=0.25)
     parser.add_argument('--output_dir', type=str, default="./data",
                       help="Directory to save the fine-tuned model (default: ./data)")
     
     args = parser.parse_args()
     if args.use_mask:
-        base_output_dir = f'TransModular_GPT/fintune/save_model_with_mask_{args.mask_rate}/'
+        base_output_dir = f'TransModular_GPT/finetune/save_model_with_mask_{args.mask_rate}/law'
     else:
-        base_output_dir = 'TransModular_GPT/fintune/save_model/'
+        base_output_dir = 'TransModular_GPT/finetune/save_model/law'
 
-    output_dir = os.path.join(base_output_dir, "code", f"lr{args.lr}_bs{args.batch_size}_e{args.epochs}_p{args.patience}")
+    output_dir = os.path.join(base_output_dir, "scotus", f"lr{args.lr}_bs{args.batch_size}_e{args.epochs}_p{args.patience}")
     os.makedirs(output_dir, exist_ok=True)
-    log_file_path = Path(f"{output_dir}/output.log")
     args.output_dir = output_dir
-    
-    # Set up logging
+    log_file_path = Path(f"{output_dir}/output.log")
+
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
@@ -471,6 +417,5 @@ if __name__ == "__main__":
         ]
     )
     logger = logging.getLogger(__name__)
-    
     # Call the main function
     main(args)
