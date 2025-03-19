@@ -115,10 +115,15 @@ python merge_lm.py --merging_method_name mask_merging --language_model_name code
 Test method in Multi-iteration Runs
 
 ```bash
-# full fine-tuning
-python longrun.py --tuning_strategy full --merge_method task_arithmetic --alpha1 alpha1 --alpha2 alpha2
-# modular fine-tuning
-python longrun.py --tuning_strategy mask --merge_method task_arithmetic --alpha1 alpha1 --alpha2 alpha2
+# first fine-tuning
+python longrun_fintune.py --output ./mask_fintune_0 --task_type mathqa  --stage 0 --epochs 2 --tuning_strategy mask
+# first knowledge update via composition
+python merge_lm.py --merging_method_name task_arithmetic --language_model_name gptneo --model_path1 module_path1 --model_path2 module_path2 --task longrun
+# second fine-tuning
+python longrun_fintune.py --output ./mask_fintune_0 --task_type mathqa  --stage 1 --epochs 2 --load_model_path first_fintune_module_path --tuning_strategy mask
+# second knowledge update via composition
+python merge_lm.py --merging_method_name task_arithmetic --language_model_name gptneo --model_path1 module_path1 --model_path2 module_path2 --task longrun
+......
 ```
 
 
