@@ -361,6 +361,12 @@ def main(args):
                     mask = module_state[f'{modify_name}_mask']
                     bin_mask = (mask > 0).float()
                     masked_params_count += bin_mask.sum().item()
+                if bin_mask.sum().item() > 0:
+                    param.requires_grad = True
+                else:
+                    param.requires_grad = False
+            else:
+                param.requires_grad = False
         
         logger.info(f"Total parameters: {total_params_count}")
         logger.info(f"Parameters in mask: {masked_params_count} ({masked_params_count/total_params_count:.2%})")
@@ -370,8 +376,12 @@ def main(args):
         "lr": args.lr,
         "weight_decay": 0
     }
+    def filter_trainable_params():
+        for name, param in model.named_parameters():
+            if param.requires_grad:
+                yield (name, param)
     optimizer = AdamWS(
-        [model.named_parameters()],
+        [filter_trainable_params()],
         mask_dict=module_state,
         **optimizer_kwargs
     )
