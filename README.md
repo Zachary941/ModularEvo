@@ -24,29 +24,30 @@ We conducted extensive experiments on various Transformer models covering both c
 ## Structure of the directories
 
 ```powershell
-  |--- README.md                        :  user guidance
-  |--- Transmodular_CodeBert/           :  experimental for CodeBert
-      |--- modularizer.py				:  modularizer CodeBert
+  |--- README.md                        				:  user guidance
+  |--- Transmodular_CodeBert/           				:  experimental for CodeBert
+      |--- modularizer.py								:  modularizer CodeBert
       |--- finetune/					
-          |--- finetune_{task}.py		:  finetune on specific tasks
+          |--- code_clone/code/run_module.py		    :  finetune on specific tasks
+          |--- nl_code_search/code/run_module.py		:  finetune on specific tasks
       |--- task_merge/					
-          |--- merge_lm.py				:  Knowledge update
-  |--- Transmodular_CodeT5/             :  experimental for Codet5
-      |--- modularizer.py			    :  modularizer Codet5
+          |--- merge_lm.py								:  Knowledge update
+          |--- cost.py		            				:  Compute cost
+  |--- Transmodular_CodeT5/             				:  experimental for Codet5
+      |--- modularizer.py			    				:  modularizer Codet5
+      |--- sh/					
+          |--- run_exp_module.py						:  finetune on specific tasks
+      |--- task_merge/					
+          |--- merge_lm.py								:  Knowledge update
+  |--- Transmodular_GPT-Neo/            				:  experimental for GPT-Neo
+      |--- modularizer.py								:  modularizer GPT-Neo
       |--- finetune/					
-          |--- finetune_{task}.py		:  finetune on specific tasks
+          |--- finetune_{task}.py	    				:  finetune on specific tasks
       |--- task_merge/					
-          |--- merge_lm.py				:  Knowledge update
-  |--- Transmodular_GPT-Neo/            :  experimental for GPT-Neo
-      |--- modularizer.py				:  modularizer GPT-Neo
-      |--- finetune/					
-          |--- finetune_{task}.py	    :  finetune on specific tasks
-      |--- task_merge/					
-          |--- merge_lm.py			    :  Knowledge update
+          |--- merge_lm.py			    				:  Knowledge update
       |--- longrun/
-          |--- longrun_finetune.py	    :  finetune on specific tasks
-          |--- model_merge.py		    :  Knowledge update
-          |--- cost.py		            :  Compute cost
+          |--- longrun_finetune.py	    				:  finetune on specific tasks
+          |--- model_merge.py		    				:  Knowledge update
 
 ```
 
@@ -121,10 +122,12 @@ Test method in Multi-iteration Runs
 python longrun_fintune.py --output ./mask_fintune_0 --task_type mathqa  --stage 0 --epochs 2 --tuning_strategy mask
 # first knowledge update via composition
 python merge_lm.py --merging_method_name task_arithmetic --language_model_name gptneo --model_path1 module_path1 --model_path2 module_path2 --task longrun
+
 # second fine-tuning
 python longrun_fintune.py --output ./mask_fintune_0 --task_type mathqa  --stage 1 --epochs 2 --load_model_path first_fintune_module_path --tuning_strategy mask
 # second knowledge update via composition
 python merge_lm.py --merging_method_name task_arithmetic --language_model_name gptneo --model_path1 module_path1 --model_path2 module_path2 --task longrun
+
 ......
 ```
 
