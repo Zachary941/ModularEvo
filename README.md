@@ -8,6 +8,8 @@ Deep Neural Network (DNN) models, especially large language models, have been wi
 Inspired by modular design principles in software engineering, we propose ModularEvo, a framework that enables the co-evolution of models and modules. The method first constructs a weight mask for the trained model to accurately identify the parameters related to a specific function, thereby decomposing the model into modules covering different domains and allowing each module to upgrade independently within its domain. However, existing modular approaches often store upgraded modules as independent units, resulting in mutual isolation between the model and its modules. Different from them, ModularEvo not only optimizes each module independently, but also transfers new knowledge acquired by modules in downstream tasks to the model, so as to realize the co-evolution of model modules.
 We conducted extensive experiments on various Transformer models covering both classification and generation tasks. The results demonstrate that, compared to baseline methods, ModularEvo achieves an absolute performance increase of 2.34% in multi-round evolution tests, and a 2.48x speedup in downstream task inference, validating the framework’s effectiveness in model evolution and reuse efficiency.
 
+![workflow](./workflow.png)
+
 ## Requirements
 + advertorch 0.2.3
 + fvcore 0.1.5.post20220512
