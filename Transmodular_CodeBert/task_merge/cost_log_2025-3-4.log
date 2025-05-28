@@ -1,0 +1,41 @@
+TIME:
+
+Benchmarking on CPU:
+UserWarning: Implicit dimension choice for softmax has been deprecated. Change the call to include dim=X as an argument.
+  prob=F.softmax(logits)
+Dense model (CPU): 17144.95 +/- 28.55 ms/batch
+
+
+Benchmarking with DeepSparse:
+UserWarning: It is recommended that constant folding be turned off ('do_constant_folding=False') when exporting the model in training-amenable mode, i.e. with 'training=TrainingMode.TRAIN' or 'training=TrainingMode.PRESERVE' (when model is in training mode). Otherwise, some learnable model parameters may not translate correctly in the exported ONNX model because constant folding mutates model parameters. Please consider turning off constant folding or setting the training=TrainingMode.EVAL.
+  warnings.warn(
+============= Diagnostic Run torch.onnx.export version 2.0.0+cu117 =============
+verbose: False, log level: Level.ERROR
+======================= 0 NONE 0 NOTE 0 WARNING 0 ERROR ========================
+
+DeepSparse, Copyright 2021-present / Neuralmagic, Inc. version: 1.8.0 COMMUNITY | (e3778e93) (release) (optimized) (system=avx512_vnni, binary=avx512)
+100%|                                                                                                                                                                                                                                                                | 20/20 [02:55<00:00,  8.80s/it]
+DeepSparse acceleration: 7037.94 ms/batch
+Speedup vs CPU dense: 2.44x
+
+
+
+
+
+nl_code_search  
+
+Benchmarking on CPU:
+Dense model (CPU): 37138.70 +/- 32.96 ms/batch
+
+Benchmarking with DeepSparse:
+Input shapes: code_inputs=torch.Size([8, 510]), nl_inputs=torch.Size([8, 510])
+============= Diagnostic Run torch.onnx.export version 2.0.0+cu117 =============
+verbose: False, log level: Level.ERROR
+======================= 0 NONE 0 NOTE 0 WARNING 0 ERROR ========================
+
+ONNX model exported successfully to ./tmp/nl_code_search/sparse_model.onnx
+DeepSparse, Copyright 2021-present / Neuralmagic, Inc. version: 1.8.0 COMMUNITY | (e3778e93) (release) (optimized) (system=avx512_vnni, binary=avx512)
+Sending 2 inputs to DeepSparse engine
+100%|                                                                                                                                                                                                                                                                | 20/20 [06:10<00:00, 18.52s/it]
+DeepSparse acceleration: 14816.93 ms/batch
+Speedup vs CPU dense: 2.51x
