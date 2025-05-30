@@ -1,0 +1,34 @@
+# Core ML/DL frameworks
+torch>=1.8.0
+transformers>=4.0.0
+datasets>=2.0.0
+
+# Scientific computing
+numpy>=1.21.0
+pandas>=1.3.0
+scipy>=1.7.0
+
+# Machine learning utilities
+scikit-learn>=1.0.0
+tqdm>=4.62.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# System monitoring
+psutil>=5.8.0
+
+# Optional GPU monitoring (comment out if not needed)
+# GPUtil>=1.4.0
+
+# Sparse model optimization
+deepsparse>=1.0.0
+sparseml>=1.0.0
+
+# Development and testing
+pytest>=6.0.0
+pytest-cov>=3.0.0
+
+# Logging and configuration
+pyyaml>=6.0
