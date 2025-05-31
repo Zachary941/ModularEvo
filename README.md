@@ -1,6 +1,5 @@
 # ModularEvo: Evolving Multi-Task Models via Neural Network Modularization and Composition
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red.svg)](https://arxiv.org/abs/your-paper-id)
 [![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8+-orange.svg)](https://pytorch.org)
 
