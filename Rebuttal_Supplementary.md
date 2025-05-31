@@ -1,6 +1,6 @@
 # ICSE 2026 Rebuttal Supplementary Materials
 
-[![ICSE 2026](https://img.shields.io/badge/ICSE%202026-Supplementary%20Materials-blue.svg)](#)
+[![Rebuttal Supplementary](https://img.shields.io/badge/%20Supplementary%20Materials-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Status-Under%20Review-yellow.svg)](#)
 
 > **ModularEvo: Evolving Multi-Task Models via Neural Network Modularization and Composition**
