@@ -1,11 +1,11 @@
-# ICSE 2026 Rebuttal Supplementary Materials
+# Rebuttal Supplementary Materials
 
 [![Rebuttal Supplementary](https://img.shields.io/badge/%20Supplementary%20Materials-blue.svg)](#)
 [![Status](https://img.shields.io/badge/Status-Under%20Review-yellow.svg)](#)
 
 > **ModularEvo: Evolving Multi-Task Models via Neural Network Modularization and Composition**
 > 
-> This document provides comprehensive supplementary materials addressing all reviewer concerns raised during the ICSE 2026 review process. 
+> This document provides comprehensive supplementary materials addressing reviewer concerns raised during the review process. 
 
 ## 📋 Table of Contents
 
