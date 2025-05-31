@@ -127,9 +127,9 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 ![Difference between model and module](Picture_for_readme/fintuning_comparsion.png)
 
 ---
-### B5. Pre-training and Modularization Setup
+### B5. Pre-training
 
-**Question**: What are the pre-training details and modularization setup?
+**Question**: What are the pre-training details ?
 
 #### Pre-training Details
 
@@ -160,7 +160,7 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 ### Question in detailed comments
 #### 1.Issues related to experimental design
    
-(1)Why is the warehouse customized according to the model?
+(1)Why is the repository customized according to the model?
   
   > We are very sorry that the current repository and model are tightly coupled, which makes it far from a truly reusable tool support method. First, this allows us to reproduce our experiments more intuitively and effectively. Second, in order to verify the experiments on as wide and supported datasets as possible, we try to use the model's officially recommended code repository and downstream data for fine-tuning to ensure the verifiability of the fine-tuning effect. We will further optimize and launch more general experimental codes in the repository in the future.
 
@@ -174,7 +174,7 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 
   (4) RQ2 How is the experiment organized and how are the indicators collected?
 
-> ​ We apologize for the lack of details in the RQ2 experiment. Here we describe the evaluation method of inference efficiency in detail: for each model and task, we ran 20 inference batches, each batch of codeclone task contained 4 samples, each batch of nl_code_search task contained 8 samples, and recorded the total execution time, and then calculated the average single batch inference time. To ensure the reliability of the measurement, we performed 5 batches of warm-up runs before each measurement to exclude the impact of initialization overhead. The tests were performed on the CPU separately, and the average and standard deviation were reported to evaluate the stability of the results. For the sparse acceleration test, we also adopted the strategy of 20 iterations and 5 warm-up runs, and exported the model to ONNX format for benchmarking. All tests were conducted on the same hardware environment to ensure that the experiments were conducted in an environment without interference from other high-load processes to obtain fair performance comparison results. All experiments for RQ2 were conducted on HuaweiXH321V5,0.5U, with 2*Intel(R) Xeon(R) Silver4214CPUs@2.20GHz. Finally, I apologize again for the shortcomings in the replication package, because the data analysis script for RQ2 has long been located in cost.py under Transmodular_CodeBert/task_merge in the repository, and the chaotic code structure makes it difficult for you to effectively obtain the script analysis. 
+> ​ We apologize for the lack of details in the RQ2 experiment. Here we describe the evaluation method of inference efficiency in detail: for each model and task, we ran 20 inference batches, each batch of codeclone task contained 4 samples, each batch of nl_code_search task contained 8 samples, and recorded the total execution time, and then calculated the average single batch inference time. To ensure the reliability of the measurement, we performed 5 batches of warm-up runs before each measurement to exclude the impact of initialization overhead. The tests were performed on the CPU separately, and the average and standard deviation were reported to evaluate the stability of the results. For the sparse acceleration test, we also adopted the strategy of 20 iterations and 5 warm-up runs, and exported the model to ONNX format for benchmarking. All tests were conducted on the same hardware environment to ensure that the experiments were conducted in an environment without interference from other high-load processes to obtain fair performance comparison results. All experiments for RQ2 were conducted on HuaweiXH321V5,0.5U, with 2*Intel(R) Xeon(R) Silver 4214CPUs@2.20GHz. Finally, I apologize again for the shortcomings in the replication package, because the data analysis script for RQ2 has long been located in cost.py under Transmodular_CodeBert/task_merge in the repository, and the chaotic code structure makes it difficult for you to effectively obtain the script. 
 
 
 #### 2. Overhyping Answers
