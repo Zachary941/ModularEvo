@@ -33,11 +33,11 @@ Shared parameter ratio: There is overlap between the parameters of these two mod
 
 ![Parameter Distribution Analysis](Picture_for_readme/gpt_parameter_distribution.png)
 
-*Figure A2.1: GPT-Neo parameter overlap distribution across layers*
+*Figure A2.1: GPT-Neo parameter overlap distribution*
 
 ![Parameter Distribution Analysis](Picture_for_readme/codebert_parameter_distribution.png)
 
-*Figure A2.2: CodeBERT parameter overlap distribution across layers*
+*Figure A2.2: CodeBERT parameter overlap distribution*
 
 
 #### Module independence analysis
