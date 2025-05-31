@@ -10,13 +10,11 @@
 - [Abstract](#abstract)
 - [Key Features](#key-features)
 - [Installation](#installation)
-- [Datasets](#datasets)
 - [Project Structure](#project-structure)
 - [Quick Start](#quick-start)
 - [Experimental Workflow](#experimental-workflow)
 - [Results](#results)
-- [Citation](#citation)
-- [License](#license)
+- [Datasets](#datasets)
 
 
 
@@ -456,6 +454,7 @@ These datasets are used for evaluating the performance of modularized models on 
 | 💻 **Code** | Code Search | Classification | CodeBERT | 
 | 💻 **Code** | Summarization | Natural Language Generation | CodeT5 | 
 | 💻 **Code** | Concode | Code Generation | CodeT5 | 
+
 
 
 ## 📈 Results
