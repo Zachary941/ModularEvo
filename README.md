@@ -3,10 +3,14 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8+-orange.svg)](https://pytorch.org)
 
+---
+
+
+
 > **ModularEvo** enables the co-evolution of models and modules through neural network modularization and composition, achieving better performance improvement in multi-task scenarios.
 ## 📋 Table of Contents
 
-
+- [ICSE 2026 Rebuttal Materials](#icse-2026-rebuttal-materials)
 - [Abstract](#abstract)
 - [Key Features](#key-features)
 - [Installation](#installation)
@@ -14,9 +18,19 @@
 - [Quick Start](#quick-start)
 - [Experimental Workflow](#experimental-workflow)
 - [Results](#results)
+- [Supplementary Experimental Details](#supplementary-experimental-details)
 - [Datasets](#datasets)
 
+## 📄 ICSE 2026 Rebuttal Materials
 
+[![Rebuttal Supplementary](https://img.shields.io/badge/%20-Rebuttal%20Supplementary-red.svg)](ICSE_2026_Rebuttal_Supplementary.md)
+[![Status](https://img.shields.io/badge/Status-Under%20Review-yellow.svg)](#)
+
+> **🔍 For ICSE 2026 Reviewers**: Access comprehensive supplementary materials addressing all review concerns with detailed experimental data and responses for question in detailed comment.
+
+**📋 [→ View Complete Rebuttal Supplementary Materials](ICSE_2026_Rebuttal_Supplementary.md)**
+
+---
 
 ## Abstract
 
