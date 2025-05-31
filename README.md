@@ -28,7 +28,7 @@
 
 > **🔍 For ICSE 2026 Reviewers**: Access comprehensive supplementary materials addressing all review concerns with detailed experimental data and responses for question in detailed comment.
 
-**📋 [→ View Complete Rebuttal Supplementary Materials](ICSE_2026_Rebuttal_Supplementary.md)**
+**📋 [→ View Complete Rebuttal Supplementary Materials](Rebuttal_Supplementary.md)**
 
 ---
 
