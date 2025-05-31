@@ -3,10 +3,10 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8+-orange.svg)](https://pytorch.org)
 
-> **ModularEvo** enables the co-evolution of models and modules through neural network modularization and composition, achieving **2.34%** performance improvement in multi-task scenarios.
+> **ModularEvo** enables the co-evolution of models and modules through neural network modularization and composition, achieving better performance improvement in multi-task scenarios.
 ## 📋 Table of Contents
 
-- [ICSE 2026 Rebuttal Materials](#icse-2026-rebuttal-materials)
+
 - [Abstract](#abstract)
 - [Key Features](#key-features)
 - [Installation](#installation)
@@ -474,7 +474,7 @@ These datasets are used for evaluating the performance of modularized models on 
 |--------|----------|--------|---------|
 | **Task Arithmetic** | 95.24% | 73.30% | 97.97% |
 | **TIES-Merging** | 95.62% | 66.87% | 98.36% |
-| **DARE** | 96.83% | 83.8% | 98.00% | 
+| **DARE** | 96.83% | 69.79% | 98.00% | 
 | **ModularEvo (Ours)** | **98.67%** | **77.84%** | **99.08%** | 
 
 
