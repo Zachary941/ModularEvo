@@ -147,7 +147,7 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 
 ### Question in detailed comments
 
-1. Why is the downstream task of GPT, which is usually used for generation tasks, set as a generation task?
+1. Why is the downstream task of GPT, which is usually used for generation tasks, set as a classification task?
 
     Because GPT-Neo covers a wider range of fields, we hope to verify the specific performance of ModularEvo in multiple fields on GPT-Neo. However, there are relatively few data sets for generation tasks in multiple fields, and generation tasks are more time-consuming than classification tasks. Limited by resources, time, and experiments with different numbers of modules, we finally chose classification tasks. Moreover, although they are classification tasks, these tasks (such as MathQA, SCOTUS) themselves also require the model to have strong text understanding and reasoning capabilities, which are the basis for high-quality generation. Therefore, even through classification task evaluation, it can indirectly reflect some of its core capabilities as a language model.
 
