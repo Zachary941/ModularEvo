@@ -13,9 +13,9 @@
   - [A2. Parameter Overlap Analysis](#a2-parameter-overlap-analysis)
   - [A3. Statistical Significance Analysis](#a3-statistical-significance-analysis)
   - [A5. Sparsity Level Determination](#a5-sparsity-level-determination)
-- [Review #456B - Methodology Clarity](#review-456b---methodology-clarity)
+- [Review #456B](#review-456b)
   - [B3. Training Time Impact Analysis](#b3-training-time-impact-analysis)
-  - [B5. Pre-training and Modularization Setup](#b5-pre-training-and-modularization-setup)
+  - [B5. Pre-training](#b5-pre-training)
   - [Question in detailed comments](#question-in-detailed-comments)
 - [Review #456C](#review-456c)
   - [Question in detailed comments](#question-in-detailed-comments-1)
@@ -108,7 +108,7 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 
 ---
 
-## Review #456B - Methodology Clarity
+## Review #456B 
 
 ### B3. Training Time Impact Analysis
 
