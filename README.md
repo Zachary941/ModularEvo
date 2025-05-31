@@ -10,7 +10,7 @@
 > **ModularEvo** enables the co-evolution of models and modules through neural network modularization and composition, achieving better performance improvement in multi-task scenarios.
 ## 📋 Table of Contents
 
-- [ICSE 2026 Rebuttal Materials](#icse-2026-rebuttal-materials)
+- [Rebuttal Materials](#-rebuttal-materials)
 - [Abstract](#abstract)
 - [Key Features](#key-features)
 - [Installation](#installation)
@@ -21,12 +21,12 @@
 - [Supplementary Experimental Details](#supplementary-experimental-details)
 - [Datasets](#datasets)
 
-## 📄 ICSE 2026 Rebuttal Materials
+## 📄 Rebuttal Materials
 
 [![Rebuttal Supplementary](https://img.shields.io/badge/%20-Rebuttal%20Supplementary-red.svg)](ICSE_2026_Rebuttal_Supplementary.md)
 [![Status](https://img.shields.io/badge/Status-Under%20Review-yellow.svg)](#)
 
-> **🔍 For ICSE 2026 Reviewers**: Access comprehensive supplementary materials addressing all review concerns with detailed experimental data and responses for question in detailed comment.
+> **🔍 For Reviewers**: Access comprehensive supplementary materials addressing all review concerns with detailed experimental data and responses for question in detailed comment.
 
 **📋 [→ View Complete Rebuttal Supplementary Materials](Rebuttal_Supplementary.md)**
 
@@ -186,7 +186,7 @@ cd Transmodular_GPT_Neo
 python modularizer.py \
     --task math \        # Domain selection (required)
     --do_train \         # Enable training mode
-    --lr 0.005 \         # Learning rate for module specialization
+    --lr 2e-5 \         # Learning rate for module specialization
     --n_epochs 4 \       # Epochs per domain adaptation
     --alpha 1 \          # Sparsity regularization weight
 ```
@@ -387,15 +387,7 @@ For reproducibility, we document the optimal λ values (hyperparameters) determi
 | | TIES-Merging | 0.8 | 1.2 | Trim, elect, and merge |
 | | **ModularEvo (Ours)** | **0.7** | **0.9** | Modular composition |
 
-### Modular Training Configuration
 
-| Parameter | Value | Description |
-|-----------|-------|-------------|
-| **Learning Rate** | 5e-5 | Fine-tuning learning rate |
-| **Batch Size** | 8 | Training batch size |
-| **Epochs** | 2-4 | Training epochs per stage |
-| **Mask Rate** | 0.25 | Sparsity level for modularization |
-| **Alpha** | 1.0 | Regularization weight |
 
 ## 📊 Datasets
 
@@ -526,4 +518,3 @@ These datasets are used for evaluating the performance of modularized models on 
 <div align="center">
   <p><strong>ModularEvo</strong> -  Evolving Models via Neural Network Modularization and Composition</p>
 </div>
-
