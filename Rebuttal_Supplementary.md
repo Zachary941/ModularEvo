@@ -27,7 +27,7 @@
 
 ### A2. Parameter Overlap Analysis
 
-Shared parameter ratio: There is overlap between the parameters of these two modules, because even modules for different fields require some basic capabilities, such as mathematics and law at least require semantic understanding capabilities. Taking CodeBert as an example, the number of parameter overlaps accounts for about 10% of the total number of parameters and about 50% of each module. We believe that this is because CodeBert is in the field of code, and its separated Python modules and Java modules are largely similar in basic knowledge, which makes the overlap account for the majority. At the same time, we also analyzed the four modules of GPT-NEO, and the results showed that the overlap weight only accounted for 5.4% of the total number of parameters, about 20% of each module.
+Shared parameter ratio: There is overlap between the parameters of these  modules, because even modules for different fields require some basic capabilities, such as mathematics and law at least require semantic understanding capabilities. Taking CodeBert as an example, the number of parameter overlaps accounts for about 10% of the total number of parameters and about 50% of each module. We believe that this is because CodeBert is in the field of code, and its separated Python modules and Java modules are largely similar in basic knowledge, which makes the overlap account for the majority. At the same time, we also analyzed the four modules of GPT-NEO, and the results showed that the overlap weight only accounted for 5.4% of the total number of parameters, about 20% of each module.
 
 #### Overlap analysis
 
@@ -61,14 +61,9 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 
 **Question**: Did the authors conduct repeated experiments and compute p-values?
 
-**Comprehensive Statistical Validation**:
+**Comprehensive Analysis:**: We repeated the main comparison experiments (ModularEvo vs. TIES-Merging, DARE on the Norm_avg metric) using 3 different random seeds. 
 
-#### Repeated Experiments Setup
-- **Seeds**: 3 different random seeds
-- **Metrics**: Task-specific and composite performance measures
-- **Models**: CodeBERT
-
-#### CodeBERT Statistical Results
+#### Statistical Results
 
 | Method | Mean Norm_avg | Std Dev  | p-value vs ModularEvo |
 |--------|---------------|---------|--------|
@@ -119,10 +114,10 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 
 | Model | Task | Full Model Time | Module Time | Memory Usage (Full) | Memory Usage (Module) |
 |-------|------|----------------|-------------|-------------------|---------------------|
-| **Java CodeBERT** | Clone Detection | 0.79h | 0.81h (+2.5%) | 50.6 GB | 48.4 GB (-4.3%) |
-| **Python CodeBERT** | Code Search | 0.04h | 0.05h (+25%) | 44.0 GB | 35.8 GB (-18.6%) |
-| **GPT-Neo** | MathQA | 1.2h | 1.25h (+4.2%) | 32.1 GB | 28.7 GB (-10.6%) |
-| **CodeT5** | Summarization | 2.1h | 2.15h (+2.4%) | 45.8 GB | 38.2 GB (-16.6%) |
+| **Java CodeBERT** | Clone Detection | 0.79h | 0.81h (+2.5%) | 50.6  | 48.4  (-4.3%) |
+| **Python CodeBERT** | Code Search | 0.04h | 0.05h (+25%) | 44.0  | 35.8  (-18.6%) |
+| **GPT-Neo** | MathQA | 1.2h | 1.25h (+4.2%) | 32.1 | 28.7  (-10.6%) |
+| **CodeT5** | Summarization | 2.1h | 2.15h (+2.4%) | 45.8  | 38.2  (-16.6%) |
 
 ![Difference between model and module](Picture_for_readme/fintuning_comparsion.png)
 
@@ -177,7 +172,7 @@ In addition, we also analyzed the parameters of the four models of GPT-Neo, and 
 > ​ We apologize for the lack of details in the RQ2 experiment. Here we describe the evaluation method of inference efficiency in detail: for each model and task, we ran 20 inference batches, each batch of codeclone task contained 4 samples, each batch of nl_code_search task contained 8 samples, and recorded the total execution time, and then calculated the average single batch inference time. To ensure the reliability of the measurement, we performed 5 batches of warm-up runs before each measurement to exclude the impact of initialization overhead. The tests were performed on the CPU separately, and the average and standard deviation were reported to evaluate the stability of the results. For the sparse acceleration test, we also adopted the strategy of 20 iterations and 5 warm-up runs, and exported the model to ONNX format for benchmarking. All tests were conducted on the same hardware environment to ensure that the experiments were conducted in an environment without interference from other high-load processes to obtain fair performance comparison results. All experiments for RQ2 were conducted on HuaweiXH321V5,0.5U, with 2*Intel(R) Xeon(R) Silver 4214CPUs@2.20GHz. Finally, I apologize again for the shortcomings in the replication package, because the data analysis script for RQ2 has long been located in cost.py under Transmodular_CodeBert/task_merge in the repository, and the chaotic code structure makes it difficult for you to effectively obtain the script. 
 
 
-#### 2. Overhyping Answers
+#### 2. The problem of overhyping
 
 > ​ Thank you very much for the reviewer's careful observation and criticism on the interpretation of the results. We understand your concern about the possible "over-hyping" and insufficient discussion of the performance difference between ModularEvo and "Individual" fine-tuning. As the reviewer pointed out, on many single tasks, the performance of "Individual" fine-tuning (i.e., targeted fine-tuning of the entire model) does outperform the global model after ModularEvo fusion. "Individual" fine-tuning uses all the resources of the model to optimize a single task, and naturally may reach a higher performance ceiling on that task. The goal of ModularEvo is to build a single model that performs well on multiple tasks, is continuously evolving, and is efficient in inference. This multi-objective optimization itself may lead to an inability to compete with highly specialized models on certain single-point tasks.
 >
