@@ -331,6 +331,58 @@ python cost.py
 - **Accuracy**: Task-specific performance metrics
 
 
+
+## 📈 Results
+
+### Key Performance Improvements
+
+| Metric | Improvement | Description |
+|--------|-------------|-------------|
+| **Multi-round Evolution** | **+2.34%** | Absolute performance increase over baseline methods |
+| **Inference Speed** | **2.4x** | Speedup in task inference |
+| **Parameter Efficiency** | **~75%** | Reduction in updated parameters during fine-tuning |
+
+### Comparison with Baseline Methods
+
+| Method | CodeBERT | CodeT5 | GPT-Neo |
+|--------|----------|--------|---------|
+| **Task Arithmetic** | 95.24% | 73.30% | 97.97% |
+| **TIES-Merging** | 95.62% | 66.87% | 98.36% |
+| **DARE** | 96.83% | 69.79% | 98.00% | 
+| **ModularEvo (Ours)** | **98.67%** | **77.84%** | **99.08%** | 
+
+
+## 🔧 Supplementary Experimental Details
+
+### Hyperparameter Configuration
+
+For reproducibility, we document the optimal λ values (hyperparameters) determined through grid search:
+
+| Model | Method | λ₁ | λ₂ | Description |
+|-------|--------|----|----|-------------|
+| **CodeBERT** | Task Arithmetic | 0.5 | 1.1 | Standard merging weights |
+| | DARE | 0.5 | 1.0 | Drop and rescale parameters |
+| | TIES-Merging | 0.7 | 1.0 | Trim, elect, and merge |
+| | **ModularEvo (Ours)** | **1.0** | **0.7** | Modular composition |
+| **CodeT5** | Task Arithmetic | 0.6 | 0.5 | Standard merging weights |
+| | DARE | 0.6 | 0.5 | Drop and rescale parameters |
+| | TIES-Merging | 1.1 | 0.9 | Trim, elect, and merge |
+| | **ModularEvo (Ours)** | **0.6** | **0.6** | Modular composition |
+| **GPT-Neo** | Task Arithmetic | 0.5 | 0.7 | Standard merging weights |
+| | DARE | 0.6 | 1.0 | Drop and rescale parameters |
+| | TIES-Merging | 0.8 | 1.2 | Trim, elect, and merge |
+| | **ModularEvo (Ours)** | **0.7** | **0.9** | Modular composition |
+
+### Modular Training Configuration
+
+| Parameter | Value | Description |
+|-----------|-------|-------------|
+| **Learning Rate** | 5e-5 | Fine-tuning learning rate |
+| **Batch Size** | 8 | Training batch size |
+| **Epochs** | 2-4 | Training epochs per stage |
+| **Mask Rate** | 0.25 | Sparsity level for modularization |
+| **Alpha** | 1.0 | Regularization weight |
+
 ## 📊 Datasets
 
 ModularEvo experiments utilize a comprehensive collection of datasets spanning multiple domains and tasks. The datasets are categorized into two main types: pre-training datasets used for domain-specific modularization, and downstream fine-tuning datasets used for task-specific evaluation. All datasets are publicly available and can be downloaded from the provided sources.
@@ -454,60 +506,6 @@ These datasets are used for evaluating the performance of modularized models on 
 | 💻 **Code** | Code Search | Classification | CodeBERT | 
 | 💻 **Code** | Summarization | Natural Language Generation | CodeT5 | 
 | 💻 **Code** | Concode | Code Generation | CodeT5 | 
-
-
-
-## 📈 Results
-
-### Key Performance Improvements
-
-| Metric | Improvement | Description |
-|--------|-------------|-------------|
-| **Multi-round Evolution** | **+2.34%** | Absolute performance increase over baseline methods |
-| **Inference Speed** | **2.4x** | Speedup in task inference |
-| **Parameter Efficiency** | **~75%** | Reduction in updated parameters during fine-tuning |
-
-### Comparison with Baseline Methods
-
-| Method | CodeBERT | CodeT5 | GPT-Neo |
-|--------|----------|--------|---------|
-| **Task Arithmetic** | 95.24% | 73.30% | 97.97% |
-| **TIES-Merging** | 95.62% | 66.87% | 98.36% |
-| **DARE** | 96.83% | 69.79% | 98.00% | 
-| **ModularEvo (Ours)** | **98.67%** | **77.84%** | **99.08%** | 
-
-
-## 🔧 Supplementary Experimental Details
-
-### Hyperparameter Configuration
-
-For reproducibility, we document the optimal λ values (hyperparameters) determined through grid search:
-
-| Model | Method | λ₁ | λ₂ | Description |
-|-------|--------|----|----|-------------|
-| **CodeBERT** | Task Arithmetic | 0.5 | 1.1 | Standard merging weights |
-| | DARE | 0.5 | 1.0 | Drop and rescale parameters |
-| | TIES-Merging | 0.7 | 1.0 | Trim, elect, and merge |
-| | **ModularEvo (Ours)** | **1.0** | **0.7** | Modular composition |
-| **CodeT5** | Task Arithmetic | 0.6 | 0.5 | Standard merging weights |
-| | DARE | 0.6 | 0.5 | Drop and rescale parameters |
-| | TIES-Merging | 1.1 | 0.9 | Trim, elect, and merge |
-| | **ModularEvo (Ours)** | **0.6** | **0.6** | Modular composition |
-| **GPT-Neo** | Task Arithmetic | 0.5 | 0.7 | Standard merging weights |
-| | DARE | 0.6 | 1.0 | Drop and rescale parameters |
-| | TIES-Merging | 0.8 | 1.2 | Trim, elect, and merge |
-| | **ModularEvo (Ours)** | **0.7** | **0.9** | Modular composition |
-
-### Modular Training Configuration
-
-| Parameter | Value | Description |
-|-----------|-------|-------------|
-| **Learning Rate** | 5e-5 | Fine-tuning learning rate |
-| **Batch Size** | 8 | Training batch size |
-| **Epochs** | 2-4 | Training epochs per stage |
-| **Mask Rate** | 0.25 | Sparsity level for modularization |
-| **Alpha** | 1.0 | Regularization weight |
-
 
 ---
 
