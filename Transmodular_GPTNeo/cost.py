@@ -153,16 +153,16 @@ def get_num_classes_for_task(task_type):
 def get_dense_model_path(task_type):
     """Get path to dense model for different tasks"""
     dense_paths = {
-        "math": "TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",
-        "law": "TransModular_GPT/fintune/save_model/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin",
+        "math": "TransModular_GPT/fintune/save_model/mathqa/best_model/pytorch_model.bin",
+        "law": "TransModular_GPT/fintune/save_model/law/scotus/best_model/pytorch_model.bin",
     }
     return dense_paths.get(task_type, None)
 
 def apply_mask_to_model(model, task_type):
     """Apply mask to model parameters"""
     mask_paths = {
-        "math": "TransModular_GPT/data/module_math/lr_0.005_alpha_10.0_bs_4_time_20250228_022217/model_wrr_0.25/pytorch_model.bin",
-        "law": "TransModular_GPT/data/module_law/lr_0.005_alpha_10.0_bs_4_time_20250227_104430/model_wrr_0.25/pytorch_model.bin",
+        "math": "TransModular_GPT/data/model_wrr_0.25/pytorch_model.bin",
+        "law": "TransModular_GPT/data/module_law/model_wrr_0.25/pytorch_model.bin",
     }
 
     # Find the most recent mask file
@@ -825,8 +825,8 @@ def main():
         # 3. Try to load sparse model 
         sparse_model = None
         sparse_model_paths = {
-            "math": "TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin",
-            "law": "TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin",
+            "math": "TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/best_model/pytorch_model.bin",
+            "law": "TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/best_model/pytorch_model.bin",
         }
 
         sparse_model_path = sparse_model_paths.get(task_type)
