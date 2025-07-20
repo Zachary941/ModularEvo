@@ -1,0 +1,110 @@
+2025-02-25 21:54:00,825 - INFO - label num: 25
+2025-02-25 21:54:00,859 - INFO - mapping:
+2025-02-25 21:54:11,077 - INFO - \dataset:
+2025-02-25 21:54:11,106 - INFO - 
+train :
+2025-02-25 21:54:11,130 - INFO - sample num: 35000
+2025-02-25 21:54:11,289 - INFO - label : tensor([1397, 1400, 1400, 1400, 1403, 1400, 1398, 1400, 1400, 1400, 1400, 1400,
+        1400, 1400, 1400, 1400, 1396, 1402, 1400, 1401, 1400, 1400, 1400, 1400,
+        1403])
+2025-02-25 21:54:11,322 - INFO - 
+validation :
+2025-02-25 21:54:11,347 - INFO - sample num: 5000
+2025-02-25 21:54:11,381 - INFO - label : tensor([205, 200, 200, 200, 199, 200, 203, 200, 200, 200, 200, 200, 200, 200,
+        200, 199, 201, 197, 201, 200, 200, 200, 200, 200, 195])
+2025-02-25 21:54:11,405 - INFO - 
+test :
+2025-02-25 21:54:11,430 - INFO - sample num: 10000
+2025-02-25 21:54:11,472 - INFO - label : tensor([398, 400, 400, 400, 398, 400, 399, 400, 400, 400, 400, 400, 400, 400,
+        400, 401, 403, 401, 399, 399, 400, 400, 400, 400, 402])
+2025-02-25 21:54:11,497 - INFO - 
+train dataset:
+2025-02-25 21:54:11,522 - INFO - Total samples: 35000
+2025-02-25 21:54:11,547 - INFO - Available features: {'input_ids': Sequence(feature=Value(dtype='int32', id=None), length=-1, id=None), 'attention_mask': Sequence(feature=Value(dtype='int8', id=None), length=-1, id=None), 'labels': Value(dtype='int64', id=None)}
+2025-02-25 21:54:51,927 - INFO - Feature lengths: {'input_ids': 35000, 'attention_mask': 35000, 'labels': 35000}
+2025-02-25 21:54:51,951 - INFO - 
+First sample content:
+2025-02-25 21:54:51,978 - INFO -   input_ids: Shape/Length = 512
+2025-02-25 21:54:52,001 - INFO -   attention_mask: Shape/Length = 512
+2025-02-25 21:54:52,026 - INFO -   labels: Shape/Length = 1
+2025-02-25 21:54:52,051 - INFO - 
+validation dataset:
+2025-02-25 21:54:52,076 - INFO - Total samples: 5000
+2025-02-25 21:54:52,105 - INFO - Available features: {'input_ids': Sequence(feature=Value(dtype='int32', id=None), length=-1, id=None), 'attention_mask': Sequence(feature=Value(dtype='int8', id=None), length=-1, id=None), 'labels': Value(dtype='int64', id=None)}
+2025-02-25 21:54:57,753 - INFO - Feature lengths: {'input_ids': 5000, 'attention_mask': 5000, 'labels': 5000}
+2025-02-25 21:54:57,777 - INFO - 
+First sample content:
+2025-02-25 21:54:57,834 - INFO -   input_ids: Shape/Length = 512
+2025-02-25 21:54:57,874 - INFO -   attention_mask: Shape/Length = 512
+2025-02-25 21:54:57,941 - INFO -   labels: Shape/Length = 1
+2025-02-25 21:54:57,965 - INFO - 
+test dataset:
+2025-02-25 21:54:57,999 - INFO - Total samples: 10000
+2025-02-25 21:54:58,049 - INFO - Available features: {'input_ids': Sequence(feature=Value(dtype='int32', id=None), length=-1, id=None), 'attention_mask': Sequence(feature=Value(dtype='int8', id=None), length=-1, id=None), 'labels': Value(dtype='int64', id=None)}
+2025-02-25 21:55:09,409 - INFO - Feature lengths: {'input_ids': 10000, 'attention_mask': 10000, 'labels': 10000}
+2025-02-25 21:55:09,428 - INFO - 
+First sample content:
+2025-02-25 21:55:09,456 - INFO -   input_ids: Shape/Length = 512
+2025-02-25 21:55:09,504 - INFO -   attention_mask: Shape/Length = 512
+2025-02-25 21:55:09,554 - INFO -   labels: Shape/Length = 1
+2025-02-25 21:57:34,487 - INFO - 
+new acc: 0.7320
+2025-02-25 21:57:34,530 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 21:59:38,597 - INFO - 
+new acc: 0.8802
+2025-02-25 21:59:38,630 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:01:43,828 - INFO - 
+new acc: 0.9046
+2025-02-25 22:01:43,865 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:03:48,754 - INFO - 
+new acc: 0.9216
+2025-02-25 22:03:48,884 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:05:52,646 - INFO - 
+new acc: 0.9248
+2025-02-25 22:05:52,744 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:07:56,855 - INFO - 
+new acc: 0.9314
+2025-02-25 22:07:57,260 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:09:43,798 - INFO -  1 step no imporvement
+2025-02-25 22:11:48,552 - INFO - 
+new acc: 0.9334
+2025-02-25 22:11:48,957 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:13:51,761 - INFO - 
+new acc: 0.9406
+2025-02-25 22:13:52,024 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:15:39,415 - INFO -  1 step no imporvement
+2025-02-25 22:17:43,371 - INFO - 
+new acc: 0.9478
+2025-02-25 22:17:43,795 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:19:48,599 - INFO - 
+new acc: 0.9500
+2025-02-25 22:19:49,036 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:21:35,939 - INFO -  1 step no imporvement
+2025-02-25 22:23:22,906 - INFO -  2 step no imporvement
+2025-02-25 22:25:31,514 - INFO - 
+new acc: 0.9534
+2025-02-25 22:25:32,084 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:27:18,270 - INFO -  1 step no imporvement
+2025-02-25 22:29:24,084 - INFO - 
+new acc: 0.9554
+2025-02-25 22:29:24,318 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:31:11,084 - INFO -  1 step no imporvement
+2025-02-25 22:32:58,778 - INFO -  2 step no imporvement
+2025-02-25 22:34:45,750 - INFO -  3 step no imporvement
+2025-02-25 22:34:45,937 - INFO - 
+ Early stop, best acc: 0.9554
+2025-02-25 22:35:03,101 - INFO - model be saved:TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/checkpoint-10000/pytorch_model.bin
+2025-02-25 22:35:42,505 - INFO - 
+ Early stop,best_accuracy: 0.9554
+2025-02-25 22:35:42,543 - INFO - model save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:35:42,588 - INFO - early stop...
+2025-02-25 22:35:42,644 - INFO - 
+finished training
+2025-02-25 22:35:42,686 - INFO - best_accuracy: 0.9554
+2025-02-25 22:35:42,744 - INFO - best_model_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:35:42,819 - INFO - 
+ test...
+2025-02-25 22:37:48,523 - INFO - 
+new acc: 0.9559
+2025-02-25 22:37:48,787 - INFO - save_path: TransModular_GPT/fintune/save_model/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-02-25 22:37:48,829 - INFO - test_results : {'eval_loss': 0.2127256542444229, 'eval_accuracy': 0.9559, 'eval_runtime': 101.4512, 'eval_samples_per_second': 98.57, 'eval_steps_per_second': 24.642}

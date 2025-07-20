@@ -337,15 +337,31 @@ def evaluate_euro_model(model: GPTNeoWithClassificationHead) -> dict:
     return metrics
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate European Language Identification model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='TransModular_GPT/data/gpt-neo-125m/',
+                        help="Path to the base model")
+    parser.add_argument("--num_classes", type=int, default=6,
+                        help="Number of classes for classification")
+
+    args = parser.parse_args()
+
     # Set up logging
     logging.basicConfig(stream=sys.stdout, level=logging.INFO)
     logger.info("Starting EuroLangID evaluation")
-    
+
     # Load model
-    model = GPTNeoWithClassificationHead('TransModular_GPT/data/gpt-neo-125m/', num_classes=6)
-    model_state = torch.load("TransModular_GPT/finetune/save_model/langid/best_model/pytorch_model.bin")
-    model.load_state_dict(model_state)
+    model_euro = GPTNeoWithClassificationHead(args.base_model_path, num_classes=args.num_classes)
+    model_euro.load_state_dict(torch.load(args.model_path))
+
     # Evaluate model
-    metrics = evaluate_euro_model(model)
-    logger.info(f"Metrics: {metrics}")
-    logger.info("Evaluation complete")
+    metrics = evaluate_euro_model(model_euro)
+
+    if metrics:
+        logger.info("European Language ID evaluation completed successfully")
+        logger.info(f"Final metrics: {metrics}")
+    else:
+        logger.error("European Language ID evaluation failed")
+        exit(1)

@@ -235,3 +235,61 @@ def do_gen_test(model,tokenizer,task,sub_task,type):
         logger.info(result_str)
     torch.cuda.empty_cache()
     return result_str,test_bleu
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate Code Generation model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='TransModular_CodeT5/data/pretrain_model/codet5_small/',
+                        help="Path to the base model")
+    parser.add_argument("--task", type=str, required=True,
+                        choices=['summarize', 'concode', 'refine'],
+                        help="Task type: summarize, concode, or refine")
+    parser.add_argument("--sub_task", type=str, default='java',
+                        help="Sub task (e.g., python, java)")
+    parser.add_argument("--type", type=str, default='module_merge',
+                        help="Type for result directory naming")
+    parser.add_argument("--model_type", type=str, default='codet5',
+                        choices=['codet5', 't5', 'bart'],
+                        help="Model type")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Code Generation model evaluation")
+
+    # Setup device
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # Load model and tokenizer
+    config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
+
+    # Load tokenizer
+    tokenizer = tokenizer_class.from_pretrained(args.base_model_path)
+
+    # Load model
+    model = model_class.from_pretrained(args.base_model_path)
+    model.load_state_dict(torch.load(args.model_path))
+    model.to(device)
+
+    # Set seed for reproducibility
+    set_seed(42)
+
+    # Run evaluation
+    try:
+        logger.info(f'======================Starting {args.task} evaluation====================')
+        result, bleu = do_gen_test(model, tokenizer, task=args.task, sub_task=args.sub_task, type=args.type)
+        print(result)
+        logger.info("Code Generation evaluation completed successfully")
+        logger.info(f"BLEU score: {bleu}")
+    except Exception as e:
+        logger.error(f"Code Generation evaluation failed: {str(e)}")
+        import traceback
+        logger.error(traceback.format_exc())
+        exit(1)
+    finally:
+        # Clean up multiprocessing pool
+        pool.close()
+        pool.join()

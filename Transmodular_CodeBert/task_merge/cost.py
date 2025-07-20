@@ -156,20 +156,9 @@ def compare_models(dense_model, sparse_model):
     print(f"\n all: {100.0 * different_params / total_compared:.2f}% ({different_params}/{total_compared})")
 def new_load_init_module(model,task_type="code_clone"):
     if task_type == "code_clone":
-        module_path = "data/module_java/lr_0.001_alpha_10.0_ne_4_wrr_22.94/result/pytorch_model_try.bin"
+        module_path = "result/pytorch_model_try.bin"
     else:
-        module_path = "data/module_python/lr_0.001_alpha_10.0_ne_4_wrr_24.15/result/pytorch_model_try.bin"
-    
-    # if task_type == "code_clone":
-    #     module_path = "data/module_java/lr_0.01_alpha_10.0_ne_2_wrr_7.22/result/pytorch_model_try.bin"
-    # else:
-    #     module_path = "data/module_python/lr_0.01_alpha_10.0_ne_2_wrr_7.68/result/pytorch_model_try.bin"
-    
-    total_params = 0
-    masked_params = 0
-    mask_stats = {}
-
-
+        module_path = "result/pytorch_model_try.bin"
     module_state = torch.load(module_path, map_location=torch.device(device))
     model=model.to(device)
     model_state = model.state_dict()
@@ -185,44 +174,12 @@ def new_load_init_module(model,task_type="code_clone"):
             same_k.append(name)
             mask = module_state[f'{modified_name}_mask']
             bin_mask = (mask > 0).float().to(device)
-            ##
-            # param_before = model_state[name]
-            # total_in_layer = torch.numel(param_before)
-            # total_params += total_in_layer
-
-
             model_state[name] = model_state[name] * bin_mask
-            # zeros_after = torch.sum(model_state[name] == 0).item()
-
-            ##
-            # zeros_before = torch.sum(param_before == 0).item()
-            # masked_in_layer = zeros_after - zeros_before
-            # masked_params += masked_in_layer
-            
-            #
-            # sparsity = 100.0 * masked_in_layer / total_in_layer if total_in_layer > 0 else 0
-            # mask_stats[name] = {
-            #     "total": total_in_layer,
-            #     "masked": masked_in_layer,
-            #     "sparsity": sparsity
-            # }
         else:
             diff_k.append(name)
 
     print(f'same k: {same_k}\n\n')
     print(f'diff k: {diff_k}\n\n')
-    # total_sparsity = 100.0 * masked_params / total_params if total_params > 0 else 0
-    # print(f"\nall:")
-    # print(f"total_params: {total_params:,}")
-    # print(f"masked_params: {masked_params:,}")
-    # print(f"total_sparsity: {total_sparsity:.2f}%")
-
-    # print("\nlayer:")
-    # for name, stats in mask_stats.items():
-    #     if stats["sparsity"] > 0:
-    #         print(f"{name}: {stats['sparsity']:.2f}% masked ({stats['masked']:,}/{stats['total']:,})")
-
-    
     model.load_state_dict(model_state)
     post_mask_sparsity = calculate_sparsity(model.state_dict())
     print(f"after masked: {post_mask_sparsity['sparsity_percentage']:.2f}% zeros")
@@ -274,34 +231,6 @@ def benchmark_pytorch_model(model, data_loader, device, num_iterations=20, num_w
         "avg_ms_per_batch": np.mean(times),
         "std_ms_per_batch": np.std(times)
     }
-
-
-# def benchmark_with_deepsparse(model, inputs, export_path, batch_size=16):
-#     """Measure sparse model inference time using DeepSparse"""
-#     model.to(device)
-#     model.eval()
-    
-#     # Ensure directory exists
-#     os.makedirs(os.path.dirname(export_path), exist_ok=True)
-    
-#     # Export model to ONNX format
-#     exporter = ModuleExporter(model, os.path.dirname(export_path))
-#     exporter.export_onnx(inputs, name=os.path.basename(export_path))
-#     actual_batch_size = inputs[0].shape[0]
-#     # Load and benchmark with DeepSparse engine
-#     engine = Engine(export_path, batch_size=actual_batch_size)
-    
-#     # Prepare input data as numpy arrays
-#     input_data = [t.numpy() for t in inputs]
-    
-#     # Run benchmark
-#     result = engine.benchmark(input_data, 
-#                              num_iterations=20, 
-#                              num_warmup_iterations=5,
-#                              show_progress=True)
-    
-#     return result.ms_per_batch
-
 
 def benchmark_with_deepsparse(model, inputs, export_path, batch_size=16, data_loader=None):
     """Measure sparse model inference time using DeepSparse"""
@@ -450,38 +379,16 @@ def main():
         # base_model_for_new = copy.deepcopy(base_model)
         # 2. Load dense and sparse models
         dense_model = load_dense_model(base_model_for_dense, config, task_type)
-        
-        # Path to sparse model weights - replace with actual path
-        # if task_type == "code_clone":
-        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_finetune_20241101/checkpoint-best-f1/model.bin"
-        # else:  # nl_code_search
-        #     sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20241031_epoch10/checkpoint-best-aver/pytorch_model.bin"
-        
-        # if task_type == "code_clone":
-        #     sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_finetune_wrr_7.22_20250228/checkpoint-best-f1/model.bin"
-        # else:  # nl_code_search
-        #     sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20250228/checkpoint-best-aver/pytorch_model.bin"
-        
         if task_type == "code_clone":
             sparse_model_path = "Clone_detection_BigCloneBench_2/code/saved_models/module_finetune_wrr_22.94_20250228/checkpoint-best-f1/model.bin"
         else:  # nl_code_search
             sparse_model_path = "NL_code_search_WebQuery/code/module_cosqa_20250302/checkpoint-best-aver/pytorch_model.bin"
 
         sparse_model = load_sparse_model(base_model_for_sparse, sparse_model_path, config, task_type)
-        # print("\ncompare:")
-        # dense_model.to('cuda')
-        # sparse_model.to('cuda')
-        # print("\nAnalyzing sparse model changes from pretrained:")
-        # pretrained_model = copy.deepcopy(base_model_for_new)
-        # pretrained_model = Model_clone(base_model, config , tokenizer).to(device)
-        # delta_stats = calculate_delta_sparsity(sparse_model, pretrained_model)
-        
-        # compare_models(dense_model, sparse_model)
 
         print("\nCalculating model sparsity:")
         dense_sparsity = calculate_sparsity(dense_model.state_dict())
         sparse_sparsity = calculate_sparsity(sparse_model.state_dict())
-        
         print(f"Dense model: {dense_sparsity['sparsity_percentage']:.2f}% zeros ({dense_sparsity['zero_params']:,}/{dense_sparsity['total_params']:,})")
         print(f"Sparse model: {sparse_sparsity['sparsity_percentage']:.2f}% zeros ({sparse_sparsity['zero_params']:,}/{sparse_sparsity['total_params']:,})")
         # 3. Benchmark on CPU
@@ -490,56 +397,24 @@ def main():
         sparse_cpu_perf = benchmark_pytorch_model(sparse_model, data_loader, "cpu")
         
         print(f"Dense model (CPU): {dense_cpu_perf['avg_ms_per_batch']:.2f} +/- {dense_cpu_perf['std_ms_per_batch']:.2f} ms/batch")
-        print(f"Sparse model (CPU): {sparse_cpu_perf['avg_ms_per_batch']:.2f} +/- {sparse_cpu_perf['std_ms_per_batch']:.2f} ms/batch")
-        print(f"Speedup: {dense_cpu_perf['avg_ms_per_batch']/sparse_cpu_perf['avg_ms_per_batch']:.2f}x")
         # 4. Benchmark with DeepSparse
         print("\nBenchmarking with DeepSparse:")
         export_path = f'./tmp/{task_type}/sparse_model.onnx'
         deepsparse_ms_per_batch = benchmark_with_deepsparse(sparse_model, sample_inputs, export_path, batch_size)
-        
         print(f"DeepSparse acceleration: {deepsparse_ms_per_batch:.2f} ms/batch")
         print(f"Speedup vs CPU dense: {dense_cpu_perf['avg_ms_per_batch']/deepsparse_ms_per_batch:.2f}x")
-        print(f"Speedup vs CPU sparse: {sparse_cpu_perf['avg_ms_per_batch']/deepsparse_ms_per_batch:.2f}x")
         
-        # 5. If GPU is available, benchmark on GPU
-        if torch.cuda.is_available():
-            print("\nBenchmarking on GPU:")
-            dense_gpu_perf = benchmark_pytorch_model(dense_model, data_loader, "cuda")
-            sparse_gpu_perf = benchmark_pytorch_model(sparse_model, data_loader, "cuda")
-            
-            print(f"Dense model (GPU): {dense_gpu_perf['avg_ms_per_batch']:.2f} +/- {dense_gpu_perf['std_ms_per_batch']:.2f} ms/batch")
-            print(f"Sparse model (GPU): {sparse_gpu_perf['avg_ms_per_batch']:.2f} +/- {sparse_gpu_perf['std_ms_per_batch']:.2f} ms/batch")
-            print(f"GPU speedup: {dense_gpu_perf['avg_ms_per_batch']/sparse_gpu_perf['avg_ms_per_batch']:.2f}x")
-            
-            # Compare DeepSparse with GPU
-            print(f"DeepSparse vs dense GPU: {dense_gpu_perf['avg_ms_per_batch']/deepsparse_ms_per_batch:.2f}x")
-            print(f"DeepSparse vs sparse GPU: {sparse_gpu_perf['avg_ms_per_batch']/deepsparse_ms_per_batch:.2f}x")
+        # 5. Evaluating model accuracy
+        print("\nEvaluating model accuracy:")
+        if task_type == "code_clone":
+            dense_metrics = evaluate_clone(dense_model,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
+            sparse_metrics = evaluate_clone(sparse_model,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
+        else:  # nl_code_search
+            dense_metrics = evaluate_search(dense_model,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
+            sparse_metrics = evaluate_search(sparse_model,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
         
-        # 6. Evaluate model accuracy
-        # print("\nEvaluating model accuracy:")
-        # if task_type == "code_clone":
-        #     dense_metrics = evaluate_clone(dense_model,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
-        #     sparse_metrics = evaluate_clone(sparse_model,tokenizer,"Clone_detection_BigCloneBench_2/dataset/test.txt","./task_eval/")
-        # else:  # nl_code_search
-        #     dense_metrics = evaluate_search(dense_model,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
-        #     sparse_metrics = evaluate_search(sparse_model,tokenizer,'NL_code_search_WebQuery/CoSQA/cosqa_dev.json',"./task_eval/")
+        print(f"Dense model metrics: {dense_metrics}")
+        print(f"Sparse model metrics: {sparse_metrics}")
         
-        # print(f"Dense model metrics: {dense_metrics}")
-        # print(f"Sparse model metrics: {sparse_metrics}")
-        
-        # 7. Save results
-        # result_file = f"{output_dir}/benchmark_results.txt"
-        # with open(result_file, "w") as f:
-        #     f.write(f"Task: {task_type}\n")
-        #     f.write(f"Dense model (CPU): {dense_cpu_perf['avg_ms_per_batch']:.2f}+/-{dense_cpu_perf['std_ms_per_batch']:.2f} ms/batch\n")
-        #     f.write(f"Sparse model (CPU): {sparse_cpu_perf['avg_ms_per_batch']:.2f}+/-{sparse_cpu_perf['std_ms_per_batch']:.2f} ms/batch\n")
-        #     f.write(f"DeepSparse: {deepsparse_ms_per_batch:.2f} ms/batch\n")
-        #     if torch.cuda.is_available():
-        #         f.write(f"Dense model (GPU): {dense_gpu_perf['avg_ms_per_batch']:.2f}+/-{dense_gpu_perf['std_ms_per_batch']:.2f} ms/batch\n")
-        #         f.write(f"Sparse model (GPU): {sparse_gpu_perf['avg_ms_per_batch']:.2f}+/-{sparse_gpu_perf['std_ms_per_batch']:.2f} ms/batch\n")
-        #     f.write(f"Dense model metrics: {dense_metrics}\n")
-        #     f.write(f"Sparse model metrics: {sparse_metrics}\n")
-
-
 if __name__ == "__main__":
     main()

@@ -326,3 +326,53 @@ def test(args, model, tokenizer, prefix="",pool=None,best_threshold=0):
                 f.write(example.url1+'\t'+example.url2+'\t'+'1'+'\n')
             else:
                 f.write(example.url1+'\t'+example.url2+'\t'+'0'+'\n')
+
+if __name__ == "__main__":
+    import argparse
+    import copy
+    from transformers import RobertaConfig, RobertaModel, RobertaTokenizer
+
+    parser = argparse.ArgumentParser(description="Evaluate Code Clone Detection model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='microsoft/codebert-base',
+                        help="Path to the base model")
+    parser.add_argument("--test_data_file", type=str,
+                        default='Clone_detection_BigCloneBench_2/dataset/test.txt',
+                        help="Path to the test data file")
+    parser.add_argument("--output_dir", type=str,
+                        default="./task_eval/",
+                        help="Output directory for evaluation results")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Code Clone Detection model evaluation")
+
+    # Setup device and multiprocessing
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    pool = multiprocessing.Pool(cpu_cont)
+
+    # Load tokenizer and config
+    config = RobertaConfig.from_pretrained(args.base_model_path)
+    tokenizer = RobertaTokenizer.from_pretrained(args.base_model_path)
+    encoder = RobertaModel.from_pretrained(args.base_model_path)
+
+    # Create model
+    model_clone = Model(encoder, config, tokenizer)
+    model_clone.load_state_dict(torch.load(args.model_path))
+    model_clone.to(device)
+
+    # Evaluate model
+    try:
+        result = evaluate(model_clone, tokenizer, args.test_data_file, args.output_dir, pool=pool)
+        logger.info("Code Clone Detection evaluation completed successfully")
+        logger.info(f"Final results: {result}")
+    except Exception as e:
+        logger.error(f"Code Clone Detection evaluation failed: {str(e)}")
+        exit(1)
+    finally:
+        pool.close()
+        pool.join()

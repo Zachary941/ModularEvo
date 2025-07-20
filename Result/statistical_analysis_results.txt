@@ -1,0 +1,23 @@
+ModularEvo vs Baseline Methods Statistical Analysis Results
+==================================================
+
+      Method  Experiment 1  Experiment 2  Experiment 3    Mean Std Dev
+          WA         93.64         94.08         94.16 93.9600  0.2800
+          TA         94.24         95.41         96.07 95.2400  0.9268
+        DARE         96.73         97.02         96.74 96.8300  0.1646
+TIES-Merging         95.51         95.76         95.59 95.6200  0.1277
+  ModularEvo         98.70         98.55         98.76 98.6700  0.1082
+
+Statistical Significance Testing:
+ModularEvo_vs_DARE: p = 0.000085
+ModularEvo_vs_TIES: p = 0.000006
+ModularEvo_vs_WA: p = 0.000011
+ModularEvo_vs_TA: p = 0.003120
+DARE_vs_TIES: p = 0.000549
+
+Effect Size Analysis:
+ModularEvo_vs_DARE: Cohen's d = 13.2104 (Very large effect)
+ModularEvo_vs_TIES: Cohen's d = 25.7772 (Very large effect)
+ModularEvo_vs_WA: Cohen's d = 22.1908 (Very large effect)
+ModularEvo_vs_TA: Cohen's d = 5.1988 (Very large effect)
+DARE_vs_TIES: Cohen's d = 8.2140 (Very large effect)

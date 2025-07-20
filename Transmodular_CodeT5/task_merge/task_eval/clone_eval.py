@@ -146,3 +146,59 @@ def do_clone_test(model,tokenizer,task,sub_task,type):
         logger.info("  test_rec=%.4f", result['eval_recall'])
         logger.info("  " + "*" * 20)
     return result
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate Code Clone Detection model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='TransModular_CodeT5/data/pretrain_model/codet5_small/',
+                        help="Path to the base model")
+    parser.add_argument("--task", type=str, default='clone',
+                        help="Task type (default: clone)")
+    parser.add_argument("--sub_task", type=str, default='none',
+                        help="Sub task")
+    parser.add_argument("--type", type=str, default='module_merge',
+                        help="Type for result directory naming")
+    parser.add_argument("--model_type", type=str, default='codet5',
+                        choices=['codet5', 't5', 'bart'],
+                        help="Model type")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Code Clone Detection model evaluation")
+
+    # Setup device
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # Load model and tokenizer
+    config_class, model_class, tokenizer_class = MODEL_CLASSES[args.model_type]
+
+    # Load tokenizer
+    tokenizer = tokenizer_class.from_pretrained(args.base_model_path)
+
+    # Load model
+    model = model_class.from_pretrained(args.base_model_path)
+    model.load_state_dict(torch.load(args.model_path))
+    model.to(device)
+
+    # Set seed for reproducibility
+    set_seed(42)
+
+    # Run evaluation
+    try:
+        logger.info(f'======================Starting {args.task} evaluation====================')
+        result = do_clone_test(model, tokenizer, task=args.task, sub_task=args.sub_task, type=args.type)
+        logger.info("Code Clone Detection evaluation completed successfully")
+        logger.info(f"Final results: {result}")
+    except Exception as e:
+        logger.error(f"Code Clone Detection evaluation failed: {str(e)}")
+        import traceback
+        logger.error(traceback.format_exc())
+        exit(1)
+    finally:
+        # Clean up multiprocessing pool
+        pool.close()
+        pool.join()

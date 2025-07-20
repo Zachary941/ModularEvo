@@ -10,35 +10,57 @@
 > **ModularEvo** enables the co-evolution of models and modules through neural network modularization and composition, achieving better performance improvement in multi-task scenarios.
 ## 📋 Table of Contents
 
-- [Rebuttal Materials](#-rebuttal-materials)
+- [Review Materials](#-review-materials)
 - [Abstract](#abstract)
-- [Key Features](#key-features)
-- [Installation](#installation)
-- [Project Structure](#project-structure)
-- [Quick Start](#quick-start)
-- [Experimental Workflow](#experimental-workflow)
-- [Results](#results)
-- [Supplementary Experimental Details](#supplementary-experimental-details)
-- [Datasets](#datasets)
+- [Key Features](#-key-features)
+- [Installation](#-installation)
+- [Project Structure](#️-project-structure)
+- [Quick Start](#-quick-start)
+- [Experimental Workflow](#-experimental-workflow)
+- [Datasets](#-datasets)
+- [Analysis Scripts and Metrics Calculation](#-metrics-calculation-and-analysis-scripts)
+- [Results](#-results)
+- [Supplementary Experimental Details](#-supplementary-experimental-details)
 
-## 📄 Rebuttal Materials
+## 📄 Review Materials
 
-[![Rebuttal Supplementary](https://img.shields.io/badge/%20-Rebuttal%20Supplementary-red.svg)](ICSE_2026_Rebuttal_Supplementary.md)
-[![Status](https://img.shields.io/badge/Status-Under%20Review-yellow.svg)](#)
+[![Datasets](https://img.shields.io/badge/📊-Datasets-blue.svg)](#-datasets)
+[![Analysis Scripts](https://img.shields.io/badge/🔧-Analysis%20Scripts-green.svg)](#-analysis-scripts-and-metrics-calculation)
+[![Results](https://img.shields.io/badge/📈-Results-orange.svg)](#-results)
 
-> **🔍 For Reviewers**: Access comprehensive supplementary materials addressing all review concerns with detailed experimental data and responses for question in detailed comment.
+> **🔍 For Reviewers**: Quick navigation to key replication materials addressing review concerns.
 
-**📋 [→ View Complete Rebuttal Supplementary Materials](Rebuttal_Supplementary.md)**
+<div align="center">
+
+| 📋 **Component** | 📝 **Description** | 🔗 **Access** |
+|:---|:---|:---:|
+| **Datasets** | All evaluation datasets for RQs | [→ View Datasets](#-datasets) |
+| **Analysis Scripts** | Metric calculation and statistical analysis scripts | [→ View Scripts](#-analysis-scripts-and-metrics-calculation) |
+| **Results** | Experimental outputs and performance comparisons | [→ View Results](#-results) |
+
+</div>
 
 ---
 
 ## Abstract
 
-Deep Neural Network (DNN) models, especially large language models, have been widely applied across various downstream tasks. However, as these models are continuously trained on new data distributions and tasks, they often struggle to effectively integrate new knowledge during their evolution. Traditional full-parameter fine-tuning methods force the model to converge on a single task, resulting in degradation of the original knowledge within the model. Although parameter-efficient fine-tuning methods mitigate this issue by introducing external parameters, they still isolate new knowledge in separate modules, limiting the model’s sustained benefit from downstream tasks.
+Training a general multi-task deep neural network (DNN) model, such as a large language model, and deploying it across diverse downstream tasks has become a common practice.
+In long-term deployment scenarios, downstream tasks can change over time, such as new data distributions and requirements, leading to the fine-tuning of the model accordingly, i.e., evolving the model.
+However, traditional full-parameter fine-tuning methods adapt the model to individual tasks, resulting in degradation of the original knowledge. 
+Although parameter-efficient fine-tuning methods could mitigate this problem, they still isolate new knowledge in external, separate parameters.
+As a result, the base model gains little cumulative benefit from downstream updates.
+These limitations stem from the indiscriminate model deployment and fine-tuning.
 
-Inspired by modular design principles in software engineering, we propose **ModularEvo**, a framework that enables the co-evolution of models and modules. The method first constructs a weight mask for the trained model to accurately identify the parameters related to a specific function, thereby decomposing the model into modules covering different domains and allowing each module to upgrade independently within its domain. However, existing modular approaches often store upgraded modules as independent units, resulting in mutual isolation between the model and its modules. Different from them, ModularEvo not only optimizes each module independently, but also transfers new knowledge acquired by modules in downstream tasks to the model, so as to realize the co-evolution of model modules.
+Inspired by modular design principles in software engineering, we propose ModularEvo, a framework that enables on-demand deployment and co-evolution of multi-task models and modules across diverse downstream tasks.
+ModularEvo first decomposes the model into task-specific modules, each retaining a subset of relevant weights and functionality.
+These modules, instead of the entire model, are deployed on downstream tasks on demand.
+During long-term deployment, each module is independently optimized to adjust to the change of the corresponding task.
+Unlike conventional fine-tuning methods, ModularEvo applies modular fine-tuning to update only the task-relevant weights within modules.
+Furthermore, new knowledge acquired by modules is periodically integrated into the model, enabling the co-evolution of both the model and modules.
 
-We conducted extensive experiments on various Transformer models covering both classification and generation tasks. The results demonstrate that, compared to baseline methods, ModularEvo achieves an absolute performance increase of **2.34%** in multi-round evolution tests, and a **2.48x** speedup in downstream task inference, validating the framework’s effectiveness in model evolution and reuse efficiency.
+We evaluate ModularEvo through extensive experiments on three Transformer models and six downstream tasks involving both classification and generation tasks.
+Results demonstrate the effectiveness of ModularEvo in model performance and inference efficiency in evolution scenarios.
+Compared to state-of-the-art baselines, ModularEvo achieves an absolute performance gain of 2.34\% in multi-round evolution scenarios, and a 2.22 times speedup in inference.
 
 <div align="center">
   <img src="./Picture_for_readme/workflow.png" alt="ModularEvo Workflow" width="800"/>
@@ -49,8 +71,6 @@ We conducted extensive experiments on various Transformer models covering both c
 
 - **🧩 Modular Design**: Decompose models into functional modules for different domains
 - **🔄 Co-Evolution**: Enable simultaneous evolution of models and modules
-- **⚡ Efficiency**: 2.48x speedup in  inference
-- **📈 Performance**: 2.34% absolute improvement in multi-round evolution
 - **🎯 Multi Type Task Support**: Support for both classification and generation tasks
 - **🔧 Flexible**: Compatible with CodeBERT, CodeT5, and GPT-Neo architectures
 
@@ -348,23 +368,144 @@ python cost.py
 
 ## 📈 Results
 
-### Key Performance Improvements
+The experimental output files and comprehensive data CSV files have been organized in the **[`Result/`](Result/)** folder for easy access and review. This section provides an overview of key performance improvements and detailed references to specific result files.
+
+### 🎯 Key Performance Improvements
 
 | Metric | Improvement | Description |
 |--------|-------------|-------------|
 | **Multi-round Evolution** | **+2.34%** | Absolute performance increase over baseline methods |
-| **Inference Speed** | **2.4x** | Speedup in task inference |
+| **Inference Speed** | **2.22x** | Speedup in task inference |
 | **Parameter Efficiency** | **~75%** | Reduction in updated parameters during fine-tuning |
 
-### Comparison with Baseline Methods
+### 📊 Experimental Data Files
 
-| Method | CodeBERT | CodeT5 | GPT-Neo |
-|--------|----------|--------|---------|
-| **Task Arithmetic** | 95.24% | 73.30% | 97.97% |
-| **TIES-Merging** | 95.62% | 66.87% | 98.36% |
-| **DARE** | 96.83% | 69.79% | 98.00% | 
-| **ModularEvo (Ours)** | **98.67%** | **77.84%** | **99.08%** | 
+#### 🔧 Modularization Logs
+- **[`modularization_math.log`](Result/modularization_math.log)** - Detailed logs from mathematical domain modularization process
+- **[`modularization_law.log`](Result/modularization_law.log)** - Detailed logs from legal domain modularization process
 
+#### 🎯 Model Fine-tuning Logs
+- **[`finetune_law_model.log`](Result/finetune_law_model.log)** - Full model fine-tuning logs for legal domain tasks
+- **[`finetune_law_module.log`](Result/finetune_law_module.log)** - Modular fine-tuning logs for legal domain tasks
+- **[`finetune_math_model.log`](Result/finetune_math_model.log)** - Full model fine-tuning logs for mathematical domain tasks
+- **[`finetune_math_module.log`](Result/finetune_math_module.log)** - Modular fine-tuning logs for mathematical domain tasks
+
+#### 📋 Baseline Comparisons
+- **[`DARE.csv`](Result/DARE.csv)** - Detailed results for DARE (Drop And REscale) baseline method
+- **[`TIES-Merging.csv`](Result/TIES-Merging.csv)** - Complete TIES-Merging baseline performance data
+- **[`ModularEvo.csv`](Result/ModularEvo.csv)** - Complete performance results for our ModularEvo method across different scaling coefficients
+
+#### 📋 Multi-task Comparison
+- **[`multitask.csv`](Result/multitask.csv)** - Multi-task learning performance comparison:
+  - 3-task and 4-task experimental results
+  - Comparison with Task Arithmetic (TA), TIES-Merging, and DARE baselines
+
+#### 📋 Sparsity Comparison
+- **[`sparsity.csv`](Result/sparsity.csv)** - Sparsity analysis across different methods:
+  - Performance impact of different sparsity levels (0, 0.25, 0.5, 0.75)
+  - Comparison between TIES, DARE, and ModularEvo under various sparsity constraints
+  - Optimal scaling coefficients for each configuration
+
+
+#### ⚡ Performance Logs
+- **[`cost_log.log`](Result/cost_log.log)** 
+    - Inference time and computational cost measurements
+
+
+#### 🏆 Statistical Significance
+- **[`statistical_analysis_results.txt`](Result/statistical_analysis_results.txt)** 
+  - Detailed statistical analysis results, including p-values and effect sizes for all comparisons
+
+
+
+## 🔧 Metrics Calculation and Analysis Scripts
+
+This section provides scripts for calculating all metrics reported in our paper, enabling complete replication of experimental results.
+
+### 📊 Metrics Scripts
+
+#### 1. Calculate Accuracy
+We provide accuracy calculation scripts for different models and tasks:
+
+**GPT-Neo Task Accuracy Calculation:**
+```bash
+# Mathematical reasoning task (MathQA)
+python Transmodular_GPTNeo/task_merge/task_eval/math_eval.py --model_path your_model_path
+
+# Legal document classification (SCOTUS)
+python Transmodular_GPTNeo/task_merge/task_eval/scotus_eval.py --model_path your_model_path 
+
+# Code classification task
+python Transmodular_GPTNeo/task_merge/task_eval/code_eval.py --model_path your_model_path 
+
+# Language identification task
+python Transmodular_GPTNeo/task_merge/task_eval/euro_eval.py --model_path your_model_path
+```
+
+**CodeBERT Task Accuracy Calculation:**
+```bash
+# Code clone detection
+python Transmodular_CodeBert/task_merge/task_eval/code_clone_eval.py --model_path your_model_path 
+
+# Natural language code search
+python Transmodular_CodeBert/task_merge/task_eval/nl_code_search_eval.py --model_path your_model_path
+```
+
+#### 2. Calculate BLEU Scores
+We provide multiple BLEU score calculation methods:
+
+**Standard BLEU Scores:**
+```bash
+# Code generation task BLEU calculation
+python Transmodular_CodeT5/task_merge/task_eval/gen_eval.py --task concode --model_path your_model_path
+```
+
+#### 3. Calculate Inference Time and Speedup
+We provide detailed performance benchmarking scripts:
+
+**CodeBERT Inference Time Measurement:**
+```bash
+# Measure CodeBERT model inference time
+python Transmodular_CodeBert/task_merge/cost.py --model_path your_model_path --batch_size your_batch_size --task code_clone
+```
+
+**GPT-Neo Inference Time Measurement:**
+```bash
+# Measure GPT-Neo model inference time and speedup
+python Transmodular_GPTNeo/task_merge/cost.py --model_path your_model_path --batch_size your_batch_size --tasks math
+```
+
+**CodeT5 Inference Time Measurement:**
+```bash
+# Measure CodeT5 model inference time
+python Transmodular_CodeT5/task_merge/cost.py --model_path your_model_path --batch_size your_batch_size --task concode
+```
+
+#### 4. Calculate abs_avg and norm_avg
+We provide scripts for calculating abs_avg and norm_avg in the calculate_avg.py file under the Script folder:
+
+```bash
+# Calculate absolute average and normalized average
+python Script/calculate_avg.py merged_task1_score merged_task2_score individual_task1_score individual_task2_score
+```
+
+**Parameter Description:**
+- `merged_task1_score`: Performance score of merged model on task 1
+- `merged_task2_score`: Performance score of merged model on task 2
+- `individual_task1_score`: Performance score of individually fine-tuned model on task 1
+- `individual_task2_score`: Performance score of individually fine-tuned model on task 2
+
+
+### 📈 Statistical Analysis Scripts
+
+#### 1. Calculate p-value and Significance Testing
+We provide statistical significance analysis scripts to verify the reliability of experimental results:
+
+**p-value Calculation:**
+```bash
+# Calculate p-value for paired t-test
+python scripts/statistical_analysis.py
+```
 
 ## 🔧 Supplementary Experimental Details
 
@@ -491,6 +632,21 @@ These datasets are used for evaluating the performance of modularized models on 
 - **Languages**: Java programming language
 - **Download**: [Available in CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE)
 
+#### Rosetta Code
+- **Description**: Programming problems and solutions in multiple programming languages
+- **Tasks**: Code classification and programming language identification
+- **Languages**: Multiple programming languages (Python, Java, C++, etc.)
+- **Evaluation**: Used in GPT-Neo experiments for code classification tasks
+- **Download**: [HuggingFace - christopher/rosetta-code](https://huggingface.co/datasets/christopher/rosetta-code)
+
+### 🌍 Language Identification
+
+#### Nordic Language Identification (Langid)
+- **Description**: Nordic language identification dataset for multilingual text classification
+- **Tasks**: Language identification and classification for Nordic languages
+- **Evaluation**: Used in GPT-Neo experiments for language identification tasks
+- **Download**: [HuggingFace - strombergnlp/nordic_langid](https://huggingface.co/datasets/strombergnlp/nordic_langid)
+
 
 ### 📋 Dataset Summary
 
@@ -508,6 +664,8 @@ These datasets are used for evaluating the performance of modularized models on 
 |--------|---------|-----------|------------|
 | 🧮 **Math** | MathQA | Classification | GPT-Neo | 
 | ⚖️ **Legal** | SCOTUS | Classification | GPT-Neo | 
+| 🧮 **Nordic languages** | Langid  | Classification | GPT-Neo | 
+| 💻 **Code** | Rosetta Code | Classification | GPT-Neo | 
 | 💻 **Code** | Clone Detection | Classification | CodeBERT | 
 | 💻 **Code** | Code Search | Classification | CodeBERT | 
 | 💻 **Code** | Summarization | Natural Language Generation | CodeT5 | 

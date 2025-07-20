@@ -174,18 +174,18 @@ def compute_metrics(pred):
 def evaluate_math_model(model: GPTNeoWithClassificationHead) -> dict:
     """
     Evaluate model on the Math-QA test set
-    
+
     Args:
         model: The model to evaluate
-        
+
     Returns:
         dict: Dictionary containing evaluation metrics
     """
     try:
         # Load dataset
-        LOCAL_DATASET_PATH = 'TransModular_GPT/finetune/data/mathqa/' 
+        LOCAL_DATASET_PATH = 'TransModular_GPT/finetune/data/mathqa/'
         dataset = load_dataset(
-            'parquet',  
+            'parquet',
             data_files={
                 'train': os.path.join(LOCAL_DATASET_PATH, "train-00000-of-00001.parquet"),
                 'validation': os.path.join(LOCAL_DATASET_PATH, "val-00000-of-00001.parquet"),
@@ -226,16 +226,47 @@ def evaluate_math_model(model: GPTNeoWithClassificationHead) -> dict:
 
         # Run evaluation
         results = evaluator.evaluate(tokenized_dataset['test'])
-        
+
         # Extract metrics
         metrics = {
             'accuracy': results['eval_accuracy'],
             'micro_f1': results['eval_micro-f1'],
             'macro_f1': results['eval_macro-f1']
         }
-        
+
+        logger.info(f"Math evaluation results: {metrics}")
         return metrics
 
     except Exception as e:
         logger.info(f"Evaluation failed: {str(e)}")
         return None
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate Math model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='TransModular_GPT/data/gpt-neo-125m/',
+                        help="Path to the base model")
+    parser.add_argument("--num_classes", type=int, default=25,
+                        help="Number of classes for classification")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Math model evaluation")
+
+    # Load model
+    model_math = GPTNeoWithClassificationHead(args.base_model_path, num_classes=args.num_classes)
+    model_math.load_state_dict(torch.load(args.model_path))
+
+    # Evaluate model
+    metrics = evaluate_math_model(model_math)
+
+    if metrics:
+        logger.info("Math evaluation completed successfully")
+        logger.info(f"Final metrics: {metrics}")
+    else:
+        logger.error("Math evaluation failed")
+        exit(1)

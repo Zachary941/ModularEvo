@@ -1,0 +1,92 @@
+2025-03-07 19:57:15,125 - INFO - label num: 25
+2025-03-07 19:57:15,407 - INFO - mapping:
+2025-03-07 19:57:25,732 - INFO - \dataset:
+2025-03-07 19:57:25,795 - INFO - 
+train :
+2025-03-07 19:57:25,870 - INFO - sample num: 35000
+2025-03-07 19:57:26,155 - INFO - label : tensor([1397, 1400, 1400, 1400, 1403, 1400, 1398, 1400, 1400, 1400, 1400, 1400,
+        1400, 1400, 1400, 1400, 1396, 1402, 1400, 1401, 1400, 1400, 1400, 1400,
+        1403])
+2025-03-07 19:57:26,349 - INFO - 
+validation :
+2025-03-07 19:57:26,612 - INFO - sample num: 5000
+2025-03-07 19:57:26,875 - INFO - label : tensor([205, 200, 200, 200, 199, 200, 203, 200, 200, 200, 200, 200, 200, 200,
+        200, 199, 201, 197, 201, 200, 200, 200, 200, 200, 195])
+2025-03-07 19:57:27,075 - INFO - 
+test :
+2025-03-07 19:57:27,191 - INFO - sample num: 10000
+2025-03-07 19:57:27,293 - INFO - label : tensor([398, 400, 400, 400, 398, 400, 399, 400, 400, 400, 400, 400, 400, 400,
+        400, 401, 403, 401, 399, 399, 400, 400, 400, 400, 402])
+2025-03-07 19:57:45,446 - INFO - Total parameters: 84989952
+2025-03-07 19:57:45,496 - INFO - Parameters in mask: 29229048.0 (34.39%)
+2025-03-07 20:01:31,872 - INFO - 
+new acc: 0.7040
+2025-03-07 20:01:31,957 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:03:44,745 - INFO - 
+new acc: 0.8650
+2025-03-07 20:03:44,860 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:05:57,856 - INFO - 
+new acc: 0.9038
+2025-03-07 20:05:57,997 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:08:12,485 - INFO - 
+new acc: 0.9244
+2025-03-07 20:08:12,553 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:10:24,445 - INFO - 
+new acc: 0.9314
+2025-03-07 20:10:24,656 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:12:18,651 - INFO -  1 step no imporvement
+2025-03-07 20:14:35,967 - INFO - 
+new acc: 0.9344
+2025-03-07 20:14:36,030 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:16:55,954 - INFO - 
+new acc: 0.9388
+2025-03-07 20:16:56,088 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:18:50,144 - INFO -  1 step no imporvement
+2025-03-07 20:21:04,678 - INFO - 
+new acc: 0.9424
+2025-03-07 20:21:04,942 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:23:17,340 - INFO - 
+new acc: 0.9492
+2025-03-07 20:23:17,463 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:25:52,168 - INFO - 
+new acc: 0.9538
+2025-03-07 20:25:52,218 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:27:46,265 - INFO -  1 step no imporvement
+2025-03-07 20:29:40,545 - INFO -  2 step no imporvement
+2025-03-07 20:31:59,020 - INFO - 
+new acc: 0.9554
+2025-03-07 20:31:59,167 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:33:53,478 - INFO -  1 step no imporvement
+2025-03-07 20:35:47,658 - INFO -  2 step no imporvement
+2025-03-07 20:38:03,934 - INFO - 
+new acc: 0.9570
+2025-03-07 20:38:04,024 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:39:59,306 - INFO -  1 step no imporvement
+2025-03-07 20:41:53,006 - INFO -  2 step no imporvement
+2025-03-07 20:42:13,420 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/checkpoint-10000/pytorch_model.bin
+2025-03-07 20:45:06,888 - INFO - 
+new acc: 0.9586
+2025-03-07 20:45:06,941 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:47:01,178 - INFO -  1 step no imporvement
+2025-03-07 20:49:18,113 - INFO - 
+new acc: 0.9602
+2025-03-07 20:49:18,260 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:51:12,177 - INFO -  1 step no imporvement
+2025-03-07 20:53:06,305 - INFO -  2 step no imporvement
+2025-03-07 20:55:00,571 - INFO -  3 step no imporvement
+2025-03-07 20:55:00,719 - INFO - 
+ Early stop, best acc: 0.9602
+2025-03-07 20:55:00,856 - INFO - 
+ Early stop,best_accuracy: 0.9602
+2025-03-07 20:55:00,895 - INFO - model save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:55:00,939 - INFO - early stop...
+2025-03-07 20:55:07,576 - INFO - 
+finished training
+2025-03-07 20:55:07,634 - INFO - best_accuracy: 0.9602
+2025-03-07 20:55:07,676 - INFO - best_model_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:55:07,734 - INFO - 
+ test...
+2025-03-07 20:57:16,418 - INFO - 
+new acc: 0.9585
+2025-03-07 20:57:16,473 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/mathqa/lr5e-05_bs4_e2/best_model/pytorch_model.bin
+2025-03-07 20:57:16,508 - INFO - test_results : {'eval_loss': 0.19501376152038574, 'eval_accuracy': 0.9585, 'eval_micro-f1': 0.9585, 'eval_macro-f1': 0.9584382461503916, 'eval_runtime': 101.9054, 'eval_samples_per_second': 98.13, 'eval_steps_per_second': 24.533}

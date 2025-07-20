@@ -213,3 +213,49 @@ def evaluate( model, tokenizer,eval_data_file=None,output_dir=None):
     results = acc_and_f1(all_predictions, all_labels)
     results.update({"eval_loss": float(eval_loss)})
     return results
+
+if __name__ == "__main__":
+    import argparse
+    import copy
+    from transformers import RobertaConfig, RobertaModel, RobertaTokenizer
+
+    parser = argparse.ArgumentParser(description="Evaluate Natural Language Code Search model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='microsoft/codebert-base',
+                        help="Path to the base model")
+    parser.add_argument("--test_data_file", type=str,
+                        default='NL_code_search_WebQuery/CoSQA/cosqa_dev.json',
+                        help="Path to the test data file")
+    parser.add_argument("--output_dir", type=str,
+                        default="./task_eval/",
+                        help="Output directory for evaluation results")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Natural Language Code Search model evaluation")
+
+    # Setup device
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # Load tokenizer and config
+    config = RobertaConfig.from_pretrained(args.base_model_path)
+    tokenizer = RobertaTokenizer.from_pretrained(args.base_model_path)
+    encoder = RobertaModel.from_pretrained(args.base_model_path)
+
+    # Create model
+    model_search = Model(encoder, config, tokenizer)
+    model_search.load_state_dict(torch.load(args.model_path))
+    model_search.to(device)
+
+    # Evaluate model
+    try:
+        result = evaluate(model_search, tokenizer, args.test_data_file, args.output_dir)
+        logger.info("Natural Language Code Search evaluation completed successfully")
+        logger.info(f"Final results: {result}")
+    except Exception as e:
+        logger.error(f"Natural Language Code Search evaluation failed: {str(e)}")
+        exit(1)

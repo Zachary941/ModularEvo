@@ -278,3 +278,33 @@ def evaluate_code_model(model: GPTNeoWithClassificationHead) -> dict:
         import traceback
         logger.error(traceback.format_exc())
         return None
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate Code language identification model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='TransModular_GPT/data/gpt-neo-125m/',
+                        help="Path to the base model")
+    parser.add_argument("--num_classes", type=int, default=20,
+                        help="Number of classes for classification")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Code language identification model evaluation")
+
+    # Load model
+    model_code = GPTNeoWithClassificationHead(args.base_model_path, num_classes=args.num_classes)
+    model_code.load_state_dict(torch.load(args.model_path))
+
+    # Evaluate model
+    metrics = evaluate_code_model(model_code)
+
+    if metrics:
+        logger.info("Code evaluation completed successfully")
+        logger.info(f"Final metrics: {metrics}")
+    else:
+        logger.error("Code evaluation failed")
+        exit(1)

@@ -1,0 +1,116 @@
+2025-03-07 19:11:13,751 - INFO - num_labels: 13
+2025-03-07 19:11:22,846 - INFO - \dataset:
+2025-03-07 19:11:22,880 - INFO - 
+train :
+2025-03-07 19:11:22,936 - INFO - sample num: 5000
+2025-03-07 19:11:23,085 - INFO - label : tensor([1011,  811,  423,  193,   45,   35,  255, 1043,  717,  191,   53,  220,
+           3])
+2025-03-07 19:11:23,177 - INFO - 
+validation :
+2025-03-07 19:11:23,277 - INFO - sample num: 1400
+2025-03-07 19:11:23,335 - INFO - label : tensor([360, 218, 108,  70,  22,  35,  51, 226, 165,  83,  14,  38,  10])
+2025-03-07 19:11:23,369 - INFO - 
+test :
+2025-03-07 19:11:23,402 - INFO - sample num: 1400
+2025-03-07 19:11:23,443 - INFO - label : tensor([372, 222,  88,  51,  28,  17,  24, 260, 200,  83,  15,  37,   3])
+2025-03-07 19:11:42,120 - INFO - Total parameters: 84989952
+2025-03-07 19:11:42,169 - INFO - Parameters in mask: 24256440.0 (28.54%)
+2025-03-07 19:13:25,093 - INFO - 
+ new acc: 0.2671
+2025-03-07 19:13:25,214 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:14:15,003 - INFO - 
+ new acc: 0.4264
+2025-03-07 19:14:15,040 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:15:04,629 - INFO - 
+ new acc: 0.4871
+2025-03-07 19:15:04,666 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:15:54,204 - INFO - 
+ new acc: 0.5693
+2025-03-07 19:15:54,279 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:16:46,451 - INFO - 
+ new acc: 0.6079
+2025-03-07 19:16:46,481 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:17:04,650 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-500/pytorch_model.bin
+2025-03-07 19:18:34,070 - INFO - 
+ new acc: 0.6386
+2025-03-07 19:18:34,146 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:19:02,429 - INFO -  1 step no imporvement
+2025-03-07 19:19:54,511 - INFO - 
+ new acc: 0.6429
+2025-03-07 19:19:54,538 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:20:45,941 - INFO - 
+ new acc: 0.6679
+2025-03-07 19:20:46,008 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:21:14,105 - INFO -  1 step no imporvement
+2025-03-07 19:21:38,234 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-1000/pytorch_model.bin
+2025-03-07 19:23:06,480 - INFO - 
+ new acc: 0.6750
+2025-03-07 19:23:06,517 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:23:34,652 - INFO -  1 step no imporvement
+2025-03-07 19:24:24,995 - INFO - 
+ new acc: 0.6786
+2025-03-07 19:24:25,025 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:24:53,039 - INFO -  1 step no imporvement
+2025-03-07 19:25:21,262 - INFO -  2 step no imporvement
+2025-03-07 19:25:42,081 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-1500/pytorch_model.bin
+2025-03-07 19:27:10,679 - INFO - 
+ new acc: 0.6964
+2025-03-07 19:27:10,850 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:27:59,393 - INFO - 
+ new acc: 0.7029
+2025-03-07 19:27:59,454 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:28:28,049 - INFO -  1 step no imporvement
+2025-03-07 19:28:55,946 - INFO -  2 step no imporvement
+2025-03-07 19:29:24,254 - INFO -  3 step no imporvement
+2025-03-07 19:29:45,089 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-2000/pytorch_model.bin
+2025-03-07 19:31:21,701 - INFO - 
+ new acc: 0.7136
+2025-03-07 19:31:21,789 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:32:10,534 - INFO - 
+ new acc: 0.7171
+2025-03-07 19:32:10,614 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:32:39,504 - INFO -  1 step no imporvement
+2025-03-07 19:33:07,710 - INFO -  2 step no imporvement
+2025-03-07 19:33:58,473 - INFO - 
+ new acc: 0.7271
+2025-03-07 19:33:58,518 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:34:17,722 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-2500/pytorch_model.bin
+2025-03-07 19:35:24,150 - INFO -  1 step no imporvement
+2025-03-07 19:35:52,666 - INFO -  2 step no imporvement
+2025-03-07 19:36:20,651 - INFO -  3 step no imporvement
+2025-03-07 19:36:48,733 - INFO -  4 step no imporvement
+2025-03-07 19:37:17,266 - INFO -  5 step no imporvement
+2025-03-07 19:37:36,919 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-3000/pytorch_model.bin
+2025-03-07 19:39:03,479 - INFO - 
+ new acc: 0.7314
+2025-03-07 19:39:03,532 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:39:31,800 - INFO -  1 step no imporvement
+2025-03-07 19:40:00,231 - INFO -  2 step no imporvement
+2025-03-07 19:40:28,666 - INFO -  3 step no imporvement
+2025-03-07 19:41:15,775 - INFO - 
+ new acc: 0.7364
+2025-03-07 19:41:15,810 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:41:34,275 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-3500/pytorch_model.bin
+2025-03-07 19:42:42,288 - INFO -  1 step no imporvement
+2025-03-07 19:43:10,926 - INFO -  2 step no imporvement
+2025-03-07 19:43:39,184 - INFO -  3 step no imporvement
+2025-03-07 19:44:07,399 - INFO -  4 step no imporvement
+2025-03-07 19:44:35,673 - INFO -  5 step no imporvement
+2025-03-07 19:44:54,145 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-4000/pytorch_model.bin
+
+ Early stop, best acc: 0.7364
+2025-03-07 19:48:15,661 - INFO - model be saved:TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/checkpoint-4500/pytorch_model.bin
+2025-03-07 19:48:56,560 - INFO - 
+ Early stop,best_accuracy: 0.7364
+2025-03-07 19:48:56,603 - INFO - model save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:48:56,670 - INFO - early stop...
+2025-03-07 19:48:56,753 - INFO - 
+finished training
+2025-03-07 19:48:56,828 - INFO - best_accuracy: 0.7364
+2025-03-07 19:48:56,870 - INFO - best_model_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:48:56,903 - INFO - 
+ test...
+2025-03-07 19:49:45,991 - INFO - 
+ new acc: 0.7057
+2025-03-07 19:49:46,147 - INFO - save_path: TransModular_GPT/fintune/save_model_with_mask_0.25/law/scotus/lr5e-05_bs4_e4/best_model/pytorch_model.bin
+2025-03-07 19:49:46,315 - INFO - test_results : {'eval_loss': 1.4733164310455322, 'eval_accuracy': 0.7057142857142857, 'eval_micro-f1': 0.7057142857142857, 'eval_macro-f1': 0.578529266097796, 'eval_runtime': 14.6582, 'eval_samples_per_second': 95.51, 'eval_steps_per_second': 23.877}

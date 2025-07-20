@@ -219,3 +219,33 @@ def evaluate_law_model(model:GPTNeoWithClassificationHead) -> dict:
     except Exception as e:
         logger.info(f"Evaluation failed: {str(e)}")
         return None
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate Law (SCOTUS) model")
+    parser.add_argument("--model_path", type=str, required=True,
+                        help="Path to the trained model weights file")
+    parser.add_argument("--base_model_path", type=str,
+                        default='TransModular_GPT/data/gpt-neo-125m/',
+                        help="Path to the base model")
+    parser.add_argument("--num_classes", type=int, default=14,
+                        help="Number of classes for classification")
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(level=logging.INFO)
+    logger.info("Starting Law (SCOTUS) model evaluation")
+
+    # Load model
+    model_law = GPTNeoWithClassificationHead(args.base_model_path, num_classes=args.num_classes)
+    model_law.load_state_dict(torch.load(args.model_path))
+
+    # Evaluate model
+    metrics = evaluate_law_model(model_law)
+
+    if metrics:
+        logger.info("Law evaluation completed successfully")
+        logger.info(f"Final metrics: {metrics}")
+    else:
+        logger.error("Law evaluation failed")
+        exit(1)

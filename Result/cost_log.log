@@ -39,3 +39,18 @@ Sending 2 inputs to DeepSparse engine
 100%|                                                                                                                                                                                                                                                                | 20/20 [06:10<00:00, 18.52s/it]
 DeepSparse acceleration: 14816.93 ms/batch
 Speedup vs CPU dense: 2.51x
+
+==================================================
+Evaluating task: code_clone
+==================================================
+
+Evaluating model accuracy:
+Dense model metrics:  'eval_precision': 0.9513909090909091
+Sparse model metrics: 'eval_precision': 0.9464032697547684
+
+==================================================
+Evaluating task: nl_code_search
+==================================================
+
+Dense model metrics: 'precision': 0.5413126491646778
+Sparse model metrics: 'precision': 0.5178875638841567
