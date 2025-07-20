@@ -1,13 +1,6 @@
 ModularEvo vs Baseline Methods Statistical Analysis Results
 ==================================================
 
-      Method  Experiment 1  Experiment 2  Experiment 3    Mean Std Dev
-          WA         93.64         94.08         94.16 93.9600  0.2800
-          TA         94.24         95.41         96.07 95.2400  0.9268
-        DARE         96.73         97.02         96.74 96.8300  0.1646
-TIES-Merging         95.51         95.76         95.59 95.6200  0.1277
-  ModularEvo         98.70         98.55         98.76 98.6700  0.1082
-
 Statistical Significance Testing:
 ModularEvo_vs_DARE: p = 0.000085
 ModularEvo_vs_TIES: p = 0.000006
