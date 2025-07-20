@@ -523,7 +523,7 @@ For reproducibility, we document the optimal λ values (hyperparameters) determi
 | | **ModularEvo (Ours)** | **0.6** | **0.6** | Modular composition |
 | **GPT-Neo** | Task Arithmetic | 0.5 | 0.7 | Standard merging weights |
 | | DARE | 0.6 | 1.0 | Drop and rescale parameters |
-| | TIES-Merging | 0.8 | 1.2 | Trim, elect, and merge |
+| | TIES-Merging | 0.8 | 1.1 | Trim, elect, and merge |
 | | **ModularEvo (Ours)** | **0.7** | **0.9** | Modular composition |
 
 
