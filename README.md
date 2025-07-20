@@ -18,14 +18,14 @@
 - [Quick Start](#-quick-start)
 - [Experimental Workflow](#-experimental-workflow)
 - [Datasets](#-datasets)
-- [Analysis Scripts and Metrics Calculation](#-metrics-calculation-and-analysis-scripts)
+- [Analysis Scripts](#-analysis-scripts)
 - [Results](#-results)
 - [Supplementary Experimental Details](#-supplementary-experimental-details)
 
 ## 📄 Review Materials
 
 [![Datasets](https://img.shields.io/badge/📊-Datasets-blue.svg)](#-datasets)
-[![Analysis Scripts](https://img.shields.io/badge/🔧-Analysis%20Scripts-green.svg)](#-analysis-scripts-and-metrics-calculation)
+[![Analysis Scripts](https://img.shields.io/badge/🔧-Analysis%20Scripts-green.svg)](#-analysis-scripts)
 [![Results](https://img.shields.io/badge/📈-Results-orange.svg)](#-results)
 
 > **🔍 For Reviewers**: Quick navigation to key replication materials addressing review concerns.
@@ -35,7 +35,7 @@
 | 📋 **Component** | 📝 **Description** | 🔗 **Access** |
 |:---|:---|:---:|
 | **Datasets** | All evaluation datasets for RQs | [→ View Datasets](#-datasets) |
-| **Analysis Scripts** | Metric calculation and statistical analysis scripts | [→ View Scripts](#-analysis-scripts-and-metrics-calculation) |
+| **Analysis Scripts** | Metric calculation and statistical analysis scripts | [→ View Scripts](#-analysis-scripts) |
 | **Results** | Experimental outputs and performance comparisons | [→ View Results](#-results) |
 
 </div>
@@ -384,7 +384,7 @@ The experimental output files and comprehensive data CSV files have been organiz
 - **[`modularization_math.log`](Result/modularization_math.log)** - Detailed logs from mathematical domain modularization process
 - **[`modularization_law.log`](Result/modularization_law.log)** - Detailed logs from legal domain modularization process
 
-#### 🎯 Model Fine-tuning Logs
+#### 🔧 Model Fine-tuning Logs
 - **[`finetune_law_model.log`](Result/finetune_law_model.log)** - Full model fine-tuning logs for legal domain tasks
 - **[`finetune_law_module.log`](Result/finetune_law_module.log)** - Modular fine-tuning logs for legal domain tasks
 - **[`finetune_math_model.log`](Result/finetune_math_model.log)** - Full model fine-tuning logs for mathematical domain tasks
@@ -418,7 +418,7 @@ The experimental output files and comprehensive data CSV files have been organiz
 
 
 
-## 🔧 Metrics Calculation and Analysis Scripts
+## 🔧 Analysis Scripts
 
 This section provides scripts for calculating all metrics reported in our paper, enabling complete replication of experimental results.
 
@@ -664,7 +664,7 @@ These datasets are used for evaluating the performance of modularized models on 
 |--------|---------|-----------|------------|
 | 🧮 **Math** | MathQA | Classification | GPT-Neo | 
 | ⚖️ **Legal** | SCOTUS | Classification | GPT-Neo | 
-| 🧮 **Nordic languages** | Langid  | Classification | GPT-Neo | 
+| 🌍 **Nordic languages** | Langid  | Classification | GPT-Neo |
 | 💻 **Code** | Rosetta Code | Classification | GPT-Neo | 
 | 💻 **Code** | Clone Detection | Classification | CodeBERT | 
 | 💻 **Code** | Code Search | Classification | CodeBERT | 
