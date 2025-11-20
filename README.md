@@ -22,23 +22,7 @@
 - [Results](#-results)
 - [Supplementary Experimental Details](#-supplementary-experimental-details)
 
-## 📄 Review Materials
 
-[![Datasets](https://img.shields.io/badge/📊-Datasets-blue.svg)](#-datasets)
-[![Analysis Scripts](https://img.shields.io/badge/🔧-Analysis%20Scripts-green.svg)](#-analysis-scripts)
-[![Results](https://img.shields.io/badge/📈-Results-orange.svg)](#-results)
-
-> **🔍 For Reviewers**: Quick navigation to key replication materials addressing review concerns.
-
-<div align="center">
-
-| 📋 **Component** | 📝 **Description** | 🔗 **Access** |
-|:---|:---|:---:|
-| **Datasets** | All evaluation datasets for RQs | [→ View Datasets](#-datasets) |
-| **Analysis Scripts** | Metric calculation and statistical analysis scripts | [→ View Scripts](#-analysis-scripts) |
-| **Results** | Experimental outputs and performance comparisons | [→ View Results](#-results) |
-
-</div>
 
 ---
 
