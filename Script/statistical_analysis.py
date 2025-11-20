@@ -17,11 +17,11 @@ class StatisticalAnalyzer:
         # Experimental data
         self.data = {
             # codebert
-            'WA': [],
-            'TA': [],
-            'DARE': [],
-            'TIES-Merging': [],
-            'ModularEvo': []
+            'WA': [93.64, 94.08, 94.16],
+            'TA': [94.24, 95.41, 96.07],
+            'DARE': [96.73, 97.02, 96.74],
+            'TIES-Merging': [95.51, 95.76, 95.59],
+            'ModularEvo': [98.70, 98.55, 98.76]
         }
 
         self.results = {}
