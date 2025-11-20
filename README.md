@@ -133,7 +133,7 @@ ModularEvo/
 │       ├── merge_methods/                # Merging method implementations
 │       ├── merge_utils/                  # Merging utility functions
 │       └── task_eval/                    # Task evaluation scripts
-└── 🚀 Transmodular_GPTNeo/                # GPT-Neo experiments
+└── Transmodular_GPTNeo/                  # GPT-Neo experiments
     ├── modularizer.py                    # GPT-Neo modularization
     ├── cost.py                           # Performance evaluation
     ├── fintune/                          # Task-specific fine-tuning
