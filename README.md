@@ -1,4 +1,4 @@
-# ModularEvo: Evolving Multi-Task Models via Neural Network Modularization and Composition
+﻿# ModularEvo: Evolving Multi-Task Models via Neural Network Modularization and Composition
 
 [![Python](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8+-orange.svg)](https://pytorch.org)
@@ -113,32 +113,55 @@ Compared to state-of-the-art baselines, ModularEvo achieves an absolute performa
 
 ```
 ModularEvo/
-├── 📄 README.md                           # Project documentation
-├── 🖼️ Picture_for_readme/                 # Documentation images
-│   └── workflow.png                      # Framework workflow diagram
-├── 🤖 Transmodular_CodeBert/              # CodeBERT experiments
+├── README.md                             # Project documentation
+├── Rebuttal_Supplementary.md             # Supplementary materials for rebuttal
+├── requirements.txt                      # Python dependencies
+├── Picture_for_readme/                   # Documentation images
+├── Result/                               # Experimental results and logs
+│   ├── *.csv                             # Performance results for different methods
+│   └── *.log                             # Training and evaluation logs
+├── Script/                               # Analysis and utility scripts
+│   ├── calculate_avg.py                  # Calculate abs_avg and norm_avg metrics
+│   └── statistical_analysis.py           # Statistical significance testing
+├── Transmodular_CodeBert/                # CodeBERT experiments
 │   ├── modularizer.py                    # CodeBERT modularization
-│   ├── finetune/                         # Fine-tuning scripts
-│   │   ├── code_clone/code/run_module.py # Code clone detection
-│   │   └── nl_code_search/code/run_module.py # Natural language code search
+│   ├── utils.py                          # Utility functions
+│   ├── cost.py                           # Performance evaluation
+│   ├── fintune/                          # Fine-tuning scripts
+│   │   ├── code_clone/                   # Code clone detection task
+│   │   └── nl_code_search/               # Natural language code search
 │   └── task_merge/                       # Knowledge composition
 │       ├── merge_lm.py                   # Model merging algorithms
-│       └── cost.py                       # Performance evaluation
-├── 🔧 Transmodular_CodeT5/                # CodeT5 experiments
-│   ├── modularizer.py                    # CodeT5 modularization
-│   ├── sh/run_exp_module.py              # Fine-tuning scripts
-│   └── task_merge/merge_lm.py            # Knowledge composition
-└── 🚀 Transmodular_GPT-Neo/               # GPT-Neo experiments
+│       ├── longrun.py                    # Multi-iteration merging
+│       ├── merge_methods/                # Merging method implementations
+│       └── task_eval/                    # Task evaluation scripts
+├── Transmodular_CodeT5/                  # CodeT5 experiments
+│   ├── models.py                         # CodeT5 model definitions
+│   ├── run_clone.py                      # Code clone task runner
+│   ├── run_clone_module.py               # Modular clone task runner
+│   ├── run_gen.py                        # Code generation runner
+│   ├── run_gen_module.py                 # Modular generation runner
+│   ├── run_multi_gen.py                  # Multi-task generation
+│   ├── evaluator/                        # Evaluation modules
+│   ├── sh/                               # Shell scripts for experiments
+│   └── task_merge/                       # Knowledge composition
+│       ├── merge_lm.py                   # Model merging algorithms
+│       ├── merge_methods/                # Merging method implementations
+│       ├── merge_utils/                  # Merging utility functions
+│       └── task_eval/                    # Task evaluation scripts
+└── 🚀 Transmodular_GPTNeo/                # GPT-Neo experiments
     ├── modularizer.py                    # GPT-Neo modularization
-    ├── finetune/                         # Task-specific fine-tuning
-    │   ├── finetune_mathqa.py            # Mathematical reasoning
-    │   ├── finetune_scotus.py            # Legal classification
-    │   ├── finetune_code.py              # Code classification
-    │   └── finetune_langid.py            # Language identification
-    ├── task_merge/merge_lm.py            # Knowledge composition
-    └── longrun/                          # Multi-iteration experiments
-        ├── longrun_finetune.py           # Iterative fine-tuning
-        └── model_merge.py                # Iterative merging
+    ├── cost.py                           # Performance evaluation
+    ├── fintune/                          # Task-specific fine-tuning
+    ├── longrun/                          # Multi-iteration experiments
+    │   ├── longrun_finetune.py           # Iterative fine-tuning
+    │   ├── model_merge.py                # Iterative merging
+    │   ├── pre_data.py                   # Data preprocessing
+    │   └── utils_longrun.py              # Long-run utilities
+    └── task_merge/                       # Knowledge composition
+        ├── merge_lm.py                   # Model merging algorithms
+        ├── longrun.py                    # Multi-iteration merging
+        └── multi_merge.py                # Multi-model merging
 ```
 
 ## 🚀 Quick Start
